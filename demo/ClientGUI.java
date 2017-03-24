@@ -36,7 +36,7 @@ public class ClientGUI{
         ta.setVisible(true);
         ta.setEditable(false);
         ta.setColumns(40);
-        ta.setRows(10);
+        ta.setRows(30);
                 
         JScrollPane scroll = new JScrollPane(ta);
         scroll.setViewportView(ta);
