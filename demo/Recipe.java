@@ -16,7 +16,8 @@ public class Recipe {
 	public Recipe(){
 	name = null;
 	tillag = 0;
-
+	// En kommentar
+	System.out.println("David");
 		
 	}
 	
