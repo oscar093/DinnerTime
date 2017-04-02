@@ -10,11 +10,11 @@ public class Recipe {
 		
 	}
 
-	public void setName(String name) {
+	public void setTitle(String name) {
 		this.title = name;
 	}
 	
-	public String getName() {
+	public String getTitle() {
 		return this.title;
 	}
 
