@@ -80,11 +80,9 @@ public class DinnerGUI {
 			if (e.getSource() == logIn) {
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
-//				jf.setVisible(false);
-//				this.interrupt();
-//				md.start();
-//				Thread thread = new MainDisplay();
-//				thread.start();
+				jf.setVisible(false);
+				Thread thread = new MainDisplay();
+				thread.start();
 			} else if(e.getSource()==newAccountButton){
 				System.out.println("Create new account");
 			}

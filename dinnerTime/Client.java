@@ -43,14 +43,9 @@ public class Client extends Thread {
 
 	public void sendToServer(Object obj) {
 		try {
-			System.out.println("sendToServer");
 			System.out.println(obj.toString());
-//			User user = (User)obj;
-//			System.out.println(user.getName());
-//			System.out.println(user.getPassword());
 			oos.writeObject(obj);
 			oos.flush();
-			System.out.println("sendToServer2");
 		} catch (IOException e) {
 		}
 	}

@@ -48,7 +48,6 @@ public class Server extends Thread {
 						newRecipe(recipe);
 					}
 					else if (obj instanceof User) {
-						System.out.println("User to Server");
 						user = (User) obj;
 						newUser(user);
 					}
@@ -69,7 +68,8 @@ public class Server extends Thread {
 		}
 
 		public void newUser(User user) {
-			//
+			System.out.println(user.getName());
+			System.out.println(user.getPassword());
 		}
 	}
 
