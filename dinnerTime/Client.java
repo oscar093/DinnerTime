@@ -11,24 +11,47 @@ public class Client extends Thread {
 	private ObjectInputStream ois;
 
 	public Client(String ip, int port) {
+		System.out.println("Client konsrukt");
 		this.ip = ip;
 		this.port = port;
 	}
 
 	public void run() {
 		try {
+			System.out.println("client run");
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.flush();
 			ois = new ObjectInputStream(socket.getInputStream());
-			
-			//h‰mta / skicka
-			
+
+			while (true) {// lyssnar fr√•n servern
+				try {
+					Object obj = ois.readObject();
+
+					if (obj instanceof Recipe) {
+
+					}
+
+					// fler if-satser
+
+				} catch (IOException | ClassNotFoundException e) {
+				}
+			}
 		} catch (IOException e) {
 		}
 	}
 
-	public static void main(String[] args) {
-		Client client = new Client("127.0.0.1", 3250);
-		client.start();
+	public void sendToServer(Object obj) {
+		try {
+			System.out.println("sendToServer");
+			System.out.println(obj.toString());
+//			User user = (User)obj;
+//			System.out.println(user.getName());
+//			System.out.println(user.getPassword());
+			oos.writeObject(obj);
+			oos.flush();
+			System.out.println("sendToServer2");
+		} catch (IOException e) {
+		}
 	}
 }
