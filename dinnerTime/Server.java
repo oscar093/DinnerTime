@@ -29,34 +29,48 @@ public class Server extends Thread {
 	private class ClientHandler implements Runnable {
 		private Socket socket;
 		private Recipe recipe;
+		private User user;
 
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 		}
 
 		public void run() {
-			while (true) {
-				try {
-					ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-					ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			try {
+				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+
+				while (true) {
 					Object obj = ois.readObject();
-					
-					if(obj instanceof Recipe){
-						recipe = (Recipe)obj;
+
+					if (obj instanceof Recipe) {
+						recipe = (Recipe) obj;
 						newRecipe(recipe);
 					}
-
-				} catch (IOException | ClassNotFoundException e) {
+					else if (obj instanceof User) {
+						System.out.println("User to Server");
+						user = (User) obj;
+						newUser(user);
+					}
+					else if(obj instanceof String){
+						System.out.println(obj.toString());
+					}
 				}
+			} catch (IOException | ClassNotFoundException e) {
 			}
 		}
-		
-		public void newRecipe(Recipe recipe){
-			//vad som händer när ett recept skickas från klienten
+
+
+		public void newRecipe(Recipe recipe) {
+			// vad som händer när ett recept skickas från klienten
 			String title = recipe.getTitle();
 			String author = recipe.getAuthor();
 			String country = recipe.getCountry();
 			int time = recipe.getTime();
+		}
+
+		public void newUser(User user) {
+			//
 		}
 	}
 

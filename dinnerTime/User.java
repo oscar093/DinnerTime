@@ -1,10 +1,13 @@
 package dinnerTime;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	private String name, password, id;
 	
-	public User(){
-		
+	public User(String name, String password){
+		this.name = name;
+		this.password = password;
 	}
 
 	public String getId() {
