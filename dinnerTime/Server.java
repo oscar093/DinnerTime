@@ -52,7 +52,7 @@ public class Server extends Thread {
 		}
 		
 		public void newRecipe(Recipe recipe){
-			//vad som händer när ett recept skickas från klienten
+			//vad som hÃ¤nder nÃ¤r ett recept skickas frÃ¥n klienten
 			String title = recipe.getTitle();
 			String author = recipe.getAuthor();
 			String country = recipe.getCountry();

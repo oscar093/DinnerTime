@@ -1,4 +1,4 @@
-package demo;
+package dinnerTime;
 
 public class User {
 	private String name, password, id;

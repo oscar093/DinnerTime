@@ -21,7 +21,7 @@ public class Client extends Thread {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			
-			//h‰mta / skicka
+			//h√§mta / skicka
 			
 		} catch (IOException e) {
 		}
