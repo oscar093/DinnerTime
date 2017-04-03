@@ -19,6 +19,7 @@ public class Server extends Thread {
 		while (true) {
 			try (ServerSocket ss = new ServerSocket(port)) {
 				Socket socket = ss.accept();
+				System.out.println("SERVER PÅ");
 				pool.addRunnable(new ClientHandler(socket));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -68,8 +69,8 @@ public class Server extends Thread {
 		}
 
 		public void newUser(User user) {
-			System.out.println(user.getName());
-			System.out.println(user.getPassword());
+			System.out.println("Username: " + user.getName());
+			System.out.println("Password: " + user.getPassword());
 		}
 	}
 
