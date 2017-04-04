@@ -1,12 +1,14 @@
 package dinnerTime;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 public class Recipe implements Serializable{
-	private String title, author, country;
+	private String title, author, country, ingredient;
 	private int time;
+	private ArrayList<String> ingredientList = new ArrayList<String>();
 
 	public Recipe() {
 		
@@ -42,5 +44,20 @@ public class Recipe implements Serializable{
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	
+	public void setIngredient(String ingredient){
+		ingredientList.add(ingredient);
+	}
+	
+	public String getIngredients(){
+		String ingredients = "";
+		for(int i = 0; i < ingredientList.size(); i++){
+			ingredients += ingredientList.get(i);
+			if(i < ingredientList.size() - 2){
+				ingredients += ", ";
+			}
+		}
+		return ingredients;
 	}
 }

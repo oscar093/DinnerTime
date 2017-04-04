@@ -2,6 +2,7 @@ package dinnerTime;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.io.*;
 import java.net.*;
 
@@ -66,6 +67,9 @@ public class Server extends Thread {
 			String author = recipe.getAuthor();
 			String country = recipe.getCountry();
 			int time = recipe.getTime();
+			String ingredients = recipe.getIngredients();
+			
+			System.out.println("Title: " + title + ", Author: " + author + ", Country: " + country + ", Time: " + time + " minuter, Ingredients: " + ingredients);
 		}
 
 		public void newUser(User user) {
