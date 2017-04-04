@@ -11,14 +11,12 @@ public class Client extends Thread {
 	private ObjectInputStream ois;
 
 	public Client(String ip, int port) {
-		System.out.println("Client konsrukt");
 		this.ip = ip;
 		this.port = port;
 	}
 
 	public void run() {
 		try {
-			System.out.println("client run");
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
@@ -29,7 +27,7 @@ public class Client extends Thread {
 					Object obj = ois.readObject();
 
 					if (obj instanceof Recipe) {
-
+						
 					}
 
 					// fler if-satser
@@ -43,7 +41,6 @@ public class Client extends Thread {
 
 	public void sendToServer(Object obj) {
 		try {
-			System.out.println(obj.toString());
 			oos.writeObject(obj);
 			oos.flush();
 		} catch (IOException e) {

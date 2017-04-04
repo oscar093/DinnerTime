@@ -1,8 +1,10 @@
 package dinnerTime;
 
+import java.io.Serializable;
+
 import javax.swing.*;
 
-public class Recipe {
+public class Recipe implements Serializable{
 	private String title, author, country;
 	private int time;
 

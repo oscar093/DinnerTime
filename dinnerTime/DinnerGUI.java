@@ -45,17 +45,17 @@ public class DinnerGUI {
 		private JLabel pwdLbl = new JLabel("Password");
 		private JButton newAccountButton = new JButton("New Account");
 		private JTextField jfUserName = new JTextField("Username");
-		private JTextField jfPwd = new JTextField("Password");
+		private JPasswordField jfPwd = new JPasswordField();
 		private JButton logIn = new JButton("Log In");
 		private User user;
 
-//		 		MainDisplay md = new MainDisplay();
+		// MainDisplay md = new MainDisplay();
 
 		public void run() {
 			jp.setBackground(Color.decode("#28530D"));
 			jp.setLayout(new GridLayout(7, 0));
 			jf.setSize(400, 500);
-			
+
 			titleLbl.setFont(new Font("Serif", Font.ITALIC, 18));
 			titleLbl.setForeground(Color.red);
 			userNameLbl.setForeground(Color.WHITE);
@@ -69,33 +69,34 @@ public class DinnerGUI {
 			jp.add(jfPwd);
 			jp.add(logIn);
 			jp.add(newAccountButton);
-			
+
 			jf.add(jp);
-//			 jf.pack();
+//			jf.pack();
 			jf.setVisible(true);
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {		
+		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == logIn) {
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
 				jf.setVisible(false);
 				Thread thread = new MainDisplay();
 				thread.start();
-			} else if(e.getSource()==newAccountButton){
+			} else if (e.getSource() == newAccountButton) {
 				System.out.println("Create new account");
 			}
 		}
 	}
 
-	private class MainDisplay extends Thread implements MouseListener, MouseMotionListener,ActionListener {
+	private class MainDisplay extends Thread implements MouseListener, MouseMotionListener, ActionListener {
 		private JFrame jf = new JFrame("DinnerTime");
 		private JLabel worldMap = new JLabel(new ImageIcon("images/WorldMap.png"));
 		private Thread thread = new Thread(this);
 		private JButton logOutBtn = new JButton("Log Out");
 		LogInDisplay lid = new LogInDisplay();
-		public MainDisplay(){
+
+		public MainDisplay() {
 			jf.setLayout(new BorderLayout());
 			jp1.setLayout(new GridLayout(0, 3));
 			jp1.add(search);
@@ -108,7 +109,7 @@ public class DinnerGUI {
 			worldMap.addMouseListener(this);
 			worldMap.addMouseMotionListener(this);
 			na.setVisible(false);
-			
+
 			jp.add(worldMap);
 			jf.add(jp1, BorderLayout.NORTH);
 			jf.add(jp, BorderLayout.CENTER);
@@ -119,34 +120,32 @@ public class DinnerGUI {
 		}
 
 		public void run() {
-//				jf.setLayout(new BorderLayout());
-//				jp1.setLayout(new GridLayout(0, 3));
-//				jp1.add(search);
-//				dtl.setFont(new Font("Serif", Font.ITALIC, 18));
-//				dtl.setForeground(Color.red);
-//				dtl.setBackground(Color.GREEN);
-//				logOutBtn.addActionListener(this);
-//				jp1.add(dtl);
-//				jp1.add(logOutBtn);
-//				worldMap.addMouseListener(this);
-//				worldMap.addMouseMotionListener(this);
-//				na.setVisible(false);
-//				
-//				jp.add(worldMap);
-//				jf.add(jp1, BorderLayout.NORTH);
-//				jf.add(jp, BorderLayout.CENTER);
-//				jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//				jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				jf.setVisible(true);
-//				jf.pack();
+			// jf.setLayout(new BorderLayout());
+			// jp1.setLayout(new GridLayout(0, 3));
+			// jp1.add(search);
+			// dtl.setFont(new Font("Serif", Font.ITALIC, 18));
+			// dtl.setForeground(Color.red);
+			// dtl.setBackground(Color.GREEN);
+			// logOutBtn.addActionListener(this);
+			// jp1.add(dtl);
+			// jp1.add(logOutBtn);
+			// worldMap.addMouseListener(this);
+			// worldMap.addMouseMotionListener(this);
+			// na.setVisible(false);
+			//
+			// jp.add(worldMap);
+			// jf.add(jp1, BorderLayout.NORTH);
+			// jf.add(jp, BorderLayout.CENTER);
+			// jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			// jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			// jf.setVisible(true);
+			// jf.pack();
 		}
-		
 
 		public void displayNA() {
 
-			
-
 			na.setVisible(true);
+			
 
 		}
 
@@ -163,7 +162,7 @@ public class DinnerGUI {
 		}
 
 		public void mouseMoved(MouseEvent e) {
-//			checkCountry(e.getX(), e.getY());
+			// checkCountry(e.getX(), e.getY());
 		}
 
 		public void mouseDragged(MouseEvent e) {
@@ -190,11 +189,12 @@ public class DinnerGUI {
 
 		}
 
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==logOutBtn){
+			if (e.getSource() == logOutBtn) {
 				jf.setVisible(false);
+				jp1.remove(logOutBtn);	//annars läggs det till fler för varje gång man loggar ut sen loggar in igen
+				jp.remove(worldMap);
 				lid.run();
 			}
 		}
