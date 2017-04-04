@@ -71,7 +71,7 @@ public class DinnerGUI {
 			jp.add(newAccountButton);
 
 			jf.add(jp);
-//			jf.pack();
+			// jf.pack();
 			jf.setVisible(true);
 		}
 
@@ -93,7 +93,7 @@ public class DinnerGUI {
 		private JFrame jf = new JFrame("DinnerTime");
 		private JLabel worldMap = new JLabel(new ImageIcon("images/WorldMap.png"));
 		private Thread thread = new Thread(this);
-		private JButton logOutBtn = new JButton("Log Out");
+		private JButton logOutBtn = new JButton("Log Out"), recipeBtn = new JButton("Nytt Recept");
 		LogInDisplay lid = new LogInDisplay();
 
 		public MainDisplay() {
@@ -104,8 +104,10 @@ public class DinnerGUI {
 			dtl.setForeground(Color.red);
 			dtl.setBackground(Color.GREEN);
 			logOutBtn.addActionListener(this);
+			recipeBtn.addActionListener(this);
 			jp1.add(dtl);
 			jp1.add(logOutBtn);
+			jp1.add(recipeBtn);
 			worldMap.addMouseListener(this);
 			worldMap.addMouseMotionListener(this);
 			na.setVisible(false);
@@ -143,10 +145,7 @@ public class DinnerGUI {
 		}
 
 		public void displayNA() {
-
 			na.setVisible(true);
-			
-
 		}
 
 		public void checkCountry(int x, int y) {
@@ -158,7 +157,6 @@ public class DinnerGUI {
 			} else if (x >= 350 && x <= 510 && y <= 155) {
 				System.out.println("EUROPA");
 			}
-
 		}
 
 		public void mouseMoved(MouseEvent e) {
@@ -193,9 +191,22 @@ public class DinnerGUI {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == logOutBtn) {
 				jf.setVisible(false);
-				jp1.remove(logOutBtn);	//annars läggs det till fler för varje gång man loggar ut sen loggar in igen
+				jp1.remove(logOutBtn); // annars läggs det till fler för varje
+										// gång man loggar ut sen loggar in igen
 				jp.remove(worldMap);
 				lid.run();
+			} else if (e.getSource() == recipeBtn) {
+				Recipe recipe = new Recipe();
+				recipe.setAuthor(JOptionPane.showInputDialog("Author"));
+				recipe.setTitle(JOptionPane.showInputDialog("Title"));
+				recipe.setCountry(JOptionPane.showInputDialog("Country"));
+				recipe.setTime(Integer.parseInt(JOptionPane.showInputDialog("Time")));
+				String ingredient;
+				do {
+					ingredient = JOptionPane.showInputDialog("Ingredient ('.' för att avsluta)");
+					recipe.setIngredient(ingredient);
+				} while (!ingredient.endsWith("."));
+				client.sendToServer(recipe);
 			}
 		}
 	}
