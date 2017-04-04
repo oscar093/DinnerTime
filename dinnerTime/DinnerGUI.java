@@ -196,16 +196,56 @@ public class DinnerGUI {
 				jp.remove(worldMap);
 				lid.run();
 			} else if (e.getSource() == recipeBtn) {
+				jf.setVisible(false);
+				new NewRecipeDisplay();
+			}
+		}
+	}
+	
+	private class NewRecipeDisplay implements ActionListener{
+		private JLabel lblTitle = new JLabel("Rätt:"), lblCountry = new JLabel("Land:"), lblTime = new JLabel("Tillagningstid (minuter):");
+		private JTextField tfTitle = new JTextField(), tfCountry = new JTextField(), tfTime = new JTextField();
+		private JTextArea taIngredients = new JTextArea();
+		private JButton btnSend = new JButton("Skicka");
+		private JPanel pnlUp = new JPanel(),pnlMid = new JPanel(), pnlDown = new JPanel();
+		private JFrame frame = new JFrame();
+		
+		public NewRecipeDisplay(){
+			start();
+			btnSend.addActionListener(this);
+		}
+		
+		public void start(){
+			frame.setLayout(new BorderLayout());
+			frame.setPreferredSize(new Dimension(350, 400));
+			pnlUp.setLayout(new GridLayout(4, 2));
+			pnlUp.add(lblTitle);
+			pnlUp.add(tfTitle);
+			pnlUp.add(lblCountry);
+			pnlUp.add(tfCountry);
+			pnlUp.add(lblTime);
+			pnlUp.add(tfTime);
+			frame.add(pnlUp, BorderLayout.NORTH);
+			pnlMid.setLayout(new BorderLayout());
+			taIngredients.setText("Lista ingredienserna här!");
+			pnlMid.add(taIngredients);
+			frame.add(pnlMid, BorderLayout.CENTER);
+			pnlDown.add(btnSend);
+			frame.add(pnlDown, BorderLayout.SOUTH);
+			frame.setVisible(true);
+			frame.pack();
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == btnSend){
 				Recipe recipe = new Recipe();
-				recipe.setAuthor(JOptionPane.showInputDialog("Author"));
-				recipe.setTitle(JOptionPane.showInputDialog("Title"));
-				recipe.setCountry(JOptionPane.showInputDialog("Country"));
-				recipe.setTime(Integer.parseInt(JOptionPane.showInputDialog("Time")));
-				String ingredient;
-				do {
-					ingredient = JOptionPane.showInputDialog("Ingredient ('.' för att avsluta)");
-					recipe.setIngredient(ingredient);
-				} while (!ingredient.endsWith("."));
+				recipe.setTitle(tfTitle.getText());
+				recipe.setCountry(tfCountry.getText());
+				recipe.setTime(Integer.parseInt(tfTime.getText()));
+				String[] ingredients = taIngredients.getText().split("\\n");
+				for(int i = 0; i < ingredients.length; i++){
+					recipe.setIngredient(ingredients[i]);
+				}
 				client.sendToServer(recipe);
 			}
 		}
