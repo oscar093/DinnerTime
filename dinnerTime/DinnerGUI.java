@@ -81,18 +81,19 @@ public class DinnerGUI {
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
 				jf.setVisible(false);
-				Thread thread = new MainDisplay();
-				thread.start();
+//				Thread thread = new MainDisplay();
+//				thread.start();
+				new MainDisplay();
 			} else if (e.getSource() == newAccountButton) {
 				System.out.println("Create new account");
 			}
 		}
 	}
 
-	private class MainDisplay extends Thread implements MouseListener, MouseMotionListener, ActionListener {
+	private class MainDisplay implements MouseListener, MouseMotionListener, ActionListener {
 		private JFrame jf = new JFrame("DinnerTime");
 		private JLabel worldMap = new JLabel(new ImageIcon("images/WorldMap.png"));
-		private Thread thread = new Thread(this);
+//		private Thread thread = new Thread(this);
 		private JButton logOutBtn = new JButton("Log Out"), recipeBtn = new JButton("Nytt Recept");
 		LogInDisplay lid = new LogInDisplay();
 
@@ -121,7 +122,7 @@ public class DinnerGUI {
 			jf.pack();
 		}
 
-		public void run() {
+//		public void run() {
 			// jf.setLayout(new BorderLayout());
 			// jp1.setLayout(new GridLayout(0, 3));
 			// jp1.add(search);
@@ -142,7 +143,7 @@ public class DinnerGUI {
 			// jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			// jf.setVisible(true);
 			// jf.pack();
-		}
+//		}
 
 		public void displayNA() {
 			na.setVisible(true);
@@ -151,7 +152,7 @@ public class DinnerGUI {
 		public void checkCountry(int x, int y) {
 			if (y <= 235 && x <= 305) {
 				System.out.println("NORDAMERIKA");
-				thread.interrupt();
+//				thread.interrupt();
 			} else if (y >= 236 && x <= 330) {
 				System.out.println("SYDAMERIKA");
 			} else if (x >= 350 && x <= 510 && y <= 155) {
@@ -196,26 +197,26 @@ public class DinnerGUI {
 				jp.remove(worldMap);
 				lid.run();
 			} else if (e.getSource() == recipeBtn) {
-				jf.setVisible(false);
 				new NewRecipeDisplay();
 			}
 		}
 	}
-	
-	private class NewRecipeDisplay implements ActionListener{
-		private JLabel lblTitle = new JLabel("Rätt:"), lblCountry = new JLabel("Land:"), lblTime = new JLabel("Tillagningstid (minuter):");
+
+	private class NewRecipeDisplay implements ActionListener {
+		private JLabel lblTitle = new JLabel("Rätt:"), lblCountry = new JLabel("Land:"),
+				lblTime = new JLabel("Tillagningstid (minuter):");
 		private JTextField tfTitle = new JTextField(), tfCountry = new JTextField(), tfTime = new JTextField();
 		private JTextArea taIngredients = new JTextArea();
 		private JButton btnSend = new JButton("Skicka");
-		private JPanel pnlUp = new JPanel(),pnlMid = new JPanel(), pnlDown = new JPanel();
+		private JPanel pnlUp = new JPanel(), pnlMid = new JPanel(), pnlDown = new JPanel();
 		private JFrame frame = new JFrame();
-		
-		public NewRecipeDisplay(){
+
+		public NewRecipeDisplay() {
 			start();
 			btnSend.addActionListener(this);
 		}
-		
-		public void start(){
+
+		public void start() {
 			frame.setLayout(new BorderLayout());
 			frame.setPreferredSize(new Dimension(350, 400));
 			pnlUp.setLayout(new GridLayout(4, 2));
@@ -237,16 +238,25 @@ public class DinnerGUI {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == btnSend){
+			if (e.getSource() == btnSend) {
 				Recipe recipe = new Recipe();
-				recipe.setTitle(tfTitle.getText());
-				recipe.setCountry(tfCountry.getText());
-				recipe.setTime(Integer.parseInt(tfTime.getText()));
-				String[] ingredients = taIngredients.getText().split("\\n");
-				for(int i = 0; i < ingredients.length; i++){
-					recipe.setIngredient(ingredients[i]);
+				if (!tfTitle.getText().isEmpty()) {
+					recipe.setTitle(tfTitle.getText());
+				}
+				if (!tfCountry.getText().isEmpty()) {
+					recipe.setCountry(tfCountry.getText());
+				}
+				if (!tfTime.getText().isEmpty()) {
+					recipe.setTime(Integer.parseInt(tfTime.getText()));
+				}
+				if (!taIngredients.getText().isEmpty()) {
+					String[] ingredients = taIngredients.getText().split("\\n");
+					for (int i = 0; i < ingredients.length; i++) {
+						recipe.setIngredient(ingredients[i]);
+					}
 				}
 				client.sendToServer(recipe);
+				frame.setVisible(false);
 			}
 		}
 	}
