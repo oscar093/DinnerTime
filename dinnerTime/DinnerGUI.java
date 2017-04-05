@@ -27,8 +27,6 @@ public class DinnerGUI {
 	private JLabel na = new JLabel(new ImageIcon("images/nordamerika.png"));
 	private JPanel jp = new JPanel();
 	private JPanel jp1 = new JPanel();
-	private JTextField search = new JTextField("Sök");
-	private JButton dtl = new JButton("Dinner Time");
 	private Client client = new Client("127.0.0.1", 3250);
 
 	public DinnerGUI() {
@@ -81,8 +79,6 @@ public class DinnerGUI {
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
 				jf.setVisible(false);
-//				Thread thread = new MainDisplay();
-//				thread.start();
 				new MainDisplay();
 			} else if (e.getSource() == newAccountButton) {
 				System.out.println("Create new account");
@@ -93,8 +89,9 @@ public class DinnerGUI {
 	private class MainDisplay implements MouseListener, MouseMotionListener, ActionListener {
 		private JFrame jf = new JFrame("DinnerTime");
 		private JLabel worldMap = new JLabel(new ImageIcon("images/WorldMap.png"));
-//		private Thread thread = new Thread(this);
-		private JButton logOutBtn = new JButton("Log Out"), recipeBtn = new JButton("Nytt Recept");
+		private JButton logOutBtn = new JButton("Log Out"), recipeBtn = new JButton("Nytt Recept"),
+				dtl = new JButton("Dinner Time");
+		private JTextField search = new JTextField("Sök");
 		LogInDisplay lid = new LogInDisplay();
 
 		public MainDisplay() {
@@ -106,6 +103,7 @@ public class DinnerGUI {
 			dtl.setBackground(Color.GREEN);
 			logOutBtn.addActionListener(this);
 			recipeBtn.addActionListener(this);
+			dtl.addActionListener(this);
 			jp1.add(dtl);
 			jp1.add(logOutBtn);
 			jp1.add(recipeBtn);
@@ -122,29 +120,6 @@ public class DinnerGUI {
 			jf.pack();
 		}
 
-//		public void run() {
-			// jf.setLayout(new BorderLayout());
-			// jp1.setLayout(new GridLayout(0, 3));
-			// jp1.add(search);
-			// dtl.setFont(new Font("Serif", Font.ITALIC, 18));
-			// dtl.setForeground(Color.red);
-			// dtl.setBackground(Color.GREEN);
-			// logOutBtn.addActionListener(this);
-			// jp1.add(dtl);
-			// jp1.add(logOutBtn);
-			// worldMap.addMouseListener(this);
-			// worldMap.addMouseMotionListener(this);
-			// na.setVisible(false);
-			//
-			// jp.add(worldMap);
-			// jf.add(jp1, BorderLayout.NORTH);
-			// jf.add(jp, BorderLayout.CENTER);
-			// jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			// jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			// jf.setVisible(true);
-			// jf.pack();
-//		}
-
 		public void displayNA() {
 			na.setVisible(true);
 		}
@@ -152,7 +127,6 @@ public class DinnerGUI {
 		public void checkCountry(int x, int y) {
 			if (y <= 235 && x <= 305) {
 				System.out.println("NORDAMERIKA");
-//				thread.interrupt();
 			} else if (y >= 236 && x <= 330) {
 				System.out.println("SYDAMERIKA");
 			} else if (x >= 350 && x <= 510 && y <= 155) {
@@ -196,8 +170,12 @@ public class DinnerGUI {
 										// gång man loggar ut sen loggar in igen
 				jp.remove(worldMap);
 				lid.run();
-			} else if (e.getSource() == recipeBtn) {
+			}
+			if (e.getSource() == recipeBtn) {
 				new NewRecipeDisplay();
+			}
+			if (e.getSource() == dtl) { // om man söker efter något
+				client.sendToServer("search " + search.getText());
 			}
 		}
 	}
