@@ -1,12 +1,13 @@
 package dinnerTime;
 
 import java.io.IOException;
-
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class LoginViewController {
 	@FXML
@@ -20,13 +21,15 @@ public class LoginViewController {
 	@FXML
 	private Button register;
 	
-	@FXML
-	private void login() throws IOException {
-		main.showClientView();
-	}
+	private Client client;
+	
+	private User user;
 	
 	@FXML
-	private void register() {
-		
+	public void login() throws IOException {
+		client = new Client("127.0.0.1", 3250);
+		user = new User(username.getText(), password.getText());
+		client.setOnConnected(() -> client.sendToServer(user));
+		client.start();
 	}
 }

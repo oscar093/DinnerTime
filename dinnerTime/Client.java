@@ -9,6 +9,11 @@ public class Client extends Thread {
 	private Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
+	private Runnable onConnected;
+	
+	public void setOnConnected(Runnable onConnected) {
+		this.onConnected = onConnected;
+	}
 
 	public Client(String ip, int port) {
 		this.ip = ip;
@@ -20,6 +25,11 @@ public class Client extends Thread {
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
+			
+			if(onConnected != null) {
+				onConnected.run();
+			}
+			
 			ois = new ObjectInputStream(socket.getInputStream());
 
 			while (true) {// lyssnar från servern
