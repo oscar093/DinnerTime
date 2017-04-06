@@ -59,8 +59,7 @@ public class Server extends Thread {
 					} else if (obj instanceof String) {
 						String str = obj.toString();
 						String response = userAction(str);
-						// oos.writeObject(response);
-						System.out.println(response);
+						oos.writeObject("recipe" + response);
 					}
 				}
 			} catch (IOException | ClassNotFoundException e) {
@@ -94,7 +93,7 @@ public class Server extends Thread {
 
 			if (str.startsWith("search")) { // Stringen för klientens sökningen
 											// böjar alltid på "search "
-				str = str.substring(7); // substringen börjar efter "search "
+				str = str.substring(6); // substringen börjar efter "search "
 				try {
 					BufferedReader br = new BufferedReader(new FileReader("recipes/recipes.txt"));
 					String strLine = br.readLine();

@@ -29,8 +29,14 @@ public class Client extends Thread {
 					if (obj instanceof Recipe) {
 						
 					}
-
-					// fler if-satser
+					
+					if(obj instanceof String){
+						String str = obj.toString();
+						if(str.startsWith("recipe")){
+							str = str.substring(6);
+							System.out.println(str);	
+						}
+					}
 
 				} catch (IOException | ClassNotFoundException e) {
 				}

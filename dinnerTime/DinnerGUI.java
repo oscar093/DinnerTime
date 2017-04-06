@@ -178,7 +178,7 @@ public class DinnerGUI {
 				new NewRecipeDisplay();
 			}
 			if (e.getSource() == dtl) { // om man söker efter något
-				client.sendToServer("search " + search.getText());
+				client.sendToServer("search" + search.getText());
 			}
 		}
 	}
