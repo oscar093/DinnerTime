@@ -1,4 +1,4 @@
-package dinnerTime;
+﻿package dinnerTime;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -32,9 +32,14 @@ public class Server extends Thread {
 		private Socket socket;
 		private Recipe recipe;
 		private User user;
+		private BufferedWriter bwRecipe = null;
 
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
+			try {
+				bwRecipe = new BufferedWriter(new FileWriter("recipes/recipes.txt"));
+			} catch (IOException e) {
+			}
 		}
 
 		public void run() {
@@ -53,9 +58,9 @@ public class Server extends Thread {
 						newUser(user);
 					} else if (obj instanceof String) {
 						String str = obj.toString();
-						if (str.startsWith("search")) {
-							System.out.println("Sökning: " + str.substring(7));	//sökningen av klienten böjar alltid på "search ", substringen börjar därefter
-						}
+						String response = userAction(str);
+						// oos.writeObject(response);
+						System.out.println(response);
 					}
 				}
 			} catch (IOException | ClassNotFoundException e) {
@@ -69,13 +74,43 @@ public class Server extends Thread {
 			int time = recipe.getTime();
 			String ingredients = recipe.getIngredients();
 
-			System.out.println("Title: " + title + "\nAuthor: " + user.getName() + "\nCountry: " + country + 
-					"\nTime: " + time + " minuter \nIngredients: " + ingredients);
+			String theRecipe = "Titel: " + title + ", Skapare: " + user.getName() + ", Land: " + country + ", Tid: "
+					+ time + " minuter, Ingredienser: " + ingredients;
+
+			try {
+				bwRecipe.write(theRecipe + "\n");
+				bwRecipe.flush();
+			} catch (IOException e) {
+			}
 		}
 
 		public void newUser(User user) {
 			System.out.println("Username: " + user.getName());
 			System.out.println("Password: " + user.getPassword());
+		}
+
+		public String userAction(String str) {
+			String response = "";
+
+			if (str.startsWith("search")) { // Stringen för klientens sökningen
+											// böjar alltid på "search "
+				str = str.substring(7); // substringen börjar efter "search "
+				try {
+					BufferedReader br = new BufferedReader(new FileReader("recipes/recipes.txt"));
+					String strLine = br.readLine();
+					while (strLine != null) {
+						if (strLine.startsWith("Titel: " + str)) {
+							response = strLine;
+							break;
+						} else {
+							response = "Receptet " + str + " finns inte";
+						}
+						strLine = br.readLine();
+					}
+				} catch (IOException e) {
+				}
+			}
+			return response;
 		}
 	}
 

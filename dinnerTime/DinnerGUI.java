@@ -169,6 +169,9 @@ public class DinnerGUI {
 				jp1.remove(logOutBtn); // annars läggs det till fler för varje
 										// gång man loggar ut sen loggar in igen
 				jp.remove(worldMap);
+				jp1.remove(search);
+				jp1.remove(dtl);
+				jp1.remove(recipeBtn);
 				lid.run();
 			}
 			if (e.getSource() == recipeBtn) {
@@ -209,6 +212,7 @@ public class DinnerGUI {
 			taIngredients.setText("Lista ingredienserna här!");
 			pnlMid.add(taIngredients);
 			frame.add(pnlMid, BorderLayout.CENTER);
+			pnlDown.setLayout(new BorderLayout());
 			pnlDown.add(btnSend);
 			frame.add(pnlDown, BorderLayout.SOUTH);
 			frame.setVisible(true);
