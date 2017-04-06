@@ -54,7 +54,7 @@ public class Server extends Thread {
 					} else if (obj instanceof String) {
 						String str = obj.toString();
 						if (str.startsWith("search")) {
-							System.out.println("Sökning: " + str.substring(7));	//sökningen av klienten böjar alltid på "search", substringen börjar därefter
+							System.out.println("Sökning: " + str.substring(7));	//sökningen av klienten böjar alltid på "search ", substringen börjar därefter
 						}
 					}
 				}
@@ -69,8 +69,8 @@ public class Server extends Thread {
 			int time = recipe.getTime();
 			String ingredients = recipe.getIngredients();
 
-			System.out.println("Title: " + title + "\nAuthor: " + user.getName() + "\nCountry: " + country + "\nTime: "
-					+ time + " minuter \nIngredients: " + ingredients);
+			System.out.println("Title: " + title + "\nAuthor: " + user.getName() + "\nCountry: " + country + 
+					"\nTime: " + time + " minuter \nIngredients: " + ingredients);
 		}
 
 		public void newUser(User user) {
