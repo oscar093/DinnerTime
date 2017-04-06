@@ -53,8 +53,9 @@ public class Server extends Thread {
 						newUser(user);
 					} else if (obj instanceof String) {
 						String str = obj.toString();
-						if (str.startsWith("search")) {
-							System.out.println("Sökning: " + str.substring(7));	//sökningen av klienten böjar alltid på "search", substringen börjar därefter
+						if (str.startsWith("search")) {	//Stringen för klientens sökningen böjar alltid på "search "
+							str = str.substring(7);		//substringen börjar efter "search "
+							System.out.println("Sökning: " + str);
 						}
 					}
 				}
