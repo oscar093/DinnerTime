@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class Recipe implements Serializable{
-	private String title, author, country, ingredient;
+	private String title, country, ingredient;
 	private int time;
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 
@@ -30,14 +30,6 @@ public class Recipe implements Serializable{
 		return this.time;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
 	public String getCountry() {
 		return country;
 	}
@@ -54,7 +46,7 @@ public class Recipe implements Serializable{
 		String ingredients = "";
 		for(int i = 0; i < ingredientList.size(); i++){
 			ingredients += ingredientList.get(i);
-			if(i < ingredientList.size() - 2){
+			if(i < ingredientList.size() - 1){
 				ingredients += ", ";
 			}
 		}

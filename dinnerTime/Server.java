@@ -48,13 +48,15 @@ public class Server extends Thread {
 					if (obj instanceof Recipe) {
 						recipe = (Recipe) obj;
 						newRecipe(recipe);
-					}
-					else if (obj instanceof User) {
+					} else if (obj instanceof User) {
 						user = (User) obj;
 						newUser(user);
-					}
-					else if(obj instanceof String){
-						System.out.println(obj.toString());
+					} else if (obj instanceof String) {
+						String str = obj.toString();
+						if (str.startsWith("search")) {	//Stringen för klientens sökningen böjar alltid på "search "
+							str = str.substring(7);		//substringen börjar efter "search "
+							System.out.println("Sökning: " + str);
+						}
 					}
 				}
 			} catch (IOException | ClassNotFoundException e) {
@@ -65,12 +67,12 @@ public class Server extends Thread {
 		public void newRecipe(Recipe recipe) {
 			// vad som händer när ett recept skickas från klienten
 			String title = recipe.getTitle();
-			String author = recipe.getAuthor();
 			String country = recipe.getCountry();
 			int time = recipe.getTime();
 			String ingredients = recipe.getIngredients();
-			
-			System.out.println("Title: " + title + ", Author: " + author + ", Country: " + country + ", Time: " + time + " minuter, Ingredients: " + ingredients);
+
+			System.out.println("Title: " + title + "\nAuthor: " + user.getName() + "\nCountry: " + country + "\nTime: "
+					+ time + " minuter \nIngredients: " + ingredients);
 		}
 
 		public void newUser(User user) {
