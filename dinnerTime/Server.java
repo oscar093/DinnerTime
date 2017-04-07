@@ -37,7 +37,7 @@ public class Server extends Thread {
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			try {
-				bwRecipe = new BufferedWriter(new FileWriter("recipes/recipes.txt"));
+				bwRecipe = new BufferedWriter(new FileWriter("recipes/recipes.txt", true));
 			} catch (IOException e) {
 			}
 		}
@@ -58,8 +58,14 @@ public class Server extends Thread {
 						newUser(user);
 					} else if (obj instanceof String) {
 						String str = obj.toString();
-						String response = userAction(str);
-						oos.writeObject("recipe" + response);
+						ArrayList<String> recipes = userAction(str);
+						if (recipes.size() == 0) {
+							oos.writeObject("recipe" + "Receptet " + str.substring(6) + " finns inte");
+						} else {
+							for (int i = 0; i < recipes.size(); i++) {
+								oos.writeObject("recipe" + recipes.get(i));
+							}
+						}
 					}
 				}
 			} catch (IOException | ClassNotFoundException e) {
@@ -88,8 +94,8 @@ public class Server extends Thread {
 			System.out.println("Password: " + user.getPassword());
 		}
 
-		public String userAction(String str) {
-			String response = "";
+		public ArrayList userAction(String str) {
+			ArrayList<String> foundRecipes = new ArrayList<String>();
 
 			if (str.startsWith("search")) { // Stringen för klientens sökningen
 											// böjar alltid på "search "
@@ -99,17 +105,14 @@ public class Server extends Thread {
 					String strLine = br.readLine();
 					while (strLine != null) {
 						if (strLine.startsWith("Titel: " + str)) {
-							response = strLine;
-							break;
-						} else {
-							response = "Receptet " + str + " finns inte";
+							foundRecipes.add(strLine);
 						}
 						strLine = br.readLine();
 					}
 				} catch (IOException e) {
 				}
 			}
-			return response;
+			return foundRecipes;
 		}
 	}
 

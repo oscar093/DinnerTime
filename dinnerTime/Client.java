@@ -27,14 +27,14 @@ public class Client extends Thread {
 					Object obj = ois.readObject();
 
 					if (obj instanceof Recipe) {
-						
+
 					}
-					
-					if(obj instanceof String){
+
+					if (obj instanceof String) {
 						String str = obj.toString();
-						if(str.startsWith("recipe")){
+						if (str.startsWith("recipe")) {
 							str = str.substring(6);
-							System.out.println(str);	
+							System.out.println(str);
 						}
 					}
 
