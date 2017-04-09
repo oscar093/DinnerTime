@@ -3,6 +3,9 @@
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import java.io.*;
 import java.net.*;
 
@@ -33,11 +36,13 @@ public class Server extends Thread {
 		private Recipe recipe;
 		private User user;
 		private BufferedWriter bwRecipe = null;
+		private BufferedWriter bwUser = null;
 
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			try {
 				bwRecipe = new BufferedWriter(new FileWriter("recipes/recipes.txt", true));
+				bwUser = new BufferedWriter(new FileWriter("users/users.txt", true));
 			} catch (IOException e) {
 			}
 		}
@@ -90,8 +95,35 @@ public class Server extends Thread {
 		}
 
 		public void newUser(User user) {
-			System.out.println("Username: " + user.getName());
-			System.out.println("Password: " + user.getPassword());
+			boolean nameTaken = checkUsername(user.getName());
+			
+			try {
+				if(nameTaken == false){
+					bwUser.write(user.getName() + ", " + user.getPassword() + "\n");
+					bwUser.flush();	
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Användarnamnet är upptaget!");
+				}
+			} catch (IOException e) {
+			}
+		}
+		
+		public boolean checkUsername(String username){
+			boolean nameTaken = false;
+			try{
+				BufferedReader br = new BufferedReader(new FileReader("users/users.txt"));
+				String strLine = br.readLine();
+				while(strLine != null){
+					if(strLine.startsWith(username)){
+						nameTaken = true;
+						break;
+					}
+					strLine = br.readLine();
+				}
+			}catch(IOException e){}
+			
+			return nameTaken;
 		}
 
 		public ArrayList userAction(String str) {

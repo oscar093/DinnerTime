@@ -76,12 +76,13 @@ public class DinnerGUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == logIn) {
-				user = new User(jfUserName.getText(), jfPwd.getText());
-				client.sendToServer(user);
-				jf.setVisible(false);
-				new MainDisplay();
+				
+//				jf.setVisible(false);
+//				new MainDisplay();
 			} else if (e.getSource() == newAccountButton) {
 				System.out.println("Create new account");
+				user = new User(jfUserName.getText(), jfPwd.getText());
+				client.sendToServer(user);
 			}
 		}
 	}
