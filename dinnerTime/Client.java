@@ -9,6 +9,7 @@ public class Client extends Thread {
 	private Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
+	private boolean OKToLogIn;
 
 	public Client(String ip, int port) {
 		this.ip = ip;
@@ -26,16 +27,17 @@ public class Client extends Thread {
 				try {
 					Object obj = ois.readObject();
 
-					if (obj instanceof Recipe) {
-
-					}
-
 					if (obj instanceof String) {
 						String str = obj.toString();
 						if (str.startsWith("recipe")) {
 							str = str.substring(6);
 							System.out.println(str);
 						}
+					}
+					
+					if(obj instanceof Boolean){
+						boolean value = (boolean)obj;
+						OKToLogIn = value;
 					}
 
 				} catch (IOException | ClassNotFoundException e) {
@@ -51,5 +53,9 @@ public class Client extends Thread {
 			oos.flush();
 		} catch (IOException e) {
 		}
+	}
+	
+	public boolean OKToLogIn(){
+		return OKToLogIn;
 	}
 }

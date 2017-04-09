@@ -22,7 +22,6 @@ import javax.imageio.ImageIO;
 
 import javax.swing.*;
 
-//extends MouseAdapter implements MouseListener, MouseMotionListener, ActionListener
 public class DinnerGUI {
 	private JLabel na = new JLabel(new ImageIcon("images/nordamerika.png"));
 	private JPanel jp = new JPanel();
@@ -46,6 +45,7 @@ public class DinnerGUI {
 		private JPasswordField jfPwd = new JPasswordField();
 		private JButton logIn = new JButton("Log In");
 		private User user;
+
 
 		// MainDisplay md = new MainDisplay();
 
@@ -76,15 +76,22 @@ public class DinnerGUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == logIn) {
+				client.sendToServer("login" + jfUserName.getText() + "," + jfPwd.getText());
 				
-//				jf.setVisible(false);
-//				new MainDisplay();
+				if(client.OKToLogIn() == true){
+					jf.setVisible(false);
+					new MainDisplay();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Ange en giltig inloggning!");
+				}
+				
 			} else if (e.getSource() == newAccountButton) {
-				System.out.println("Create new account");
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
 			}
 		}
+		
 	}
 
 	private class MainDisplay implements MouseListener, MouseMotionListener, ActionListener {

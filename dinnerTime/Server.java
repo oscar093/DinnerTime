@@ -62,13 +62,25 @@ public class Server extends Thread {
 						user = (User) obj;
 						newUser(user);
 					} else if (obj instanceof String) {
-						String str = obj.toString();
-						ArrayList<String> recipes = userAction(str);
-						if (recipes.size() == 0) {
-							oos.writeObject("recipe" + "Receptet " + str.substring(6) + " finns inte");
-						} else {
-							for (int i = 0; i < recipes.size(); i++) {
-								oos.writeObject("recipe" + recipes.get(i));
+						String str = obj.toString();			
+						if (str.startsWith("login")) {	//när klienten loggar in skickas en sträng med username/password som alltid börjar på "login"
+							str = str.substring(5);
+							boolean OKToLogIn = checkLogin(str);
+							System.out.println("Login: " + OKToLogIn);
+							oos.writeObject(OKToLogIn);
+							oos.flush();
+						}
+						if (str.startsWith("search")) {	//klientens sökningar börjar alltid på "search"
+							str = str.substring(6);
+							ArrayList<String> recipes = userAction(str);
+							if (recipes.size() == 0) {
+								oos.writeObject("recipe" + "Receptet " + str.substring(6) + " finns inte");
+								oos.flush();
+							} else {
+								for (int i = 0; i < recipes.size(); i++) {
+									oos.writeObject("recipe" + recipes.get(i));
+									oos.flush();
+								}
 							}
 						}
 					}
@@ -96,53 +108,72 @@ public class Server extends Thread {
 
 		public void newUser(User user) {
 			boolean nameTaken = checkUsername(user.getName());
-			
+
 			try {
-				if(nameTaken == false){
-					bwUser.write(user.getName() + ", " + user.getPassword() + "\n");
-					bwUser.flush();	
-				}
-				else{
+				if (nameTaken == false) {
+					bwUser.write(user.getName() + "," + user.getPassword() + "\n");
+					bwUser.flush();
+				} else {
 					JOptionPane.showMessageDialog(null, "Användarnamnet är upptaget!");
 				}
 			} catch (IOException e) {
 			}
 		}
-		
-		public boolean checkUsername(String username){
+
+		public boolean checkUsername(String username) {
 			boolean nameTaken = false;
-			try{
+			try {
 				BufferedReader br = new BufferedReader(new FileReader("users/users.txt"));
 				String strLine = br.readLine();
-				while(strLine != null){
-					if(strLine.startsWith(username)){
+				while (strLine != null) {
+					if (strLine.startsWith(username)) {
 						nameTaken = true;
 						break;
 					}
 					strLine = br.readLine();
 				}
-			}catch(IOException e){}
-			
+			} catch (IOException e) {
+			}
+
 			return nameTaken;
+		}
+
+		public boolean checkLogin(String input) {
+			boolean bool = false;
+			try {
+				BufferedReader br = new BufferedReader(new FileReader("users/users.txt"));
+				String strLine = br.readLine();
+
+				while (strLine != null) {
+					if (strLine.startsWith(input)) {
+						bool = true;
+						String[] str = input.split(",");
+						String username = str[0];
+						String pw = str[1];
+						user = new User(username, pw);
+						break;
+					}
+					strLine = br.readLine();
+				}
+			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
+			}
+
+			return bool;
 		}
 
 		public ArrayList userAction(String str) {
 			ArrayList<String> foundRecipes = new ArrayList<String>();
-
-			if (str.startsWith("search")) { // Stringen för klientens sökningen
-											// böjar alltid på "search "
-				str = str.substring(6); // substringen börjar efter "search "
-				try {
-					BufferedReader br = new BufferedReader(new FileReader("recipes/recipes.txt"));
-					String strLine = br.readLine();
-					while (strLine != null) {
-						if (strLine.startsWith("Titel: " + str)) {
-							foundRecipes.add(strLine);
-						}
-						strLine = br.readLine();
+			try {
+				BufferedReader br = new BufferedReader(new FileReader("recipes/recipes.txt"));
+				String strLine = br.readLine();
+				while (strLine != null) {
+					if (strLine.startsWith("Titel: " + str)) {
+						foundRecipes.add(strLine);
 					}
-				} catch (IOException e) {
+					strLine = br.readLine();
 				}
+			} catch (IOException e) {
 			}
 			return foundRecipes;
 		}
