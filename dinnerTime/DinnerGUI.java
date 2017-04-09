@@ -46,9 +46,6 @@ public class DinnerGUI {
 		private JButton logIn = new JButton("Log In");
 		private User user;
 
-
-		// MainDisplay md = new MainDisplay();
-
 		public void run() {
 			jp.setBackground(Color.decode("#28530D"));
 			jp.setLayout(new GridLayout(7, 0));
@@ -74,24 +71,28 @@ public class DinnerGUI {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public synchronized void actionPerformed(ActionEvent e) {
 			if (e.getSource() == logIn) {
 				client.sendToServer("login" + jfUserName.getText() + "," + jfPwd.getText());
-				
-				if(client.OKToLogIn() == true){
+
+				try {
+					wait(500);	//väntar en halv sekund för att username och pw ska hinna kollas upp innan klienten försöks loggas in
+				} catch (InterruptedException e1) {
+				}
+
+				if (client.OKToLogIn() == true) {
 					jf.setVisible(false);
 					new MainDisplay();
-				}
-				else{
+					client.setToFalse();
+				} else {
 					JOptionPane.showMessageDialog(null, "Ange en giltig inloggning!");
 				}
-				
+
 			} else if (e.getSource() == newAccountButton) {
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
 			}
 		}
-		
 	}
 
 	private class MainDisplay implements MouseListener, MouseMotionListener, ActionListener {

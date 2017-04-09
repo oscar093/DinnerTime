@@ -90,15 +90,8 @@ public class Server extends Thread {
 		}
 
 		public void newRecipe(Recipe recipe) {
-			// vad som händer när ett recept skickas från klienten
-			String title = recipe.getTitle();
-			String country = recipe.getCountry();
-			int time = recipe.getTime();
-			String ingredients = recipe.getIngredients();
-
-			String theRecipe = "Titel: " + title + ", Skapare: " + user.getName() + ", Land: " + country + ", Tid: "
-					+ time + " minuter, Ingredienser: " + ingredients;
-
+			String theRecipe = "Titel: " + recipe.getTitle() + ", Skapare: " + user.getName() + ", Land: " + recipe.getCountry() + ", Tid: "
+					+ recipe.getTime() + " minuter, Ingredienser: " + recipe.getIngredients();
 			try {
 				bwRecipe.write(theRecipe + "\n");
 				bwRecipe.flush();

@@ -58,4 +58,8 @@ public class Client extends Thread {
 	public boolean OKToLogIn(){
 		return OKToLogIn;
 	}
+	
+	public void setToFalse(){
+		OKToLogIn = false;
+	}
 }
