@@ -89,6 +89,7 @@ public class Server extends Thread {
 			}
 		}
 
+
 		public void newRecipe(Recipe recipe) {
 			String theRecipe = "Titel: " + recipe.getTitle() + ", Skapare: " + user.getName() + ", Land: " + recipe.getCountry() + ", Tid: "
 					+ recipe.getTime() + " minuter, Ingredienser: " + recipe.getIngredients();

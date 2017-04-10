@@ -2,6 +2,7 @@ package dinnerTime;
 
 import java.io.Serializable;
 
+
 public class User implements Serializable{	//måste vara Serializable
 	private String name, password;
 	
