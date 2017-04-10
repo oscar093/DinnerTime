@@ -42,11 +42,6 @@ public class DbController {
 			String url = "jdbc:postgresql://104.46.40.113:5432/sqmkxuar";
 			String pw = "_40zWEK1pSh16XuWAurF4wVB_VU63Ebx";
 
-			// Till Jespers server
-			// String user = ""; //Skriv in dit mah ID
-			// String url = "jdbc:postgresql://195.178.224.72:5432/ag7036";
-			// String pw = ""; //Skriv in lösen till den servern
-
 			connection = DriverManager.getConnection(url, user, pw);
 
 		} catch (SQLException e) {
@@ -113,7 +108,7 @@ public class DbController {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		DbController d = new DbController();
 		d.connectToDb();
-//		d.addToTesttable();
+		d.addToTesttable();
 		d.getWholeTesttable();
 	}
 }
