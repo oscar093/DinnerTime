@@ -24,7 +24,6 @@ public class DbController {
 	/**
 	 * Connects to database.
 	 */
-	
 	public void connectToDb() {
 
 		System.out.println("——– PostgreSQL ” + “JDBC Connection Testing ————");
@@ -36,7 +35,7 @@ public class DbController {
 			return;
 		}
 
-		System.out.println("PostgreSQL JDBC Driver Registered!");
+		System.out.println("PostgreSQL JDBC Driver Registered!\n");
 		try {
 			// Denn server skall vi använda till DinnerTime.
 			String user = "sqmkxuar";
@@ -52,7 +51,7 @@ public class DbController {
 
 		} catch (SQLException e) {
 
-			System.out.println("Connection Failed! Check output console");
+			System.out.println("Connection Failed! Check output console\n");
 			e.printStackTrace();
 			return;
 
@@ -96,12 +95,16 @@ public class DbController {
 
 			
 			ResultSet rs = sql.executeQuery("select * from testtable");
+			
+			System.out.println("========================================\n");
 			while (rs.next()) {
 				System.out.println("Namn :   " + rs.getString("name"));
 				System.out.println("Ålder :  " + rs.getString("age"));
 				System.out.println("Address: " + rs.getString("address"));
 				System.out.println("");
 			}
+			System.out.println("=========================================");
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +113,7 @@ public class DbController {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		DbController d = new DbController();
 		d.connectToDb();
-		d.addToTesttable();
+//		d.addToTesttable();
 		d.getWholeTesttable();
 	}
 }
