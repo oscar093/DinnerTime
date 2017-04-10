@@ -22,7 +22,6 @@ import javax.imageio.ImageIO;
 
 import javax.swing.*;
 
-//extends MouseAdapter implements MouseListener, MouseMotionListener, ActionListener
 public class DinnerGUI {
 	private JLabel na = new JLabel(new ImageIcon("images/nordamerika.png"));
 	private JPanel jp = new JPanel();
@@ -46,8 +45,6 @@ public class DinnerGUI {
 		private JPasswordField jfPwd = new JPasswordField();
 		private JButton logIn = new JButton("Log In");
 		private User user;
-
-		// MainDisplay md = new MainDisplay();
 
 		public void run() {
 			jp.setBackground(Color.decode("#28530D"));
@@ -74,14 +71,26 @@ public class DinnerGUI {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public synchronized void actionPerformed(ActionEvent e) {
 			if (e.getSource() == logIn) {
+				client.sendToServer("login" + jfUserName.getText() + "," + jfPwd.getText());
+
+				try {
+					wait(500);	//väntar en halv sekund för att username och pw ska hinna kollas upp innan klienten försöks loggas in
+				} catch (InterruptedException e1) {
+				}
+
+				if (client.OKToLogIn() == true) {
+					jf.setVisible(false);
+					new MainDisplay();
+					client.setToFalse();
+				} else {
+					JOptionPane.showMessageDialog(null, "Ange en giltig inloggning!");
+				}
+
+			} else if (e.getSource() == newAccountButton) {
 				user = new User(jfUserName.getText(), jfPwd.getText());
 				client.sendToServer(user);
-				jf.setVisible(false);
-				new MainDisplay();
-			} else if (e.getSource() == newAccountButton) {
-				System.out.println("Create new account");
 			}
 		}
 	}
@@ -169,13 +178,16 @@ public class DinnerGUI {
 				jp1.remove(logOutBtn); // annars läggs det till fler för varje
 										// gång man loggar ut sen loggar in igen
 				jp.remove(worldMap);
+				jp1.remove(search);
+				jp1.remove(dtl);
+				jp1.remove(recipeBtn);
 				lid.run();
 			}
 			if (e.getSource() == recipeBtn) {
 				new NewRecipeDisplay();
 			}
 			if (e.getSource() == dtl) { // om man söker efter något
-				client.sendToServer("search " + search.getText());
+				client.sendToServer("search" + search.getText());
 			}
 		}
 	}
@@ -209,6 +221,7 @@ public class DinnerGUI {
 			taIngredients.setText("Lista ingredienserna här!");
 			pnlMid.add(taIngredients);
 			frame.add(pnlMid, BorderLayout.CENTER);
+			pnlDown.setLayout(new BorderLayout());
 			pnlDown.add(btnSend);
 			frame.add(pnlDown, BorderLayout.SOUTH);
 			frame.setVisible(true);
