@@ -59,7 +59,7 @@ public class DinnerGUI {
 			newAccountButton.addActionListener(this);
 			jp.add(titleLbl);
 			jp.add(userNameLbl);
-			jp.add(jfUserName);
+			jp.add(jfUserName); 
 			jp.add(pwdLbl);
 			jp.add(jfPwd);
 			jp.add(logIn);

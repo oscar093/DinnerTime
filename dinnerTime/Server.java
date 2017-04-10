@@ -31,7 +31,7 @@ public class Server extends Thread {
 		}
 	}
 
-	private class ClientHandler implements Runnable {
+	private class ClientHandler implements Runnable { 
 		private Socket socket;
 		private Recipe recipe;
 		private User user;
@@ -74,7 +74,7 @@ public class Server extends Thread {
 							str = str.substring(6);
 							ArrayList<String> recipes = userAction(str);
 							if (recipes.size() == 0) {
-								oos.writeObject("recipe" + "Receptet " + str.substring(6) + " finns inte");
+								oos.writeObject("recipe" + "Receptet " + str + " finns inte");
 								oos.flush();
 							} else {
 								for (int i = 0; i < recipes.size(); i++) {
