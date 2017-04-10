@@ -8,19 +8,19 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-
 /**
- * DbController controlles all ineraktion with the database for DinnerTime. 
+ * DbController controlles all ineraktion with the database for DinnerTime.
+ * 
  * @author osc
  *
  */
 
 /*
- * Denna används just nu för att visa hur man interagerar med databasen. 
+ * Denna används just nu för att visa hur man interagerar med databasen.
  */
 public class DbController {
 	private Connection connection = null;
-	
+
 	/**
 	 * Connects to database.
 	 */
@@ -52,60 +52,65 @@ public class DbController {
 
 		}
 
-		
-		
 	}
-	
+
 	/**
 	 * Prints all info in Testtable.
 	 */
-	public void addToTesttable(){
-		String name = JOptionPane.showInputDialog("Skriv in namn");
-		String age = JOptionPane.showInputDialog("Skriv in ålder");
-		String address = JOptionPane.showInputDialog("Skriv in address");
-		
-		if (connection != null) {
-			Statement sql;
-			try {
-				sql = connection.createStatement();
-				sql.execute("insert into testtable (name,age,address) values('"+ name +"','"+ age +"','"+ address + "')");
-				 System.out.println("Successfully added");
-			} catch (SQLException e) {
-				e.printStackTrace();
+	public void addToTesttable() {
+		int keepGoing = JOptionPane.showConfirmDialog(null, "Vill du prova att lägga till en person i databasen?");
+		if (keepGoing == 0) {
+			String name = JOptionPane.showInputDialog("Skriv in namn");
+			String age = JOptionPane.showInputDialog("Skriv in ålder");
+			String address = JOptionPane.showInputDialog("Skriv in address");
+
+			if (connection != null) {
+				Statement sql;
+				try {
+					sql = connection.createStatement();
+					sql.execute("insert into testtable (name,age,address) values('" + name + "','" + age + "','"
+							+ address + "')");
+					System.out.println("Successfully added");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Resturn specified table
+	 * Returns specified table
+	 * 
 	 * @param selectInfo
 	 * @param fromTable
 	 */
-	public void getWholeTesttable(){
-		
+	public void getWholeTesttable() {
+
 		try {
 			Statement sql;
 			sql = connection.createStatement();
 
-			
 			ResultSet rs = sql.executeQuery("select * from testtable");
-			
+
 			System.out.println("========================================\n");
 			while (rs.next()) {
-				System.out.println("Namn :   " + rs.getString("name"));
-				System.out.println("Ålder :  " + rs.getString("age"));
+				System.out.println("   Namn: " + rs.getString("name"));
+				System.out.println("  Ålder: " + rs.getString("age"));
 				System.out.println("Address: " + rs.getString("address"));
 				System.out.println("");
 			}
 			System.out.println("=========================================");
-		
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+	/**
+	 * Används endast för testning.
+	 * @param args
+	 */
+	public static void main(String[] args){
 		DbController d = new DbController();
 		d.connectToDb();
 		d.addToTesttable();
