@@ -37,7 +37,7 @@ public class DbController {
 
 		System.out.println("PostgreSQL JDBC Driver Registered!\n");
 		try {
-			// Denn server skall vi använda till DinnerTime.
+			// Uppgifter till databasen
 			String user = "sqmkxuar";
 			String url = "jdbc:postgresql://104.46.40.113:5432/sqmkxuar";
 			String pw = "_40zWEK1pSh16XuWAurF4wVB_VU63Ebx";
@@ -55,16 +55,18 @@ public class DbController {
 	}
 
 	/**
-	 * Prints all info in Testtable.
+	 * Prints all info in testtable.
 	 */
 	public void addToTesttable() {
 		int keepGoing = JOptionPane.showConfirmDialog(null, "Vill du prova att lägga till en person i databasen?");
 		if (keepGoing == 0) {
 			String name = JOptionPane.showInputDialog("Skriv in namn");
-			String age = JOptionPane.showInputDialog("Skriv in ålder");
+			String strAge = JOptionPane.showInputDialog("Skriv in ålder");
+			int age = Integer.parseInt(strAge);
 			String address = JOptionPane.showInputDialog("Skriv in address");
 
-			if (connection != null) {
+			if (connection != null && name != null && name.length() > 1 && age > 0 && address != null
+					&& address.length() > 1) {
 				Statement sql;
 				try {
 					sql = connection.createStatement();
@@ -74,6 +76,8 @@ public class DbController {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+			} else {
+				System.out.println("Något gick fel, se till att skriva i alla fält.");
 			}
 		}
 	}
@@ -81,17 +85,13 @@ public class DbController {
 	/**
 	 * Returns specified table
 	 * 
-	 * @param selectInfo
-	 * @param fromTable
 	 */
 	public void getWholeTesttable() {
 
 		try {
 			Statement sql;
 			sql = connection.createStatement();
-
 			ResultSet rs = sql.executeQuery("select * from testtable");
-
 			System.out.println("========================================\n");
 			while (rs.next()) {
 				System.out.println("   Namn: " + rs.getString("name"));
@@ -100,7 +100,6 @@ public class DbController {
 				System.out.println("");
 			}
 			System.out.println("=========================================");
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -108,9 +107,10 @@ public class DbController {
 
 	/**
 	 * Används endast för testning.
+	 * 
 	 * @param args
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		DbController d = new DbController();
 		d.connectToDb();
 		d.addToTesttable();
