@@ -10,42 +10,50 @@ public class Client extends Thread {
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private Runnable onConnected;
+	private LoginViewController lvc;
+	private RegisterViewController rvc;
 	
 	public void setOnConnected(Runnable onConnected) {
 		this.onConnected = onConnected;
 	}
 
-	public Client(String ip, int port) {
+	public Client(String ip, int port, LoginViewController lvc) {
 		this.ip = ip;
 		this.port = port;
+		this.lvc = lvc;
+	}
+	
+	public Client(String ip, int port, RegisterViewController rvc) {
+		this.ip = ip;
+		this.port = port;
+		this.rvc = rvc;
 	}
 
 	public void run() {
 		try {
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
-			oos.flush();
-			
+			ois = new ObjectInputStream(socket.getInputStream());
 			if(onConnected != null) {
 				onConnected.run();
 			}
-			
-			ois = new ObjectInputStream(socket.getInputStream());
-
-			while (true) {// lyssnar från servern
+			while (true) {
 				try {
 					Object obj = ois.readObject();
-
-					if (obj instanceof Recipe) {
-						
+					if (obj instanceof Login) {
+						String loginStatus = ((Login) obj).getLoginStatus();
+						lvc.setLoginStatus(loginStatus);
 					}
-
-					// fler if-satser
-
+					else if(obj instanceof Register) {
+						String registerStatus = ((Register) obj).getRegisterStatus();
+						rvc.setRegisterStatus(registerStatus);
+					}
 				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
 				}
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -54,6 +62,7 @@ public class Client extends Thread {
 			oos.writeObject(obj);
 			oos.flush();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
