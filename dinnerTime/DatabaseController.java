@@ -22,7 +22,7 @@ public class DatabaseController {
 	public String login(String username, String password) {
 		try {
 			Statement stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM usertable;");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM member;");
 			while(rs.next()) {
 				if((username.equals(rs.getString(1))) && (password.equals(rs.getString(2)))) {
 					return "success";
@@ -38,7 +38,7 @@ public class DatabaseController {
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
-			String sql = "INSERT INTO USERTABLE (username,password,firstname,surname,region,country) "
+			String sql = "INSERT INTO member (username,password,firstname,surname,region,country) "
 					+ "VALUES ('" + username + "','" + password + "','" + firstname + "','" + surname + "','" + region + "','" + country + "');";
 			stmt.executeUpdate(sql);
 			stmt.close();
