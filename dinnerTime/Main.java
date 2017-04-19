@@ -2,14 +2,15 @@ package dinnerTime;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	private Stage primaryStage;
-	private BorderPane mainLayout;
+	private static Stage primaryStage;
+	private static BorderPane mainLayout;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -18,11 +19,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("DinnerTime");
 		showLoginView();
 	}
 	
-	private void showLoginView() throws IOException {
+	public static void showLoginView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("LoginView.fxml"));
 		mainLayout = loader.load();
@@ -32,14 +32,25 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
-	public static void showClientView() throws IOException {
+	public static void showRegisterView() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("RegisterView.fxml"));
+		mainLayout = loader.load();
+		Scene scene = new Scene(mainLayout, 540, 400);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
+		primaryStage.show();
+	}
+	
+	public static void showClientView(Client client) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("ClientView.fxml"));
-		BorderPane clientView = loader.load();
-		
-		Stage newStage = new Stage();
-		Scene scene = new Scene(clientView);
-		newStage.setScene(scene);
-		newStage.show();
+		mainLayout = loader.load();
+		ClientViewController cvc = loader.getController();
+		cvc.setClient(client);
+		Scene scene = new Scene(mainLayout, 900, 600);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(true);
+		primaryStage.show();
 	}
 }
