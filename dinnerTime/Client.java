@@ -40,6 +40,7 @@ public class Client extends Thread {
 			while (true) {
 				try {
 					Object obj = ois.readObject();
+					
 					if (obj instanceof Login) {
 						String loginStatus = ((Login) obj).getLoginStatus();
 						lvc.setLoginStatus(loginStatus);
