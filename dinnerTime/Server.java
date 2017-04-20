@@ -53,7 +53,6 @@ public class Server implements Runnable {
 		
 		public void run() {
 			try {
-//<<<<<<< HEAD
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 //
@@ -71,7 +70,6 @@ public class Server implements Runnable {
 //						if (str.startsWith("search")) {	//Stringen för klientens sökningen böjar alltid på "search "
 //							str = str.substring(7);		//substringen börjar efter "search "
 //							System.out.println("Sökning: " + str);
-//=======
 				while(true) {
 					try {
 						Object obj = ois.readObject();
@@ -88,7 +86,6 @@ public class Server implements Runnable {
 							String region = ((Register) obj).getRegion();
 							String country = ((Register) obj).getCountry();
 							register(username, password, firstname, surname, region, country);
-//>>>>>>> 2590afb43fcbdaa49679c7b9adf4f69805029fed
 						}
 						else if(obj instanceof Logout) {
 							String username = ((Logout) obj).getUsername();
