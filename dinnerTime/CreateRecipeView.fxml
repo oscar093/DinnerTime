@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dinnerTime.CreateRecipeController">
    <children>
-      <Pane prefHeight="407.0" prefWidth="355.0">
+      <Pane fx:id="window" prefHeight="407.0" prefWidth="355.0">
          <children>
             <Button fx:id="btnSend" layoutX="149.0" layoutY="368.0" mnemonicParsing="false" onAction="#sendRecipe" text="Skicka!" />
             <Label layoutX="11.0" layoutY="24.0" prefHeight="17.0" prefWidth="60.0" text="Rätt:" />
