@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class DatabaseController {
 	
@@ -38,7 +40,8 @@ public class DatabaseController {
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
-			String sql = "INSERT INTO member (username,password,firstname,surname,region,country) "
+
+			String sql = "INSERT INTO MEMBER (username,password,firstname,surname,region,country) "
 					+ "VALUES ('" + username + "','" + password + "','" + firstname + "','" + surname + "','" + region + "','" + country + "');";
 			stmt.executeUpdate(sql);
 			stmt.close();
@@ -48,6 +51,23 @@ public class DatabaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return "failed";
+	}
+	
+	public String newRecipe(Recipe recipe, Register register){	//inte testad
+		try {
+			c.setAutoCommit(false);
+			Statement stmt = c.createStatement();
+			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+			int id = 1;
+			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
+					"VALUES ('" + id + "','" + recipe.getTitle() + "','" + register.getUsername()+ "','" +
+					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry();
+			stmt.executeUpdate(sql);
+			stmt.close();
+			return "success";
+		} catch (SQLException e) {}
+		
 		return "failed";
 	}
 }

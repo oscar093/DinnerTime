@@ -10,9 +10,10 @@ import java.net.*;
 public class Server implements Runnable {
 	private int port;
 	private Thread server = new Thread(this);
-	private ArrayList<ClientHandler> activeThreads = new ArrayList<ClientHandler>();
+	private ArrayList<ClientHandler> threads = new ArrayList<ClientHandler>();
 	private ArrayList<String> onlineUsers = new ArrayList<String>();
 	private HashMap<String, ClientHandler> usersAndThreads = new HashMap<String, ClientHandler>();
+	private Register reg;
 
 	public Server(int port) {
 		this.port = port;
@@ -26,7 +27,7 @@ public class Server implements Runnable {
 				try {
 					socket = ss.accept();
 					ClientHandler ch = new ClientHandler(socket);
-					activeThreads.add(ch);
+					threads.add(ch);
 				} catch(IOException e) {
 					e.printStackTrace();
 					if(socket != null) {
@@ -79,13 +80,22 @@ public class Server implements Runnable {
 							login(username, password);
 						}
 						else if(obj instanceof Register) {
-							String username = ((Register) obj).getUsername();
-							String password = ((Register) obj).getPassword();
-							String firstname = ((Register) obj).getFirstname();
-							String surname = ((Register) obj).getSurname();
-							String region = ((Register) obj).getRegion();
-							String country = ((Register) obj).getCountry();
-							register(username, password, firstname, surname, region, country);
+//							String username = ((Register) obj).getUsername();
+//							String password = ((Register) obj).getPassword();
+//							String firstname = ((Register) obj).getFirstname();
+//							String surname = ((Register) obj).getSurname();
+//							String region = ((Register) obj).getRegion();
+//							String country = ((Register) obj).getCountry();
+							
+							reg = (Register)obj;
+							register(reg.getUsername(), reg.getPassword(), reg.getFirstname(), reg.getSurname(),
+									reg.getRegion(), reg.getCountry());
+							
+							//register(username, password, firstname, surname, region, country);
+						}
+						else if(obj instanceof Recipe){
+							Recipe recipe = (Recipe)obj;
+							newRecipe(recipe);
 						}
 						else if(obj instanceof Logout) {
 							String username = ((Logout) obj).getUsername();
@@ -109,7 +119,7 @@ public class Server implements Runnable {
 			String loginStatus;
 			loginStatus = dbc.login(username, password);
 			onlineUsers.add(username);
-			usersAndThreads.put(username, activeThreads.get(activeThreads.size() - 1));
+			usersAndThreads.put(username, threads.get(threads.size() - 1));
 			ClientHandler ch = usersAndThreads.get(username);
 			try {
 				ch.oos.writeObject(new Login(loginStatus));
@@ -120,6 +130,7 @@ public class Server implements Runnable {
 			if(loginStatus.equals("failed")) {
 				usersAndThreads.remove(username);
 				onlineUsers.remove(username);
+				threads.remove(ch);
 			}
 		}
 		
@@ -128,7 +139,7 @@ public class Server implements Runnable {
 			String registerStatus;
 			registerStatus = dbc.register(username, password, firstname, surname, region, country);
 			onlineUsers.add(username);
-			usersAndThreads.put(username, activeThreads.get(activeThreads.size() - 1));
+			usersAndThreads.put(username, threads.get(threads.size() - 1));
 			ClientHandler ch = usersAndThreads.get(username);
 			try {
 				ch.oos.writeObject(new Register(registerStatus));
@@ -139,16 +150,22 @@ public class Server implements Runnable {
 			if(registerStatus.equals("failed")) {
 				usersAndThreads.remove(username);
 				onlineUsers.remove(username);
+				threads.remove(ch);
 			}
+		}
+		public void newRecipe(Recipe recipe){
+			DatabaseController dbc = new DatabaseController();
+			dbc.newRecipe(recipe, reg);
 		}
 		
 		public void logout(String username) {
-			System.out.println(usersAndThreads.toString());
-			System.out.println(onlineUsers.toString());
+			ClientHandler ch = usersAndThreads.get(username);
 			usersAndThreads.remove(username);
 			onlineUsers.remove(username);
+			threads.remove(ch);
 			System.out.println(usersAndThreads.toString());
 			System.out.println(onlineUsers.toString());
+			System.out.println(threads.toString());
 		}
 	}
 
