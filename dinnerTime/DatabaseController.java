@@ -40,6 +40,7 @@ public class DatabaseController {
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
+
 			String sql = "INSERT INTO MEMBER (username,password,firstname,surname,region,country) "
 					+ "VALUES ('" + username + "','" + password + "','" + firstname + "','" + surname + "','" + region + "','" + country + "');";
 			stmt.executeUpdate(sql);
