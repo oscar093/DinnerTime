@@ -128,6 +128,6 @@ public class ClientViewController implements Initializable {
 	
 	@FXML
 	public void myKitchen() throws IOException{
-		main.showMyKitchenView();
+		main.showMyKitchenView(client);
 	}
 }

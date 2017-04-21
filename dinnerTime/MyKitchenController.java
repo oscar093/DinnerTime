@@ -14,6 +14,7 @@ import javafx.fxml.*;
 public class MyKitchenController implements Initializable {
 	private static Stage primaryStage;
 	private AnchorPane pane;
+	private Client client;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -27,6 +28,9 @@ public class MyKitchenController implements Initializable {
 			loader.setLocation(Main.class.getResource("CreateRecipeView.fxml"));
 			pane = loader.load();
 			
+			CreateRecipeController crc = loader.getController();
+			crc.setClient(client);
+			
 			Stage addDialogStage = new Stage();
 			addDialogStage.setTitle("New Recipe!");
 			addDialogStage.initModality(Modality.WINDOW_MODAL);
@@ -35,5 +39,9 @@ public class MyKitchenController implements Initializable {
 			Scene scene = new Scene(pane);
 			addDialogStage.setScene(scene);
 			addDialogStage.showAndWait();
+	}
+	
+	public void setClient(Client client){
+		this.client = client;
 	}
 }

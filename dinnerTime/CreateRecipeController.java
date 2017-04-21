@@ -57,4 +57,8 @@ public class CreateRecipeController implements Initializable{
 		}
 		tfIngredientInput.setText("");
 	}
+	
+	public void setClient(Client client){
+		this.client = client;
+	}
 }

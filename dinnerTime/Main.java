@@ -14,7 +14,6 @@ public class Main extends Application {
 	private static BorderPane mainLayout;
 	private static AnchorPane testLayout;
 
-
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -57,11 +56,14 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
-	public static void showMyKitchenView() throws IOException{
+
+	public static void showMyKitchenView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("MyKitchenView.fxml"));
-		MyKitchenController mkc = loader.getController();
+//		MyKitchenController mkc = loader.getController();
 		mainLayout = loader.load();
+		MyKitchenController mkc = loader.getController();
+		mkc.setClient(client);
 		Scene scene = new Scene(mainLayout, 900, 600);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(true);
