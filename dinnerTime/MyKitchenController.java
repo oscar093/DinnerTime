@@ -31,14 +31,15 @@ public class MyKitchenController implements Initializable {
 			CreateRecipeController crc = loader.getController();
 			crc.setClient(client);
 			
-			Stage addDialogStage = new Stage();
-			addDialogStage.setTitle("New Recipe!");
-			addDialogStage.initModality(Modality.WINDOW_MODAL);
-			addDialogStage.initOwner(primaryStage);
+			Stage recipeStage = new Stage();
+			recipeStage.setTitle("New Recipe!");
+			recipeStage.initModality(Modality.WINDOW_MODAL);
+			recipeStage.initOwner(primaryStage);
+			recipeStage.setResizable(false);
 			
 			Scene scene = new Scene(pane);
-			addDialogStage.setScene(scene);
-			addDialogStage.showAndWait();
+			recipeStage.setScene(scene);
+			recipeStage.showAndWait();
 	}
 	
 	public void setClient(Client client){

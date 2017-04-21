@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class CreateRecipeController implements Initializable{
 	@FXML
@@ -15,14 +16,17 @@ public class CreateRecipeController implements Initializable{
 	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput;
 	@FXML
 	private TextArea taIngredients;
+	@FXML
+	private AnchorPane pane;
+	@FXML
+	private Label lblConfirmation;
 	
 	private Client client;
-	private Main main;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		taIngredients.setEditable(false);
+		lblConfirmation.setText("");
 	}
 
 	@FXML
@@ -45,6 +49,7 @@ public class CreateRecipeController implements Initializable{
 			}
 		}
 		client.sendToServer(recipe);
+		lblConfirmation.setText("SKICKAT!");
 	}
 	
 	@FXML

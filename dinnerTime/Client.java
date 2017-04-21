@@ -62,12 +62,6 @@ public class Client extends Thread {
 
 	public void sendToServer(Object obj) {
 		try {
-			if(obj instanceof Recipe){
-				Recipe recipe = (Recipe)obj;
-				System.out.println(recipe.getTitle());
-
-			}
-			
 			oos.writeObject(obj);
 			oos.flush();
 		} catch (IOException e) {
