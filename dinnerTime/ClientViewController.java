@@ -125,4 +125,9 @@ public class ClientViewController implements Initializable {
 		client.sendToServer(userLogout);
 		main.showLoginView();
 	}
+	
+	@FXML
+	public void myKitchen() throws IOException{
+		main.showMyKitchenView();
+	}
 }

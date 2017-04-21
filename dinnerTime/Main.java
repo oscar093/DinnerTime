@@ -5,12 +5,15 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
+	private static AnchorPane testLayout;
+
 
 	public static void main(String[] args) {
 		launch(args);
@@ -48,6 +51,17 @@ public class Main extends Application {
 		mainLayout = loader.load();
 		ClientViewController cvc = loader.getController();
 		cvc.setClient(client);
+		Scene scene = new Scene(mainLayout, 900, 600);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(true);
+		primaryStage.show();
+	}
+	
+	public static void showMyKitchenView() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("MyKitchenView.fxml"));
+		MyKitchenController mkc = loader.getController();
+		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout, 900, 600);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(true);

@@ -6,12 +6,18 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 
 public class CreateRecipeController implements Initializable{
+	@FXML
 	private Button btnSend, btnAddIngredient;
+	@FXML
 	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput;
+	@FXML
 	private TextArea taIngredients;
+	
 	private Client client;
+	private Main main;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -46,12 +52,9 @@ public class CreateRecipeController implements Initializable{
 		if(taIngredients.getText().isEmpty()){
 			taIngredients.setText(tfIngredientInput.getText());
 		}
-		if(!taIngredients.getText().isEmpty()){
+		else{
 			taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
 		}
+		tfIngredientInput.setText("");
 	}
-	
-	public void setClient(Client client){
-		this.client = client;
-	}	
 }
