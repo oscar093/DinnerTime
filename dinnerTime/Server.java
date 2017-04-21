@@ -14,6 +14,7 @@ public class Server implements Runnable {
 	private ArrayList<String> onlineUsers = new ArrayList<String>();
 	private HashMap<String, ClientHandler> usersAndThreads = new HashMap<String, ClientHandler>();
 	private Register reg;
+	private DatabaseController dbc = new DatabaseController();
 
 	public Server(int port) {
 		this.port = port;
@@ -54,27 +55,12 @@ public class Server implements Runnable {
 		
 		public void run() {
 			try {
-				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-//
-//				while (true) {
-//					Object obj = ois.readObject();
-//
-//					if (obj instanceof Recipe) {
-//						recipe = (Recipe) obj;
-//						newRecipe(recipe);
-//					} else if (obj instanceof User) {
-//						user = (User) obj;
-//						newUser(user);
-//					} else if (obj instanceof String) {
-//						String str = obj.toString();
-//						if (str.startsWith("search")) {	//Stringen för klientens sökningen böjar alltid på "search "
-//							str = str.substring(7);		//substringen börjar efter "search "
-//							System.out.println("Sökning: " + str);
 				while(true) {
 					try {
 						Object obj = ois.readObject();
-						if(obj instanceof Login) {
+						if(obj instanceof String){
+							stringHandler((String) obj);
+						}else if(obj instanceof Login) {
 							String username = ((Login) obj).getUsername();
 							String password = ((Login) obj).getPassword();
 							login(username, password);
@@ -153,6 +139,7 @@ public class Server implements Runnable {
 				threads.remove(ch);
 			}
 		}
+		
 		public void newRecipe(Recipe recipe){
 			DatabaseController dbc = new DatabaseController();
 			dbc.newRecipe(recipe, reg);
@@ -167,9 +154,36 @@ public class Server implements Runnable {
 			System.out.println(onlineUsers.toString());
 			System.out.println(threads.toString());
 		}
+		
+		/**
+		 * Translates and directs all incoming Strings from client.
+		 * @param command - What the client wants the server to do. 
+		 */
+		public void stringHandler(String command){
+			if(command.contains("getrecipebycountry")){
+				String[] strArray = command.split(" ");
+				String country = strArray[1];
+				recipeByCountryRequest(country.toLowerCase());
+			}
+		}
+		
+		/**
+		 * Sends a array of recipe from specified country to client.
+		 * @param country - country of wish the recipes should be from.
+		 */
+		public void recipeByCountryRequest(String country){
+			Recipe[] r = dbc.getRecipeByCountry(country);
+			try {
+				oos.writeObject(r);
+				oos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) {
 		Server server = new Server(3250);
+		
 	}
 }
