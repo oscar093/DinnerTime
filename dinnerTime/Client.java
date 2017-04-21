@@ -48,6 +48,9 @@ public class Client extends Thread {
 						String registerStatus = ((Register) obj).getRegisterStatus();
 						rvc.setRegisterStatus(registerStatus);
 					}
+					else if(obj instanceof Recipe){
+						
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -59,6 +62,12 @@ public class Client extends Thread {
 
 	public void sendToServer(Object obj) {
 		try {
+			if(obj instanceof Recipe){
+				Recipe recipe = (Recipe)obj;
+				System.out.println(recipe.getTitle());
+
+			}
+			
 			oos.writeObject(obj);
 			oos.flush();
 		} catch (IOException e) {
