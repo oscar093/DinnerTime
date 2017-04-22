@@ -60,6 +60,7 @@ public class LoginViewController implements Initializable {
 			}
 		}
 		if(loginStatus.equals("success")) {
+			client.setUsername(username.getText());
 			main.showClientView(client);
 		}
 		else if(loginStatus.equals("failed")) {

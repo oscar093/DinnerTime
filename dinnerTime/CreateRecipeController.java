@@ -46,6 +46,7 @@ public class CreateRecipeController implements Initializable{
 				recipe.setIngredient(ingredients[i]);
 			}
 		}
+		recipe.setAuthor(client.getUsername());
 		client.sendToServer(recipe);
 		lblConfirmation.setVisible(true);
 	}
@@ -59,7 +60,7 @@ public class CreateRecipeController implements Initializable{
 			taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
 		}
 		tfIngredientInput.setText("");
-	}
+	} 
 	
 	public void setClient(Client client){
 		this.client = client;

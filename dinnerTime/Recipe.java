@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class Recipe implements Serializable{
-	private String title, country, ingredient;
+	private String title, country, ingredient, author;
 	private int time;
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 
@@ -51,5 +51,13 @@ public class Recipe implements Serializable{
 			}
 		}
 		return ingredients;
+	}
+	
+	public void setAuthor(String author){
+		this.author = author;
+	}
+	
+	public String getAuthor(){
+		return author;
 	}
 }

@@ -12,6 +12,7 @@ public class Client extends Thread {
 	private Runnable onConnected;
 	private LoginViewController lvc;
 	private RegisterViewController rvc;
+	private String username;
 	
 	public void setOnConnected(Runnable onConnected) {
 		this.onConnected = onConnected;
@@ -59,11 +60,20 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
+	
+	public String getUsername(){
+		return username;
+	}
 
 	public void sendToServer(Object obj) {
 		try {
 			if(obj instanceof Recipe){
-				
+				Recipe r = (Recipe)obj;
+				System.out.println(r.getTitle() + " " + r.getAuthor());
 			}
 			oos.writeObject(obj);
 			oos.flush();

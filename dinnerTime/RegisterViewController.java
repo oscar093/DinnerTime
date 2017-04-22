@@ -100,6 +100,7 @@ public class RegisterViewController implements Initializable {
 		}
 		if(registerStatus.equals("success")) {
 			main.showClientView(client);
+			client.setUsername(username.getText());
 		}
 		else if(registerStatus.equals("failed")) {
 			registerInfo.setVisible(true);

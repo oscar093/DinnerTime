@@ -54,14 +54,14 @@ public class DatabaseController {
 		return "failed";
 	}
 	
-	public String newRecipe(Recipe recipe, Register register){	//inte testad
+	public String newRecipe(Recipe recipe){
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 			int id = 1;
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
-					"VALUES ('" + id + "','" + recipe.getTitle() + "','" + register.getUsername()+ "','" +
+					"VALUES ('" + id + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
 					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry();
 			stmt.executeUpdate(sql);
 			stmt.close();
