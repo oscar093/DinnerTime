@@ -25,6 +25,7 @@
             <TextField fx:id="tfIngredientInput" layoutX="140.0" layoutY="139.0" prefHeight="27.0" prefWidth="193.0" />
             <Button fx:id="btnAddIngredient" layoutX="195.0" layoutY="169.0" mnemonicParsing="false" onAction="#addIngredient" text="Lägg till ingrediens" />
             <Label layoutX="15.0" layoutY="195.0" text="Tillagda ingredienser:" />
+            <Label fx:id="lblConfirmation" layoutX="239.0" layoutY="372.0" text="SKICKAT!" textFill="#1ca120" />
          </children>
       </Pane>
    </children>
