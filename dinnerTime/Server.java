@@ -56,7 +56,21 @@ public class Server implements Runnable {
 			try {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-
+//
+//				while (true) {
+//					Object obj = ois.readObject();
+//
+//					if (obj instanceof Recipe) {
+//						recipe = (Recipe) obj;
+//						newRecipe(recipe);
+//					} else if (obj instanceof User) {
+//						user = (User) obj;
+//						newUser(user);
+//					} else if (obj instanceof String) {
+//						String str = obj.toString();
+//						if (str.startsWith("search")) {	//Stringen för klientens sökningen böjar alltid på "search "
+//							str = str.substring(7);		//substringen börjar efter "search "
+//							System.out.println("Sökning: " + str);
 				while(true) {
 					try {
 						Object obj = ois.readObject();
@@ -66,9 +80,18 @@ public class Server implements Runnable {
 							login(username, password);
 						}
 						else if(obj instanceof Register) {
+//							String username = ((Register) obj).getUsername();
+//							String password = ((Register) obj).getPassword();
+//							String firstname = ((Register) obj).getFirstname();
+//							String surname = ((Register) obj).getSurname();
+//							String region = ((Register) obj).getRegion();
+//							String country = ((Register) obj).getCountry();
+							
 							reg = (Register)obj;
 							register(reg.getUsername(), reg.getPassword(), reg.getFirstname(), reg.getSurname(),
 									reg.getRegion(), reg.getCountry());
+							
+							//register(username, password, firstname, surname, region, country);
 						}
 						else if(obj instanceof Recipe){
 							Recipe recipe = (Recipe)obj;

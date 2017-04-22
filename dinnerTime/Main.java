@@ -13,6 +13,7 @@ public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
 	private static AnchorPane testLayout;
+	private static Client client;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -56,10 +57,10 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
-
 	public static void showMyKitchenView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("MyKitchenView.fxml"));
+//		MyKitchenController mkc = loader.getController();
 		mainLayout = loader.load();
 		MyKitchenController mkc = loader.getController();
 		mkc.setClient(client);
