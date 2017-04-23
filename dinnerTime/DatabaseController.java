@@ -62,9 +62,11 @@ public class DatabaseController {
 			int id = 1;
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
 					"VALUES ('" + id + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
-					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry();
+					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"');";
 			stmt.executeUpdate(sql);
 			stmt.close();
+			c.commit();
+			c.close();
 			return "success";
 		} catch (SQLException e) {}
 		
