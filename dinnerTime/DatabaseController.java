@@ -59,7 +59,14 @@ public class DatabaseController {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-			int id = 1;
+			
+			Statement idStmt = c.createStatement();
+			ResultSet rs = idStmt.executeQuery("SELECT COUNT(*) AS recipeCount FROM recipe;");
+			rs.next();
+			int id = rs.getInt("recipeCount");
+			id++;
+			rs.close();
+			
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
 					"VALUES ('" + id + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
 					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"');";
