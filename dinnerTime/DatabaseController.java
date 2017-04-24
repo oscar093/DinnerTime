@@ -18,10 +18,11 @@ public class DatabaseController {
 			Class.forName("org.postgresql.Driver");
 			
 			//Om man inte kör servern remote.
-//			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
 			
 			//Om man kör servern lokalt.
-			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
+//			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
