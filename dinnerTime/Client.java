@@ -2,6 +2,7 @@ package dinnerTime;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class Client extends Thread {
 	private String ip;
@@ -12,7 +13,11 @@ public class Client extends Thread {
 	private Runnable onConnected;
 	private LoginViewController lvc;
 	private RegisterViewController rvc;
+	private ClientViewController cvm;
+	
+	private ArrayList<Recipe> downloadedRecipes = new ArrayList<Recipe>();
 	private String username;
+
 	
 	public void setOnConnected(Runnable onConnected) {
 		this.onConnected = onConnected;
@@ -28,6 +33,10 @@ public class Client extends Thread {
 		this.ip = ip;
 		this.port = port;
 		this.rvc = rvc;
+	}
+	
+	public void setClientViewController(ClientViewController cvm){
+		this.cvm= cvm;
 	}
 
 	public void run() {
@@ -51,6 +60,8 @@ public class Client extends Thread {
 					}
 					else if(obj instanceof Recipe){
 						
+					}else if(obj instanceof Recipe[]){
+						storeRecipes((Recipe[]) obj);
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
@@ -79,6 +90,22 @@ public class Client extends Thread {
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public Recipe getRecipe(String title){
+		for(Recipe r : downloadedRecipes){
+			if(r.getTitle().contentEquals(title)){
+				return r;
+			}
+		}
+		return null;
+	}
+	
+	public void storeRecipes(Recipe[] recipes){
+		cvm.updateNode(recipes);
+		for(Recipe r : recipes){
+			downloadedRecipes.add(r);
 		}
 	}
 }

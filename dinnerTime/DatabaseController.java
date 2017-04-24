@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DatabaseController {
@@ -15,8 +16,18 @@ public class DatabaseController {
 	public DatabaseController() {
 		try {
 			Class.forName("org.postgresql.Driver");
+			
+			//Om man inte kör servern remote.
 			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
+<<<<<<< HEAD
 		} catch (Exception e) {
+=======
+			
+			//Om man kör servern lokalt.
+//			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
+			
+		} catch(Exception e) {
+>>>>>>> 9cefb60f4cade4f35d5f163f6c1cfb2eb9a1943e
 			e.printStackTrace();
 		}
 	}
@@ -82,5 +93,54 @@ public class DatabaseController {
 		}
 
 		return "failed";
+	}
+	
+	public Recipe[] getRecipeByCountry(String country){
+		ArrayList<Recipe> result = new ArrayList<Recipe>();
+		Statement stmt;
+		try {
+			stmt = c.createStatement();
+		
+		String sql = "select * from recipe where country='" + country +"'";
+		ResultSet rs = stmt.executeQuery(sql);
+		
+		while(rs.next()){
+			Recipe recipe = new Recipe();
+			recipe.setId(rs.getInt("recipeid"));
+			recipe.setTitle(rs.getString("title"));
+			recipe.setAuthor(rs.getString("author"));
+			recipe.setTime(rs.getInt("time"));
+			recipe.setUpload(rs.getString("upload"));
+			recipe.setCountry(rs.getString("country"));
+			result.add(recipe);
+		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		Recipe[] rArray = new Recipe[result.size()];
+		result.toArray(rArray);
+		return rArray;
+	}
+	
+	/*
+	 * Använd denna Main-metoden om du vill testa en metod direkt mot databasen. 
+	 * Men ändra addressen till databasen först för att det ska fungera.
+	 */
+	public static void main(String[] args){
+		DatabaseController d = new DatabaseController();
+		
+		//Test av getRecipeByCountry
+		Recipe[] ra = d.getRecipeByCountry("kenya");
+		
+		for (Recipe r : ra) {
+			System.out.println("ID: " + r.getId());
+			System.out.println("Title: " + r.getTitle());
+			System.out.println("Author: " + r.getAuthor());
+			System.out.println("Time: " + r.getTime());
+			System.out.println("Upload: " + r.getUpload());
+			System.out.println("Country: " + r.getCountry());
+			System.out.println("\n===========================\n");
+		}
 	}
 }

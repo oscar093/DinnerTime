@@ -43,7 +43,13 @@ public class LoginViewController implements Initializable {
 	public void login() throws IOException {
 		loginStatus = "timeout";
 		loginInfo.setVisible(false);
+		
+		//Mot remote server
 		client = new Client("146.148.4.203", 3250, this);
+		
+		// Mot lokal server
+//		client = new Client("localhost", 3250, this);
+		
 		userLogin = new Login(username.getText(), password.getText());
 		client.setOnConnected(() -> client.sendToServer(userLogin));
 		client.start();

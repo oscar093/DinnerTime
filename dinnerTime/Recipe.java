@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class Recipe implements Serializable{
-	private String title, country, ingredient, author;
-	private int time;
+
+	private String title, country, ingredient, author, upload;
+	private int time, id;
+
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 
 	public Recipe() {
@@ -52,12 +54,30 @@ public class Recipe implements Serializable{
 		}
 		return ingredients;
 	}
-	
-	public void setAuthor(String author){
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
-	public String getAuthor(){
-		return author;
+
+	public String getUpload() {
+		return upload;
+	}
+
+	public void setUpload(String uppload) {
+		this.upload = uppload;
+
 	}
 }
