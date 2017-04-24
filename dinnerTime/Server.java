@@ -142,7 +142,7 @@ public class Server implements Runnable {
 		
 		public void newRecipe(Recipe recipe){
 			DatabaseController dbc = new DatabaseController();
-			dbc.newRecipe(recipe, reg);
+			dbc.newRecipe(recipe);
 		}
 		
 		public void logout(String username) {

@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class Recipe implements Serializable{
+
 	private String title, country, ingredient, author, upload;
 	private int time, id;
+
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 
 	public Recipe() {
@@ -53,6 +55,7 @@ public class Recipe implements Serializable{
 		return ingredients;
 	}
 
+
 	public int getId() {
 		return id;
 	}
@@ -75,5 +78,6 @@ public class Recipe implements Serializable{
 
 	public void setUpload(String uppload) {
 		this.upload = uppload;
+
 	}
 }

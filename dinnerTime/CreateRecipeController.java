@@ -15,13 +15,15 @@ public class CreateRecipeController implements Initializable{
 	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput;
 	@FXML
 	private TextArea taIngredients;
+	@FXML
+	private Label lblConfirmation; 
 	
 	private Client client;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		taIngredients.setEditable(false);
+		lblConfirmation.setVisible(false);
 	}
 
 	@FXML
@@ -43,7 +45,9 @@ public class CreateRecipeController implements Initializable{
 				recipe.setIngredient(ingredients[i]);
 			}
 		}
+		recipe.setAuthor(client.getUsername());
 		client.sendToServer(recipe);
+		lblConfirmation.setVisible(true);
 	}
 	
 	@FXML
@@ -55,7 +59,7 @@ public class CreateRecipeController implements Initializable{
 			taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
 		}
 		tfIngredientInput.setText("");
-	}
+	} 
 	
 	public void setClient(Client client){
 		this.client = client;
