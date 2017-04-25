@@ -16,16 +16,14 @@ public class DatabaseController {
 	public DatabaseController() {
 		try {
 			Class.forName("org.postgresql.Driver");
-
-			// Om man inte kör servern remote.
-			// c =
-			// DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime",
-			// "postgres", "P@ssw0rd");
-
-			// Om man kör servern lokalt.
+			
+			//Om man inte kör servern remote.
+//			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
+			
+			//Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
-
-		} catch (Exception e) {
+			
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -70,40 +68,31 @@ public class DatabaseController {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-//			String[] ingredientArray = recipe.getIngredients().split(",");
-			
-			Statement recipeIdStmt = c.createStatement();
-			ResultSet rs = recipeIdStmt.executeQuery("SELECT COUNT(*) AS recipeCount FROM recipe;");
+
+			Statement idStmt = c.createStatement();
+			ResultSet rs = idStmt.executeQuery("SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
 			rs.next();
 			int recipeId = rs.getInt("recipeCount");
+			int ingredientId = rs.getInt("ingredientCount");
 			recipeId++;
+			ingredientId++;
 			rs.close();
 			
-//			Statement ingredientIdStmt = c.createStatement();
-//			ResultSet rs2 = ingredientIdStmt.executeQuery("SELECT COUNT(*) AS ingredientCount FROM ingredient;");
-//			rs.next();
-//			int ingredientId = rs.getInt("ingredientCount");
-//			ingredientId++;
-//			rs2.close();
-			
-			String recipeSql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
+			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
 					"VALUES ('" + recipeId + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
 					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"');";
 			
-//			String ingredientSql = "";
-//			
-//			for(int i = 0; i < ingredientArray.length; i++){
-//				ingredientSql = "INSERT INTO ingredient(ingredientid,recipeid,name) VALUES ('" + 
-//					ingredientId + "," + recipeId + ",'" + ingredientArray[i] +"');";
-//			}
-			
-			stmt.executeUpdate(recipeSql);
+			String[] ingredientArray = recipe.getIngredients().split(", ");
+			for(int i = 0; i < ingredientArray.length; i++){
+				sql +=  "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId + ",'" + ingredientArray[i] + "');";
+				ingredientId++;
+			}
+			stmt.executeUpdate(sql);
 			stmt.close();
 			c.commit();
 			c.close();
 			return "success";
 		} catch (SQLException e) {}
-		
 		return "failed";
 	}
 
