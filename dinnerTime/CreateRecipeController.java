@@ -14,7 +14,7 @@ public class CreateRecipeController implements Initializable{
 	@FXML
 	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput;
 	@FXML
-	private TextArea taIngredients;
+	private TextArea taIngredients, taInstruction;
 	@FXML
 	private Label lblConfirmation; 
 	
@@ -44,6 +44,9 @@ public class CreateRecipeController implements Initializable{
 			for (int i = 0; i < ingredients.length; i++) {
 				recipe.setIngredient(ingredients[i]);
 			}
+		}
+		if(!taInstruction.getText().isEmpty()){
+			recipe.setInstruction(taInstruction.getText());
 		}
 		recipe.setAuthor(client.getUsername());
 		client.sendToServer(recipe);

@@ -9,9 +9,9 @@
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dinnerTime.CreateRecipeController">
    <children>
-      <Pane prefHeight="407.0" prefWidth="355.0">
+      <Pane layoutY="-7.0" prefHeight="441.0" prefWidth="651.0">
          <children>
-            <Button fx:id="btnSend" layoutX="149.0" layoutY="368.0" mnemonicParsing="false" onAction="#sendRecipe" text="Skicka!" />
+            <Button fx:id="btnSend" layoutX="308.0" layoutY="402.0" mnemonicParsing="false" onAction="#sendRecipe" text="Skicka!" />
             <Label layoutX="11.0" layoutY="24.0" prefHeight="17.0" prefWidth="60.0" text="Rätt:" />
             <Label layoutX="14.0" layoutY="54.0" />
             <Label layoutX="11.0" layoutY="62.0" text="Tillagningstid: " />
@@ -20,12 +20,14 @@
             <TextField fx:id="tfTitle" layoutX="137.0" layoutY="19.0" prefHeight="27.0" prefWidth="196.0" />
             <TextField fx:id="tfTime" layoutX="138.0" layoutY="57.0" prefHeight="27.0" prefWidth="196.0" />
             <TextField fx:id="tfCountry" layoutX="140.0" layoutY="97.0" prefHeight="27.0" prefWidth="194.0" />
-            <TextArea fx:id="taIngredients" editable="false" layoutX="15.0" layoutY="217.0" prefHeight="134.0" prefWidth="317.0" />
+            <TextArea fx:id="taIngredients" editable="false" layoutX="15.0" layoutY="217.0" prefHeight="177.0" prefWidth="317.0" />
             <Label layoutX="14.0" layoutY="144.0" text="Ingrediens:" />
             <TextField fx:id="tfIngredientInput" layoutX="140.0" layoutY="139.0" prefHeight="27.0" prefWidth="193.0" />
             <Button fx:id="btnAddIngredient" layoutX="195.0" layoutY="169.0" mnemonicParsing="false" onAction="#addIngredient" text="Lägg till ingrediens" />
             <Label layoutX="15.0" layoutY="195.0" text="Tillagda ingredienser:" />
-            <Label fx:id="lblConfirmation" layoutX="239.0" layoutY="372.0" text="SKICKAT!" textFill="#1ca120" />
+            <Label fx:id="lblConfirmation" layoutX="367.0" layoutY="406.0" text="SKICKAT!" textFill="#1ca120" />
+            <TextArea fx:id="taInstruction" layoutX="346.0" layoutY="35.0" prefHeight="358.0" prefWidth="288.0" />
+            <Label layoutX="346.0" layoutY="16.0" text="Instruktioner:" />
          </children>
       </Pane>
    </children>

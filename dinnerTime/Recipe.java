@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Recipe implements Serializable{
 
-	private String title, country, ingredient, author, upload;
+	private String title, country, ingredient, author, upload, instruction;
 	private int time, id;
 
 	private ArrayList<String> ingredientList = new ArrayList<String>();
@@ -78,6 +78,13 @@ public class Recipe implements Serializable{
 
 	public void setUpload(String uppload) {
 		this.upload = uppload;
-
+	}
+	
+	public void setInstruction(String instruction){
+		this.instruction = instruction;
+	}
+	
+	public String getInstruction(){
+		return instruction;
 	}
 }
