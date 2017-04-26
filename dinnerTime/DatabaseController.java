@@ -78,9 +78,9 @@ public class DatabaseController {
 			ingredientId++;
 			rs.close();
 			
-			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
+			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country,instruction) " +
 					"VALUES ('" + recipeId + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
-					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"');";
+					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"','" + recipe.getInstruction() + "');";
 			
 			String[] ingredientArray = recipe.getIngredients().split(", ");
 			for(int i = 0; i < ingredientArray.length; i++){
