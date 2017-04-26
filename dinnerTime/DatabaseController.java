@@ -68,7 +68,7 @@ public class DatabaseController {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-
+			
 			Statement idStmt = c.createStatement();
 			ResultSet rs = idStmt.executeQuery("SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
 			rs.next();
