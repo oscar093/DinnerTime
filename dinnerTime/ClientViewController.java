@@ -12,15 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -30,7 +28,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 
 public class ClientViewController implements Initializable {
 	
@@ -45,6 +42,9 @@ public class ClientViewController implements Initializable {
 	
 	@FXML
 	private AnchorPane anchorpane;
+	
+	@FXML
+	private ScrollPane scrollpane;
 	
 	private Client client;
 	
@@ -191,6 +191,9 @@ public class ClientViewController implements Initializable {
 		b = new BackgroundFill(Color
 	            .rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY);
 		anchorpane.setBackground(new Background(b));
+		anchorpane.setMaxWidth(535);
+		scrollpane.setBackground(new Background((new BackgroundFill(Color
+	            .rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
 	}
 	
 	public void setClient(Client client) {
@@ -264,12 +267,29 @@ public class ClientViewController implements Initializable {
 		Text text = new Text();
 		text.setFont(Font.font ("Verdana", 20));
 		ImageView vfoodPic = new ImageView(foodPic);
-		text.setText("\nTillagningstid: " + recipe.getTime()
-		+ "\n\nUrsprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
-		+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1));
+		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
+							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
+							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter"
+							+ "\n\nIngridienser:         Instruktion: \n\n";
 		
-		vfoodPic.setY(10);
-		vfoodPic.setX(315);
+		//Denna skall hämtas från db
+		String[] ingridienser = {"Pizzadeg", "Ost 200g", "Lök 1st", "Tomat 2st", "Svamp 300g", "Zucchini 1st", "Färs 300g"}; 
+		for(String ingr : ingridienser){
+			recepyInfo += ingr + "\n";
+		}
+		
+		text.setText(recepyInfo);
+		
+		String instruktion = "Förgrädda degen,\nhacka upp och släng på alla ingridienser\no sen ba in mäan i ugna!";
+		
+		Text instruction = new Text();
+		instruction.setText(instruktion);
+		
+		instruction.setX(190);
+		instruction.setY(270);
+		
+		vfoodPic.setY(20);
+		vfoodPic.setX(320);
 		
 		title.setY(50);
 		title.setX(10);
@@ -280,45 +300,6 @@ public class ClientViewController implements Initializable {
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
 		anchorpane.getChildren().add(vfoodPic);
+		anchorpane.getChildren().add(instruction);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
