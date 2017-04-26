@@ -16,7 +16,7 @@ public class DatabaseController {
 	public DatabaseController() {
 		try {
 			Class.forName("org.postgresql.Driver");
-			
+
 			//Om man kör servern remote.
 //			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
 			
@@ -68,22 +68,29 @@ public class DatabaseController {
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 			
 			Statement idStmt = c.createStatement();
-			ResultSet rs = idStmt.executeQuery("SELECT COUNT(*) AS recipeCount FROM recipe;");
+			ResultSet rs = idStmt.executeQuery("SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
 			rs.next();
-			int id = rs.getInt("recipeCount");
-			id++;
+			int recipeId = rs.getInt("recipeCount");
+			int ingredientId = rs.getInt("ingredientCount");
+			recipeId++;
+			ingredientId++;
 			rs.close();
 			
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country) " +
-					"VALUES ('" + id + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
+					"VALUES ('" + recipeId + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
 					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"');";
+			
+			String[] ingredientArray = recipe.getIngredients().split(", ");
+			for(int i = 0; i < ingredientArray.length; i++){
+				sql +=  "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId + ",'" + ingredientArray[i] + "');";
+				ingredientId++;
+			}
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.commit();
 			c.close();
 			return "success";
 		} catch (SQLException e) {}
-		
 		return "failed";
 	}
 	
@@ -92,9 +99,8 @@ public class DatabaseController {
 		Statement stmt;
 		try {
 			stmt = c.createStatement();
-		
-		String sql = "select * from recipe where country='" + country +"'";
-		ResultSet rs = stmt.executeQuery(sql);
+			String sql = "select * from recipe where country='" + country +"';";
+			ResultSet rs = stmt.executeQuery(sql);
 		
 		while(rs.next()){
 			Recipe recipe = new Recipe();

@@ -64,9 +64,9 @@
             <HBox layoutX="300.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ScrollPane prefHeight="396.0" prefWidth="556.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="533.0" prefWidth="538.0" />
-                    </content>
+                     <content>
+                        <AnchorPane fx:id="anchorpane" prefHeight="397.0" prefWidth="553.0" />
+                     </content>
                   </ScrollPane>
                </children></HBox>
          </children>
