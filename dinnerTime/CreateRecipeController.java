@@ -51,11 +51,15 @@ public class CreateRecipeController implements Initializable {
 		if (!tfTitle.getText().isEmpty()) {
 			recipe.setTitle(tfTitle.getText());
 		}
-		if(cbCountry.getValue() != null){
+		if (cbCountry.getValue() != null) {
 			recipe.setCountry(cbCountry.getValue().toString());
 		}
 		if (!tfTime.getText().isEmpty()) {
-			recipe.setTime(Integer.parseInt(tfTime.getText()));
+			try {
+				recipe.setTime(Integer.parseInt(tfTime.getText()));
+			} catch (NumberFormatException e) {
+				recipe.setTime(0);
+			}
 		}
 		if (!taIngredients.getText().isEmpty()) {
 			String[] ingredients = taIngredients.getText().split("\\n");

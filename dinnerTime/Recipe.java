@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class Recipe implements Serializable{
+public class Recipe implements Serializable {
 
 	private String title, country, ingredient, author, upload, instruction;
 	private int time, id;
@@ -13,13 +13,13 @@ public class Recipe implements Serializable{
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 
 	public Recipe() {
-		
+
 	}
 
 	public void setTitle(String name) {
 		this.title = name;
 	}
-	
+
 	public String getTitle() {
 		return this.title;
 	}
@@ -39,22 +39,21 @@ public class Recipe implements Serializable{
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	
-	public void setIngredient(String ingredient){
+
+	public void setIngredient(String ingredient) {
 		ingredientList.add(ingredient);
 	}
-	
-	public String getIngredients(){
+
+	public String getIngredients() {
 		String ingredients = "";
-		for(int i = 0; i < ingredientList.size(); i++){
+		for (int i = 0; i < ingredientList.size(); i++) {
 			ingredients += ingredientList.get(i);
-			if(i < ingredientList.size() - 1){
+			if (i < ingredientList.size() - 1) {
 				ingredients += ", ";
 			}
 		}
 		return ingredients;
 	}
-
 
 	public int getId() {
 		return id;
@@ -79,12 +78,12 @@ public class Recipe implements Serializable{
 	public void setUpload(String uppload) {
 		this.upload = uppload;
 	}
-	
-	public void setInstruction(String instruction){
+
+	public void setInstruction(String instruction) {
 		this.instruction = instruction;
 	}
-	
-	public String getInstruction(){
+
+	public String getInstruction() {
 		return instruction;
 	}
 }
