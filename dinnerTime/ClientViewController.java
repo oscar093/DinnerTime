@@ -188,7 +188,7 @@ public class ClientViewController implements Initializable {
 	}
 	
 	/**
-	 * Listens for operations in the TreeView.
+	 * Listens for operations in treeview.
 	 * @author osc
 	 *
 	 */
