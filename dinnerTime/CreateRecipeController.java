@@ -33,6 +33,7 @@ public class CreateRecipeController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		taIngredients.setEditable(false);
 		lblConfirmation.setVisible(false);
+		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/Countries.txt"));
 			String strLine = br.readLine();
