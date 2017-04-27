@@ -16,8 +16,8 @@ public class DatabaseController {
 	public DatabaseController() {
 		try {
 			Class.forName("org.postgresql.Driver");
-			
-			//Om man inte kör servern remote.
+
+			//Om man kör servern remote.
 //			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
 			
 			//Om man kör servern lokalt.
@@ -99,9 +99,8 @@ public class DatabaseController {
 		Statement stmt;
 		try {
 			stmt = c.createStatement();
-		
-		String sql = "select * from recipe where country='" + country +"'";
-		ResultSet rs = stmt.executeQuery(sql);
+			String sql = "select * from recipe where country='" + country +"';";
+			ResultSet rs = stmt.executeQuery(sql);
 		
 		while(rs.next()){
 			Recipe recipe = new Recipe();

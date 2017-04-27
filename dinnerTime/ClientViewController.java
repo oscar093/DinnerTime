@@ -7,18 +7,27 @@ import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class ClientViewController implements Initializable {
 	
@@ -30,6 +39,12 @@ public class ClientViewController implements Initializable {
 	
 	@FXML
 	private Button logout;
+	
+	@FXML
+	private AnchorPane anchorpane;
+	
+	@FXML
+	private ScrollPane scrollpane;
 	
 	private Client client;
 	
@@ -58,6 +73,10 @@ public class ClientViewController implements Initializable {
 	
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
+	
+	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
+	
+	BackgroundFill b;
 	
 	private TreeItem<String> kenya;
 	private TreeItem<String> marocco;
@@ -168,6 +187,13 @@ public class ClientViewController implements Initializable {
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);
 		treeview.setRoot(root);
 		treeview.setShowRoot(false);
+		
+		b = new BackgroundFill(Color
+	            .rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY);
+		anchorpane.setBackground(new Background(b));
+		anchorpane.setMaxWidth(535);
+		scrollpane.setBackground(new Background((new BackgroundFill(Color
+	            .rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
 	}
 	
 	public void setClient(Client client) {
@@ -188,7 +214,7 @@ public class ClientViewController implements Initializable {
 	}
 	
 	/**
-	 * Listens for operations in the TreeView.
+	 * Listens for operations in treeview.
 	 * @author osc
 	 *
 	 */
@@ -204,9 +230,9 @@ public class ClientViewController implements Initializable {
 			}else if(selectedItem.isLeaf() && !countryItemList.contains(selectedItem)){
 				Recipe selectedRecipe = client.getRecipe(selectedItem.getValue());
 				if(selectedRecipe != null){
-					//Här gör man något så att receptet visas i fönstret till höger om treeview.
-					//'selctedRecipe' är självaste receptet.
-					System.out.println(selectedRecipe.getAuthor() + " har lagat " + selectedRecipe.getTitle());
+					presentRecipe(selectedRecipe);	
+				}else{
+					System.out.print("Something is wrong, the recipe does not exist.");
 				}
 			}
 		}
@@ -221,11 +247,59 @@ public class ClientViewController implements Initializable {
 			for(TreeItem<String> ti : countryItemList){
 				for (Recipe r : recipe){
 					if(ti.getValue().toLowerCase().contentEquals(r.getCountry())){
-						TreeItem<String> title = new TreeItem<String>(r.getTitle());
+						TreeItem<String> title = new TreeItem<String>(r.getTitle().substring(0,1).toUpperCase() + r.getTitle().substring(1));
 						ti.getChildren().add(title);
 					}
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Presents the recipe in the textflow.
+	 * @param recipe
+	 */
+	public void presentRecipe(Recipe recipe){
+		anchorpane.getChildren().clear();
+		Text title = new Text();
+		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
+		title.setFont(Font.font ("Verdana", 36));
+		Text text = new Text();
+		text.setFont(Font.font ("Verdana", 20));
+		ImageView vfoodPic = new ImageView(foodPic);
+		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
+							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
+							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter"
+							+ "\n\nIngridienser:         Instruktion: \n\n";
+		
+		//Denna skall hämtas från db
+		String[] ingridienser = {"Pizzadeg", "Ost 200g", "Lök 1st", "Tomat 2st", "Svamp 300g", "Zucchini 1st", "Färs 300g"}; 
+		for(String ingr : ingridienser){
+			recepyInfo += ingr + "\n";
+		}
+		
+		text.setText(recepyInfo);
+		
+		String instruktion = "Förgrädda degen,\nhacka upp och släng på alla ingridienser\no sen ba in mäan i ugna!";
+		
+		Text instruction = new Text();
+		instruction.setText(instruktion);
+		
+		instruction.setX(190);
+		instruction.setY(270);
+		
+		vfoodPic.setY(20);
+		vfoodPic.setX(320);
+		
+		title.setY(50);
+		title.setX(10);
+		
+		text.setY(100);
+		text.setX(10);
+		
+		anchorpane.getChildren().add(title);
+		anchorpane.getChildren().add(text);
+		anchorpane.getChildren().add(vfoodPic);
+		anchorpane.getChildren().add(instruction);
 	}
 }

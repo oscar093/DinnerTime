@@ -94,8 +94,9 @@ public class Client extends Thread {
 	}
 	
 	public Recipe getRecipe(String title){
+		
 		for(Recipe r : downloadedRecipes){
-			if(r.getTitle().contentEquals(title)){
+			if(r.getTitle().toLowerCase().contentEquals(title.toLowerCase())){
 				return r;
 			}
 		}
