@@ -64,7 +64,7 @@ public class CreateRecipeController implements Initializable {
 		if (!taIngredients.getText().isEmpty()) {
 			String[] ingredients = taIngredients.getText().split("\\n");
 			for (int i = 0; i < ingredients.length; i++) {
-				recipe.setIngredient(ingredients[i]);
+				recipe.addIngredient(ingredients[i]);
 			}
 		}
 		if (!taInstruction.getText().isEmpty()) {

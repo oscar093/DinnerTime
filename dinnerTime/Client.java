@@ -80,6 +80,10 @@ public class Client extends Thread {
 		return username;
 	}
 
+	/**
+	 * Sends object to server. Make Sure Object is instance of known type.
+	 * @param obj
+	 */
 	public void sendToServer(Object obj) {
 		try {
 			if(obj instanceof Recipe){
@@ -92,7 +96,11 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Find recipe by title.
+	 * @param title
+	 * @return recipe
+	 */
 	public Recipe getRecipe(String title){
 		
 		for(Recipe r : downloadedRecipes){
@@ -103,8 +111,27 @@ public class Client extends Thread {
 		return null;
 	}
 	
+	/**
+	 * Find recipe by id.
+	 * @param title
+	 * @return recipe
+	 */
+	public Recipe getRecipe(int id){
+		
+		for(Recipe r : downloadedRecipes){
+			if(r.getId() == id){
+				return r;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Stores all downloaded recipes.
+	 * @param array of recipes
+	 */
 	public void storeRecipes(Recipe[] recipes){
-		cvm.updateNode(recipes);
+		cvm.updateCountryNode(recipes);
 		for(Recipe r : recipes){
 			downloadedRecipes.add(r);
 		}

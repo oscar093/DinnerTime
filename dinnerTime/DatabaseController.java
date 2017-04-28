@@ -78,9 +78,9 @@ public class DatabaseController {
 			
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country,instruction) " +
 					"VALUES ('" + recipeId + "','" + recipe.getTitle() + "','" + recipe.getAuthor()+ "','" +
-					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry() +"','" + recipe.getInstruction() + "');";
+					recipe.getTime() + "','" + timeStamp + "','" + recipe.getCountry().toLowerCase() +"','" + recipe.getInstruction() + "');";
 			
-			String[] ingredientArray = recipe.getIngredients().split(", ");
+			String[] ingredientArray = recipe.getIngredients();
 			for(int i = 0; i < ingredientArray.length; i++){
 				sql +=  "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId + ",'" + ingredientArray[i] + "');";
 				ingredientId++;
@@ -101,7 +101,6 @@ public class DatabaseController {
 			stmt = c.createStatement();
 			String sql = "select * from recipe where country='" + country +"';";
 			ResultSet rs = stmt.executeQuery(sql);
-		
 		while(rs.next()){
 			Recipe recipe = new Recipe();
 			recipe.setId(rs.getInt("recipeid"));
@@ -110,8 +109,18 @@ public class DatabaseController {
 			recipe.setTime(rs.getInt("time"));
 			recipe.setUpload(rs.getString("upload"));
 			recipe.setCountry(rs.getString("country"));
+			recipe.setInstruction(rs.getString("instruction"));
 			result.add(recipe);
+			
+			Statement stmtIngr = c.createStatement();
+			String sqlIngr = "select name from ingredient where recipeID='" + recipe.getId() +"';";
+			ResultSet rsIngr = stmtIngr.executeQuery(sqlIngr);
+			while(rsIngr.next()){
+				recipe.addIngredient(rsIngr.getString("name"));
+			}
 		}
+		
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

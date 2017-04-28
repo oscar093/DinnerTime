@@ -40,18 +40,13 @@ public class Recipe implements Serializable {
 		this.country = country;
 	}
 
-	public void setIngredient(String ingredient) {
+	public void addIngredient(String ingredient) {
 		ingredientList.add(ingredient);
 	}
 
-	public String getIngredients() {
-		String ingredients = "";
-		for (int i = 0; i < ingredientList.size(); i++) {
-			ingredients += ingredientList.get(i);
-			if (i < ingredientList.size() - 1) {
-				ingredients += ", ";
-			}
-		}
+	public String[] getIngredients() {
+		String[] ingredients = new String[ingredientList.size()];
+		ingredientList.toArray(ingredients);
 		return ingredients;
 	}
 
