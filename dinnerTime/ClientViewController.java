@@ -3,6 +3,7 @@ package dinnerTime;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -74,7 +75,7 @@ public class ClientViewController implements Initializable {
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
 	
-	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
+//	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
 	
 	BackgroundFill b;
 	
@@ -100,6 +101,7 @@ public class ClientViewController implements Initializable {
 	private TreeItem<String> colombia;
 	
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
+	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -228,7 +230,7 @@ public class ClientViewController implements Initializable {
 				String command = "getrecipebycountry " + selectedItem.getValue();
 				client.sendToServer(command);	
 			}else if(selectedItem.isLeaf() && !countryItemList.contains(selectedItem)){
-				Recipe selectedRecipe = client.getRecipe(selectedItem.getValue());
+				Recipe selectedRecipe = client.getRecipe(recipeKeyMap.get(selectedItem));
 				if(selectedRecipe != null){
 					presentRecipe(selectedRecipe);	
 				}else{
@@ -242,13 +244,17 @@ public class ClientViewController implements Initializable {
 	 * Updated all country nodes with the latest recipes based on that particular country.
 	 * @param recipe - is a Recipe array.
 	 */
-	public void updateNode(Recipe[] recipe) {
+	public void updateCountryNode(Recipe[] recipe) {
 		if(recipe.length>0){
 			for(TreeItem<String> ti : countryItemList){
 				for (Recipe r : recipe){
 					if(ti.getValue().toLowerCase().contentEquals(r.getCountry())){
-						TreeItem<String> title = new TreeItem<String>(r.getTitle().substring(0,1).toUpperCase() + r.getTitle().substring(1));
+						TreeItem<String> title = new TreeItem<String>(r.getTitle().substring(0,1).toUpperCase() 
+																	+ r.getTitle().substring(1));
 						ti.getChildren().add(title);
+						
+						//test
+						recipeKeyMap.put(title, r.getId());
 					}
 				}
 			}
@@ -265,31 +271,30 @@ public class ClientViewController implements Initializable {
 		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
 		title.setFont(Font.font ("Verdana", 36));
 		Text text = new Text();
-		text.setFont(Font.font ("Verdana", 20));
-		ImageView vfoodPic = new ImageView(foodPic);
+
+		text.setFont(Font.font ("Verdana", 14));
+//		ImageView vfoodPic = new ImageView(foodPic);
+		
 		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
 							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
 							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter"
 							+ "\n\nIngridienser:         Instruktion: \n\n";
 		
-		//Denna skall hämtas från db
-		String[] ingridienser = {"Pizzadeg", "Ost 200g", "Lök 1st", "Tomat 2st", "Svamp 300g", "Zucchini 1st", "Färs 300g"}; 
+		String[] ingridienser = recipe.getIngredients(); 
 		for(String ingr : ingridienser){
 			recepyInfo += ingr + "\n";
 		}
 		
 		text.setText(recepyInfo);
 		
-		String instruktion = "Förgrädda degen,\nhacka upp och släng på alla ingridienser\no sen ba in mäan i ugna!";
-		
 		Text instruction = new Text();
-		instruction.setText(instruktion);
+		instruction.setText(recipe.getInstruction());
 		
 		instruction.setX(190);
 		instruction.setY(270);
 		
-		vfoodPic.setY(20);
-		vfoodPic.setX(320);
+//		vfoodPic.setY(20);
+//		vfoodPic.setX(320);
 		
 		title.setY(50);
 		title.setX(10);
@@ -299,7 +304,7 @@ public class ClientViewController implements Initializable {
 		
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
-		anchorpane.getChildren().add(vfoodPic);
+//		anchorpane.getChildren().add(vfoodPic);
 		anchorpane.getChildren().add(instruction);
 	}
 }
