@@ -60,7 +60,6 @@ public class Main extends Application {
 	public static void showMyKitchenView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("MyKitchenView.fxml"));
-//		MyKitchenController mkc = loader.getController();
 		mainLayout = loader.load();
 		MyKitchenController mkc = loader.getController();
 		mkc.setClient(client);
