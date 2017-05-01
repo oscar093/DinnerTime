@@ -3,9 +3,12 @@ package dinnerTime;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -91,22 +94,65 @@ public class DatabaseController {
 
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country,instruction) " + "VALUES ('"
 					+ recipeId + "','" + recipe.getTitle() + "','" + recipe.getAuthor() + "','" + recipe.getTime()
-					+ "','" + timeStamp + "','" + recipe.getCountry() + "','" + recipe.getInstruction() + "');";
+					+ "','" + timeStamp + "','" + recipe.getCountry().toLowerCase() + "','" + recipe.getInstruction()
+					+ "');";
 
-			String[] ingredientArray = recipe.getIngredients().split(", ");
+			String[] ingredientArray = recipe.getIngredients();
 			for (int i = 0; i < ingredientArray.length; i++) {
 				sql += "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId
 						+ ",'" + ingredientArray[i] + "');";
 				ingredientId++;
 			}
+			
+			String recipeImg = recipe.getImgFileName();
+			if(recipeImg != null){
+				addImage(recipeId, recipeImg);
+			}
+
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.commit();
 			c.close();
+
 			return "success";
 		} catch (SQLException e) {
 		}
 		return "failed";
+	}
+
+	public void addImage(int recipeId, String filename) {
+		try {
+			File file = new File(filename);
+			FileInputStream fis = new FileInputStream(file);
+			PreparedStatement ps = c.prepareStatement("INSERT INTO image VALUES (?, ?, ?)");
+			ps.setInt(1, recipeId);
+			ps.setString(2, file.getName());
+			ps.setBinaryStream(3, fis, (int) file.length());
+			ps.executeUpdate();
+			ps.close();
+			fis.close();
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ImageIcon getImage(int recipeId) {
+		ImageIcon img = null;
+		try {
+			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
+			ps.setInt(1, recipeId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				byte[] imgBytes = rs.getBytes(1);
+				img = new ImageIcon(imgBytes);
+			}
+			rs.close();
+			ps.close();
+			return img;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return img;
 	}
 
 	public Recipe[] getRecipeByCountry(String country) {
@@ -125,8 +171,17 @@ public class DatabaseController {
 				recipe.setTime(rs.getInt("time"));
 				recipe.setUpload(rs.getString("upload"));
 				recipe.setCountry(rs.getString("country"));
+				recipe.setInstruction(rs.getString("instruction"));
 				result.add(recipe);
+
+				Statement stmtIngr = c.createStatement();
+				String sqlIngr = "select name from ingredient where recipeID='" + recipe.getId() + "';";
+				ResultSet rsIngr = stmtIngr.executeQuery(sqlIngr);
+				while (rsIngr.next()) {
+					recipe.addIngredient(rsIngr.getString("name"));
+				}
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
