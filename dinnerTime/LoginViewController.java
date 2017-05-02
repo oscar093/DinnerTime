@@ -45,10 +45,10 @@ public class LoginViewController implements Initializable {
 		loginInfo.setVisible(false);
 		
 		//Mot remote server
-//		client = new Client("146.148.4.203", 3250, this);
+		client = new Client("146.148.4.203", 3250, this);
 		
 		// Mot lokal server
-		client = new Client("localhost", 3250, this);
+//		client = new Client("localhost", 3250, this);
 		
 		userLogin = new Login(username.getText(), password.getText());
 		client.setOnConnected(() -> client.sendToServer(userLogin));
