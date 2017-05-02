@@ -273,7 +273,14 @@ public class ClientViewController implements Initializable {
 		Text text = new Text();
 
 		text.setFont(Font.font ("Verdana", 14));
-//		ImageView vfoodPic = new ImageView(foodPic);
+		
+		Image img = client.getRecipeImage(recipe.getId());
+		if(img != null){
+			ImageView vfoodPic = new ImageView(client.getRecipeImage(recipe.getId()));
+			vfoodPic.setY(20);
+			vfoodPic.setX(320);
+			anchorpane.getChildren().add(vfoodPic);
+		}
 		
 		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
 							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)

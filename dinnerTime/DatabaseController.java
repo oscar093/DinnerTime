@@ -1,6 +1,6 @@
 package dinnerTime;
 
-import java.awt.Image;
+import javafx.scene.image.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -29,9 +29,7 @@ public class DatabaseController {
 			Class.forName("org.postgresql.Driver");
 
 			// Om man kör servern remote.
-			// c =
-			// DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime",
-			// "postgres", "P@ssw0rd");
+			// c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
 
 			// Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
@@ -145,6 +143,27 @@ public class DatabaseController {
 			while (rs.next()) {
 				byte[] imgBytes = rs.getBytes(1);
 				img = new ImageIcon(imgBytes);
+			}
+			rs.close();
+			ps.close();
+			return img;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return img;
+	}
+	
+	
+	public Image getImage2(int recipeId) {
+		Image img = null;
+		try {
+			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
+			ps.setInt(1, recipeId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				byte[] imgBytes = rs.getBytes(1);
+				ByteArrayInputStream in = new ByteArrayInputStream(imgBytes);
+				img = new Image(in);
 			}
 			rs.close();
 			ps.close();

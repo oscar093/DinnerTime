@@ -3,6 +3,9 @@ package dinnerTime;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javafx.scene.image.Image;
 
 public class Client extends Thread {
 	private String ip;
@@ -16,6 +19,7 @@ public class Client extends Thread {
 	private ClientViewController cvm;
 	
 	private ArrayList<Recipe> downloadedRecipes = new ArrayList<Recipe>();
+//	private HashMap<Image,Integer> ImageMap = new HashMap<Image,Integer>();
 	private String username;
 
 	
@@ -86,10 +90,6 @@ public class Client extends Thread {
 	 */
 	public void sendToServer(Object obj) {
 		try {
-			if(obj instanceof Recipe){
-				Recipe r = (Recipe)obj;
-				System.out.println(r.getTitle() + " " + r.getAuthor());
-			}
 			oos.writeObject(obj);
 			oos.flush();
 		} catch (IOException e) {
@@ -135,5 +135,22 @@ public class Client extends Thread {
 		for(Recipe r : recipes){
 			downloadedRecipes.add(r);
 		}
+	}
+	
+	/**
+	 * Gets Image for recipe.
+	 * @param id
+	 * @return Image
+	 */
+	public Image getRecipeImage(int id){
+		sendToServer("getRecipeImage " +  16);
+		try {
+			Image image = (Image)ois.readObject();
+			return image;
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 }

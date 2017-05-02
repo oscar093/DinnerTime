@@ -4,6 +4,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javafx.scene.image.Image;
+
 import java.io.*;
 import java.net.*;
 
@@ -164,6 +167,23 @@ public class Server implements Runnable {
 				String[] strArray = command.split(" ");
 				String country = strArray[1];
 				recipeByCountryRequest(country.toLowerCase());
+			}else if(command.contains("getRecipeImage")){
+				String[] strArray = command.split(" ");
+				String id = strArray[1];
+			}
+		}
+		
+		/**
+		 * Sends Image for specified recipe to server.
+		 * @param id for recipe.
+		 */
+		public void getRecipeImage(int id){
+			Image img = dbc.getImage2(id);
+			try {
+				oos.writeObject(img);
+				oos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		
