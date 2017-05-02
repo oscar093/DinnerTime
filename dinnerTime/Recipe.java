@@ -7,9 +7,8 @@ import javax.swing.*;
 
 public class Recipe implements Serializable {
 
-	private String title, country, ingredient, author, upload, instruction;
+	private String title, country, author, upload, instruction, imgFileName;
 	private int time, id;
-
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 
 	public Recipe() {
@@ -80,5 +79,13 @@ public class Recipe implements Serializable {
 
 	public String getInstruction() {
 		return instruction;
+	}
+	
+	public void setImgFileName(String filename){
+		this.imgFileName = filename;
+	}
+	
+	public String getImgFileName(){
+		return imgFileName;
 	}
 }

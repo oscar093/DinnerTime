@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import javax.swing.JOptionPane;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,9 +17,9 @@ import javafx.scene.layout.AnchorPane;
 
 public class CreateRecipeController implements Initializable {
 	@FXML
-	private Button btnSend, btnAddIngredient;
+	private Button btnSend, btnAddIngredient, btnPicture;
 	@FXML
-	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput;
+	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput, tfPicture;
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
@@ -28,11 +28,13 @@ public class CreateRecipeController implements Initializable {
 	private ComboBox cbCountry;
 
 	private Client client;
+	private String imgFileName = null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		taIngredients.setEditable(false);
 		lblConfirmation.setVisible(false);
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/Countries.txt"));
 			String strLine = br.readLine();
@@ -70,6 +72,9 @@ public class CreateRecipeController implements Initializable {
 		if (!taInstruction.getText().isEmpty()) {
 			recipe.setInstruction(taInstruction.getText());
 		}
+		if (imgFileName != null) {
+			recipe.setImgFileName(imgFileName);
+		}
 		recipe.setAuthor(client.getUsername());
 		client.sendToServer(recipe);
 		lblConfirmation.setVisible(true);
@@ -78,11 +83,23 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private void addIngredient() {
 		if (taIngredients.getText().isEmpty()) {
-			taIngredients.setText(tfIngredientInput.getText());
+			if (tfIngredientInput != null) {
+				taIngredients.setText(tfIngredientInput.getText());
+			}
 		} else {
-			taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
+			if (tfIngredientInput != null) {
+				taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
+			}
 		}
 		tfIngredientInput.setText("");
+	}
+
+	@FXML
+	private void addPicture() {
+		if (tfPicture != null) {
+			imgFileName = tfPicture.getText();
+			tfPicture.setText("");
+		}
 	}
 
 	public void setClient(Client client) {

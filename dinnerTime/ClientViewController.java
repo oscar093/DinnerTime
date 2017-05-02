@@ -75,7 +75,7 @@ public class ClientViewController implements Initializable {
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
 	
-	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
+//	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
 	
 	BackgroundFill b;
 	
@@ -271,8 +271,10 @@ public class ClientViewController implements Initializable {
 		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
 		title.setFont(Font.font ("Verdana", 36));
 		Text text = new Text();
+
 		text.setFont(Font.font ("Verdana", 14));
-		ImageView vfoodPic = new ImageView(foodPic);
+//		ImageView vfoodPic = new ImageView(foodPic);
+		
 		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
 							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
 							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter"
@@ -291,8 +293,8 @@ public class ClientViewController implements Initializable {
 		instruction.setX(190);
 		instruction.setY(270);
 		
-		vfoodPic.setY(20);
-		vfoodPic.setX(320);
+//		vfoodPic.setY(20);
+//		vfoodPic.setX(320);
 		
 		title.setY(50);
 		title.setX(10);
@@ -302,7 +304,7 @@ public class ClientViewController implements Initializable {
 		
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
-		anchorpane.getChildren().add(vfoodPic);
+//		anchorpane.getChildren().add(vfoodPic);
 		anchorpane.getChildren().add(instruction);
 	}
 }
