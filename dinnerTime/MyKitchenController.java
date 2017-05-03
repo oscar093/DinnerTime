@@ -23,7 +23,7 @@ public class MyKitchenController implements Initializable {
 	}
 
 	@FXML
-	public void newRecipe() throws IOException{
+	private void newRecipe() throws IOException{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("CreateRecipeView.fxml"));
 			pane = loader.load();

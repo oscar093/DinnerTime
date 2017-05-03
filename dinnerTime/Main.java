@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -63,6 +64,18 @@ public class Main extends Application {
 		mainLayout = loader.load();
 		MyKitchenController mkc = loader.getController();
 		mkc.setClient(client);
+		Scene scene = new Scene(mainLayout, 900, 600);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(true);
+		primaryStage.show();
+	}
+	
+	public static void showSearchView(Client client) throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("SearchView.fxml"));
+		mainLayout = loader.load();
+		SearchViewController svc = loader.getController();
+		svc.setClient(client);
 		Scene scene = new Scene(mainLayout, 900, 600);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(true);

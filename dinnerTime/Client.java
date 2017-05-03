@@ -14,6 +14,7 @@ public class Client extends Thread {
 	private LoginViewController lvc;
 	private RegisterViewController rvc;
 	private ClientViewController cvm;
+	private SearchViewController svc;
 	
 	private ArrayList<Recipe> downloadedRecipes = new ArrayList<Recipe>();
 	private String username;
@@ -38,6 +39,10 @@ public class Client extends Thread {
 	public void setClientViewController(ClientViewController cvm){
 		this.cvm= cvm;
 	}
+	
+	public void setSearchViewController(SearchViewController svc){
+		this.svc = svc;
+	}
 
 	public void run() {
 		try {
@@ -60,8 +65,13 @@ public class Client extends Thread {
 					}
 					else if(obj instanceof Recipe){
 						
-					}else if(obj instanceof Recipe[]){
+					}
+					else if(obj instanceof Recipe[]){
 						storeRecipes((Recipe[]) obj);
+					}
+					else if(obj instanceof String[]){
+						String[] response = (String[])obj;
+						svc.showResponse(response);
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();

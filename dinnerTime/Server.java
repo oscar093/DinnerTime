@@ -66,18 +66,9 @@ public class Server implements Runnable {
 							login(username, password);
 						}
 						else if(obj instanceof Register) {
-//							String username = ((Register) obj).getUsername();
-//							String password = ((Register) obj).getPassword();
-//							String firstname = ((Register) obj).getFirstname();
-//							String surname = ((Register) obj).getSurname();
-//							String region = ((Register) obj).getRegion();
-//							String country = ((Register) obj).getCountry();
-							
 							reg = (Register)obj;
 							register(reg.getUsername(), reg.getPassword(), reg.getFirstname(), reg.getSurname(),
 									reg.getRegion(), reg.getCountry());
-							
-							//register(username, password, firstname, surname, region, country);
 						}
 						else if(obj instanceof Recipe){
 							Recipe recipe = (Recipe)obj;
@@ -164,6 +155,30 @@ public class Server implements Runnable {
 				String[] strArray = command.split(" ");
 				String country = strArray[1];
 				recipeByCountryRequest(country.toLowerCase());
+			}
+			if(command.startsWith("titleSearch")){
+				String[] response = dbc.getTitleSearch(command.substring(11));
+				try {
+					oos.writeObject(response);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("countrySearch")){
+				String[] response = dbc.getCountrySearch(command.substring(13));
+				try {
+					oos.writeObject(response);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("authorSearch")){
+				String[] response = dbc.getAuthorSearch(command.substring(12));
+				try {
+					oos.writeObject(response);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

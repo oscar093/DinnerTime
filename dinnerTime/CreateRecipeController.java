@@ -26,7 +26,6 @@ public class CreateRecipeController implements Initializable {
 	private Label lblConfirmation;
 	@FXML
 	private ComboBox cbCountry;
-
 	private Client client;
 	private String imgFileName = null;
 
