@@ -13,6 +13,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * The GUI for registering a user
+ * @author Group 26
+ *
+ */
 public class RegisterViewController implements Initializable {
 	
 	ObservableList<String> regionList = FXCollections.observableArrayList("Africa", "Asia", "Europe", "Middle East", "North America", "South America");

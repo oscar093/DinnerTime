@@ -2,6 +2,11 @@ package dinnerTime;
 
 import java.io.Serializable;
 
+/**
+ * A class for registering users
+ * @author Group 26
+ *
+ */
 public class Register implements Serializable {
 	private static final long serialVersionUID = 6183615101241174093L;
 	private String username;

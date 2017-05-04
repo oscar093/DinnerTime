@@ -13,6 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * The GUI for the login frame
+ * @author Group 26
+ *
+ */
 public class LoginViewController implements Initializable {
 	@FXML
 	private Main main;

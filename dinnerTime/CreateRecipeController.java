@@ -15,6 +15,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * The GUI for creating a new recipe
+ * @author Group 26
+ *
+ */
 public class CreateRecipeController implements Initializable {
 	@FXML
 	private Button btnSend, btnAddIngredient, btnPicture;

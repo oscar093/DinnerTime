@@ -19,7 +19,11 @@ import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
+/**
+ * DatabaseController controlls all interaction with the database for DinnerTime
+ * @author Group 26
+ *
+ */
 public class DatabaseController {
 
 	private Connection c = null;
@@ -40,7 +44,13 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Method for controlling loggins to DinnerTime 
+	 * @param username String containing a username
+	 * @param password String containing a password
+	 * @return "succes" if username and password are correct, else "failed"
+	 */
 	public String login(String username, String password) {
 		try {
 			Statement stmt = c.createStatement();
@@ -55,7 +65,17 @@ public class DatabaseController {
 		}
 		return "failed";
 	}
-
+	
+	/**
+	 * Method for storing a new user in DinnerTime
+	 * @param username
+	 * @param password
+	 * @param firstname
+	 * @param surname
+	 * @param region
+	 * @param country
+	 * @return
+	 */
 	public String register(String username, String password, String firstname, String surname, String region,
 			String country) {
 		try {
@@ -75,7 +95,11 @@ public class DatabaseController {
 		}
 		return "failed";
 	}
-
+	
+	/**
+	 * Method for storing a new recipe in DinnerTime
+	 * @param recipe the recipe which will be created
+	 */
 	public void newRecipe(Recipe recipe) {
 		try {
 			c.setAutoCommit(false);
@@ -118,7 +142,12 @@ public class DatabaseController {
 		} catch (SQLException e) {
 		}
 	}
-
+	
+	/**
+	 * Method for storing an image to a specific recipe
+	 * @param recipeId the recipe which the image will be added to
+	 * @param filename the filename of the image
+	 */
 	public void addImage(int recipeId, String filename) {
 		try {
 			File file = new File(filename);
@@ -134,7 +163,12 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Method for getting an image from a specific recipe
+	 * @param recipeId the specific recipe to get the image from
+	 * @return an image from the given recipe
+	 */
 	public ImageIcon getImage(int recipeId) {
 		ImageIcon img = null;
 		try {
@@ -153,7 +187,12 @@ public class DatabaseController {
 		}
 		return img;
 	}
-
+	
+	/**
+	 * Method for getting all recipes from a specific country
+	 * @param country the specific country
+	 * @return an array containing all the recipes
+	 */
 	public Recipe[] getRecipeByCountry(String country) {
 		ArrayList<Recipe> result = new ArrayList<Recipe>();
 		Statement stmt;
@@ -188,7 +227,12 @@ public class DatabaseController {
 		result.toArray(rArray);
 		return rArray;
 	}
-
+	
+	/**
+	 * Method for searching for a recipe by it's title
+	 * @param search
+	 * @return
+	 */
 	public String[] getTitleSearch(String search) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
@@ -230,7 +274,12 @@ public class DatabaseController {
 
 		return responseArray;
 	}
-
+	
+	/**
+	 * Method for searching for recipes from a specific country
+	 * @param search
+	 * @return
+	 */
 	public String[] getCountrySearch(String search) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
@@ -270,7 +319,12 @@ public class DatabaseController {
 		response.toArray(responseArray);
 		return responseArray;
 	}
-
+	
+	/**
+	 * Method for searching for recipes created by a specific authour
+	 * @param search
+	 * @return
+	 */
 	public String[] getAuthorSearch(String search) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;

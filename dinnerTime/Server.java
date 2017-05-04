@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.io.*;
 import java.net.*;
 
+/**
+ * The server for DinnerTime
+ * @author Group 26
+ *
+ */
 public class Server implements Runnable {
 	private int port;
 	private Thread server = new Thread(this);
@@ -15,11 +20,16 @@ public class Server implements Runnable {
 	private HashMap<String, ClientHandler> usersAndThreads = new HashMap<String, ClientHandler>();
 	private Register reg;
 	private DatabaseController dbc = new DatabaseController();
-
+	
+	/**
+	 * Constructor for initializing the server
+	 * @param port the port the server is running on
+	 */
 	public Server(int port) {
 		this.port = port;
 		server.start();
 	}
+	
 	
 	public void run() {
 		Socket socket = null;
@@ -41,6 +51,11 @@ public class Server implements Runnable {
 		}
 	}
 	
+	/**
+	 * Handles the communication between the server and the clients
+	 * @author Group 26
+	 *
+	 */
 	private class ClientHandler extends Thread {
 		private Socket socket;
 		private ObjectInputStream ois;

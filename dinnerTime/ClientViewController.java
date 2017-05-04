@@ -30,6 +30,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * The GUI for the main frame of DinnerTime
+ * @author Group 26
+ *
+ */
 public class ClientViewController implements Initializable {
 	
 	@FXML
