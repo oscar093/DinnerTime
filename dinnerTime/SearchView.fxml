@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dinnerTime.SearchViewController">
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="tfSearch" layoutX="14.0" layoutY="174.0" prefHeight="25.0" prefWidth="437.0" />
+            <Button fx:id="btnSearch" layoutX="541.0" layoutY="174.0" mnemonicParsing="false" onAction="#search" text="Sök!" />
+            <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Tillbaka" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton fx:id="rbTitle" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" onAction="#setSelect" text="Rätt" />
+            <RadioButton fx:id="rbCountry" layoutX="180.0" layoutY="6.0" mnemonicParsing="false" onAction="#setSelect" text="Land" />
+            <RadioButton fx:id="rbAuthor" layoutX="361.0" layoutY="6.0" mnemonicParsing="false" onAction="#setSelect" text="Författare" />
+            <TextArea fx:id="taList" layoutX="13.0" layoutY="37.0" prefHeight="235.0" prefWidth="697.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

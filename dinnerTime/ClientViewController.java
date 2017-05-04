@@ -35,51 +35,34 @@ public class ClientViewController implements Initializable {
 	
 	@FXML
 	private Main main;
-	
 	@FXML
 	private TreeView<String> treeview;
-	
 	@FXML
 	private Button logout;
-	
 	@FXML
 	private AnchorPane anchorpane;
-	
 	@FXML
 	private ScrollPane scrollpane;
-	
 	private Client client;
-	
 	private String username;
-	
 	private Logout userLogout;
-	
 	private TreeItemListener til = new TreeItemListener();
-	
 	private Image kenyaImage = new Image(getClass().getResourceAsStream("/ke.png"));
 	private Image moroccoImage = new Image(getClass().getResourceAsStream("/ma.png"));
-	
 	private Image chinaImage = new Image(getClass().getResourceAsStream("/cn.png"));
 	private Image japanImage = new Image(getClass().getResourceAsStream("/jp.png"));
 	private Image thailandImage = new Image(getClass().getResourceAsStream("/th.png"));
-	
 	private Image franceImage = new Image(getClass().getResourceAsStream("/fr.png"));
 	private Image italyImage = new Image(getClass().getResourceAsStream("/it.png"));
 	private Image swedenImage = new Image(getClass().getResourceAsStream("/se.png"));
-	
 	private Image iranImage = new Image(getClass().getResourceAsStream("/ir.png"));
 	private Image lebanonImage = new Image(getClass().getResourceAsStream("/lb.png"));
-	
 	private Image mexicoImage = new Image(getClass().getResourceAsStream("/mx.png"));
 	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
-	
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
-	
 //	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
-	
 	BackgroundFill b;
-	
 	private TreeItem<String> kenya;
 	private TreeItem<String> marocco;
 	private TreeItem<String> africa;
@@ -100,7 +83,6 @@ public class ClientViewController implements Initializable {
 	private TreeItem<String> southAmerica;
 	private TreeItem<String> argentina;
 	private TreeItem<String> colombia;
-	
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	
@@ -205,15 +187,20 @@ public class ClientViewController implements Initializable {
 	}
 	
 	@FXML
-	public void logout() throws IOException {
+	private void logout() throws IOException {
 		userLogout = new Logout(username);
 		client.sendToServer(userLogout);
 		main.showLoginView();
 	}
 	
 	@FXML
-	public void myKitchen() throws IOException{
+	private void myKitchen() throws IOException{
 		main.showMyKitchenView(client);
+	}
+	
+	@FXML
+	private void search() throws IOException{
+		main.showSearchView(client);
 	}
 	
 	/**
@@ -222,7 +209,6 @@ public class ClientViewController implements Initializable {
 	 *
 	 */
 	private class TreeItemListener implements ChangeListener{
-
 		@Override
 		public void changed(ObservableValue arg0, Object arg1, Object arg2) {
 			MultipleSelectionModel msm = treeview.getSelectionModel();
@@ -272,7 +258,6 @@ public class ClientViewController implements Initializable {
 		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
 		title.setFont(Font.font ("Verdana", 36));
 		Text text = new Text();
-
 		text.setFont(Font.font ("Verdana", 14));
 		
 		if(recipe.getImg() != null){
@@ -295,7 +280,6 @@ public class ClientViewController implements Initializable {
 		}
 		
 		text.setText(recepyInfo);
-		
 		Text instruction = new Text();
 		instruction.setText(recipe.getInstruction());
 		
@@ -304,10 +288,8 @@ public class ClientViewController implements Initializable {
 		
 		title.setY(50);
 		title.setX(10);
-		
 		text.setY(100);
 		text.setX(10);
-		
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
 		anchorpane.getChildren().add(instruction);
