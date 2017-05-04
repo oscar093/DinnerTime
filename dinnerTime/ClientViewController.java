@@ -1,5 +1,6 @@
 package dinnerTime;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -274,9 +275,10 @@ public class ClientViewController implements Initializable {
 
 		text.setFont(Font.font ("Verdana", 14));
 		
-		Image img = client.getRecipeImage(recipe.getId());
-		if(img != null){
-			ImageView vfoodPic = new ImageView(client.getRecipeImage(recipe.getId()));
+		if(recipe.getImg() != null){
+			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
+			Image img = new Image(in);
+			ImageView vfoodPic = new ImageView(img);
 			vfoodPic.setY(20);
 			vfoodPic.setX(320);
 			anchorpane.getChildren().add(vfoodPic);
@@ -297,11 +299,8 @@ public class ClientViewController implements Initializable {
 		Text instruction = new Text();
 		instruction.setText(recipe.getInstruction());
 		
-		instruction.setX(190);
-		instruction.setY(270);
-		
-//		vfoodPic.setY(20);
-//		vfoodPic.setX(320);
+		instruction.setX(140);
+		instruction.setY(230);
 		
 		title.setY(50);
 		title.setX(10);
@@ -311,7 +310,6 @@ public class ClientViewController implements Initializable {
 		
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
-//		anchorpane.getChildren().add(vfoodPic);
 		anchorpane.getChildren().add(instruction);
 	}
 }

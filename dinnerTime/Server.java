@@ -174,20 +174,6 @@ public class Server implements Runnable {
 		}
 		
 		/**
-		 * Sends Image for specified recipe to server.
-		 * @param id for recipe.
-		 */
-		public void getRecipeImage(int id){
-			Image img = dbc.getImage2(id);
-			try {
-				oos.writeObject(img);
-				oos.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		/**
 		 * Sends a array of recipe from specified country to client.
 		 * @param country - country of wish the recipes should be from.
 		 */

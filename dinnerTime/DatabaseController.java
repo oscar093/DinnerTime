@@ -134,7 +134,12 @@ public class DatabaseController {
 		}
 	}
 
-	public ImageIcon getImage(int recipeId) {
+	/**
+	 * Denna kommer förmodligen att tas bort.
+	 * @param recipeId
+	 * @return
+	 */
+	public ImageIcon getImageIcon(int recipeId) {
 		ImageIcon img = null;
 		try {
 			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
@@ -153,17 +158,14 @@ public class DatabaseController {
 		return img;
 	}
 	
-	
-	public Image getImage2(int recipeId) {
-		Image img = null;
+	public byte[] getImage(int recipeId) {
+		byte[] img = null;
 		try {
 			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
 			ps.setInt(1, recipeId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				byte[] imgBytes = rs.getBytes(1);
-				ByteArrayInputStream in = new ByteArrayInputStream(imgBytes);
-				img = new Image(in);
+				img = rs.getBytes(1);
 			}
 			rs.close();
 			ps.close();
@@ -199,8 +201,10 @@ public class DatabaseController {
 				while (rsIngr.next()) {
 					recipe.addIngredient(rsIngr.getString("name"));
 				}
+				if(getImage(recipe.getId()) != null ){
+					recipe.setImg(getImage(recipe.getId()));
+				}
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -215,19 +219,12 @@ public class DatabaseController {
 	 * Men ändra addressen till databasen först för att det ska fungera.
 	 */
 	public static void main(String[] args) {
-		DatabaseController d = new DatabaseController();
-
-		// Test av getRecipeByCountry
-		Recipe[] ra = d.getRecipeByCountry("kenya");
-
-		for (Recipe r : ra) {
-			System.out.println("ID: " + r.getId());
-			System.out.println("Title: " + r.getTitle());
-			System.out.println("Author: " + r.getAuthor());
-			System.out.println("Time: " + r.getTime());
-			System.out.println("Upload: " + r.getUpload());
-			System.out.println("Country: " + r.getCountry());
-			System.out.println("\n===========================\n");
+		DatabaseController d = new DatabaseController();	
+		if(d.getImage(12) == null){
+			System.out.println("Its null");
 		}
-	}
+		ByteArrayInputStream in = new ByteArrayInputStream(d.getImage(12));
+		Image img = new Image(in);
+		System.out.println(img.getHeight());
+	}	
 }

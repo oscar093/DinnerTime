@@ -19,7 +19,7 @@ public class Client extends Thread {
 	private ClientViewController cvm;
 	
 	private ArrayList<Recipe> downloadedRecipes = new ArrayList<Recipe>();
-//	private HashMap<Image,Integer> ImageMap = new HashMap<Image,Integer>();
+	private HashMap<Image,Integer> ImageMap = new HashMap<Image,Integer>();
 	private String username;
 
 	
@@ -96,20 +96,20 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * Find recipe by title.
-	 * @param title
-	 * @return recipe
-	 */
-	public Recipe getRecipe(String title){
-		
-		for(Recipe r : downloadedRecipes){
-			if(r.getTitle().toLowerCase().contentEquals(title.toLowerCase())){
-				return r;
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * Find recipe by title.
+//	 * @param title
+//	 * @return recipe
+//	 */
+//	public Recipe getRecipe(String title){
+//		
+//		for(Recipe r : downloadedRecipes){
+//			if(r.getTitle().toLowerCase().contentEquals(title.toLowerCase())){
+//				return r;
+//			}
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * Find recipe by id.
@@ -137,20 +137,21 @@ public class Client extends Thread {
 		}
 	}
 	
-	/**
-	 * Gets Image for recipe.
-	 * @param id
-	 * @return Image
-	 */
-	public Image getRecipeImage(int id){
-		sendToServer("getRecipeImage " +  16);
-		try {
-			Image image = (Image)ois.readObject();
-			return image;
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-		
-	}
+//	/**
+//	 * Gets Image for recipe.
+//	 * @param id
+//	 * @return Image
+//	 */
+//	public byte[] getRecipeImage(int id){
+//		sendToServer("getRecipeImage " +  id);
+//		try {
+//			System.out.println("Test");
+//			byte[] image = (byte[])ois.readObject();
+//			System.out.println("Test2");
+//			return image;
+//		} catch (ClassNotFoundException | IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 }
