@@ -1,6 +1,6 @@
 package dinnerTime;
 
-import java.awt.Image;
+import javafx.scene.image.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -29,9 +29,7 @@ public class DatabaseController {
 			Class.forName("org.postgresql.Driver");
 
 			// Om man kör servern remote.
-			// c =
-			// DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime",
-			// "postgres", "P@ssw0rd");
+			// c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
 
 			// Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
@@ -135,7 +133,12 @@ public class DatabaseController {
 		}
 	}
 
-	public ImageIcon getImage(int recipeId) {
+	/**
+	 * Denna kommer förmodligen att tas bort.
+	 * @param recipeId
+	 * @return
+	 */
+	public ImageIcon getImageIcon(int recipeId) {
 		ImageIcon img = null;
 		try {
 			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
@@ -144,6 +147,24 @@ public class DatabaseController {
 			while (rs.next()) {
 				byte[] imgBytes = rs.getBytes(1);
 				img = new ImageIcon(imgBytes);
+			}
+			rs.close();
+			ps.close();
+			return img;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return img;
+	}
+	
+	public byte[] getImage(int recipeId) {
+		byte[] img = null;
+		try {
+			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
+			ps.setInt(1, recipeId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				img = rs.getBytes(1);
 			}
 			rs.close();
 			ps.close();
@@ -178,6 +199,9 @@ public class DatabaseController {
 				ResultSet rsIngr = stmtIngr.executeQuery(sqlIngr);
 				while (rsIngr.next()) {
 					recipe.addIngredient(rsIngr.getString("name"));
+				}
+				if(getImage(recipe.getId()) != null ){
+					recipe.setImg(getImage(recipe.getId()));
 				}
 			}
 		} catch (SQLException e) {
@@ -316,19 +340,14 @@ public class DatabaseController {
 	 * Men ändra addressen till databasen först för att det ska fungera.
 	 */
 	public static void main(String[] args) {
-		DatabaseController d = new DatabaseController();
-
-		// Test av getRecipeByCountry
-		Recipe[] ra = d.getRecipeByCountry("kenya");
-
-		for (Recipe r : ra) {
-			System.out.println("ID: " + r.getId());
-			System.out.println("Title: " + r.getTitle());
-			System.out.println("Author: " + r.getAuthor());
-			System.out.println("Time: " + r.getTime());
-			System.out.println("Upload: " + r.getUpload());
-			System.out.println("Country: " + r.getCountry());
-			System.out.println("\n===========================\n");
+		DatabaseController d = new DatabaseController();	
+		if(d.getImage(12) == null){
+			System.out.println("Its null");
 		}
-	}
+
+		ByteArrayInputStream in = new ByteArrayInputStream(d.getImage(12));
+		Image img = new Image(in);
+		System.out.println(img.getHeight());
+	}	
 }
+

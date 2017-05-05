@@ -4,6 +4,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javafx.scene.image.Image;
+
 import java.io.*;
 import java.net.*;
 
@@ -155,6 +158,9 @@ public class Server implements Runnable {
 				String[] strArray = command.split(" ");
 				String country = strArray[1];
 				recipeByCountryRequest(country.toLowerCase());
+			}else if(command.contains("getRecipeImage")){
+				String[] strArray = command.split(" ");
+				String id = strArray[1];
 			}
 			if(command.startsWith("titleSearch")){
 				String[] response = dbc.getTitleSearch(command.substring(11));

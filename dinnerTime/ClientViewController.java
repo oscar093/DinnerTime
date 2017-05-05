@@ -1,5 +1,6 @@
 package dinnerTime;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -258,7 +259,15 @@ public class ClientViewController implements Initializable {
 		title.setFont(Font.font ("Verdana", 36));
 		Text text = new Text();
 		text.setFont(Font.font ("Verdana", 14));
-//		ImageView vfoodPic = new ImageView(foodPic);
+		
+		if(recipe.getImg() != null){
+			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
+			Image img = new Image(in);
+			ImageView vfoodPic = new ImageView(img);
+			vfoodPic.setY(20);
+			vfoodPic.setX(320);
+			anchorpane.getChildren().add(vfoodPic);
+		}
 		
 		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
 							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
@@ -273,11 +282,9 @@ public class ClientViewController implements Initializable {
 		text.setText(recepyInfo);
 		Text instruction = new Text();
 		instruction.setText(recipe.getInstruction());
-		instruction.setX(190);
-		instruction.setY(270);
 		
-//		vfoodPic.setY(20);
-//		vfoodPic.setX(320);
+		instruction.setX(140);
+		instruction.setY(230);
 		
 		title.setY(50);
 		title.setX(10);
@@ -285,7 +292,6 @@ public class ClientViewController implements Initializable {
 		text.setX(10);
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
-//		anchorpane.getChildren().add(vfoodPic);
 		anchorpane.getChildren().add(instruction);
 	}
 }
