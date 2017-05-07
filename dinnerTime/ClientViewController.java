@@ -63,46 +63,23 @@ public class ClientViewController implements Initializable {
 	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
-//	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
 	BackgroundFill b;
 	
 	TreeItem<String> root = new TreeItem<>();
 	
-	private TreeItem<String> kenya;
-	private TreeItem<String> marocco;
+
 	private TreeItem<String> africa;
 	private TreeItem<String> asia;
-	private TreeItem<String> china;
-	private TreeItem<String> japan;
-	private TreeItem<String> thailand;
 	private TreeItem<String> europe;
-	private TreeItem<String> france;
-	private TreeItem<String> italy;
-	private TreeItem<String> sweden;
 	private TreeItem<String> middleEast;
-	private TreeItem<String> iran;
-	private TreeItem<String> lebanon;
 	private TreeItem<String> northAmerica;
-	private TreeItem<String> mexico;
-	private TreeItem<String> usa;
 	private TreeItem<String> southAmerica;
-	private TreeItem<String> argentina;
-	private TreeItem<String> colombia;
+	
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		TreeItem<String> root = new TreeItem<>();
-		
-//		// Africa
-//		africa = new TreeItem<>("Africa");
-//		countryItemList.add(africa);
-//		kenya = new TreeItem<>("Kenya", new ImageView(kenyaImage));	
-//		countryItemList.add(kenya);
-//		marocco = new TreeItem<>("Marocco", new ImageView(moroccoImage));
-//		countryItemList.add(marocco);
-		
 		africa = new TreeItem<String>("Africa");
 		countryItemList.add(africa);
 		addItems("africa");
