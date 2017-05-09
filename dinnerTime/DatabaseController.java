@@ -35,7 +35,6 @@ public class DatabaseController {
 
 			// Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

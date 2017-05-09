@@ -78,7 +78,7 @@ public class LoginViewController implements Initializable {
 			loginInfo.setText("Timeout: Check connection");
 		}
 	}
-	
+
 	@FXML
 	public void register() throws IOException {
 		main.showRegisterView();

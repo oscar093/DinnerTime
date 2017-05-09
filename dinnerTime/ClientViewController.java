@@ -57,21 +57,16 @@ public class ClientViewController implements Initializable {
 	
 	private Image kenyaImage = new Image(getClass().getResourceAsStream("/ke.png"));
 	private Image moroccoImage = new Image(getClass().getResourceAsStream("/ma.png"));
-	
 	private Image chinaImage = new Image(getClass().getResourceAsStream("/cn.png"));
 	private Image japanImage = new Image(getClass().getResourceAsStream("/jp.png"));
 	private Image thailandImage = new Image(getClass().getResourceAsStream("/th.png"));
-	
 	private Image franceImage = new Image(getClass().getResourceAsStream("/fr.png"));
 	private Image italyImage = new Image(getClass().getResourceAsStream("/it.png"));
 	private Image swedenImage = new Image(getClass().getResourceAsStream("/se.png"));
-	
 	private Image iranImage = new Image(getClass().getResourceAsStream("/ir.png"));
 	private Image lebanonImage = new Image(getClass().getResourceAsStream("/lb.png"));
-	
 	private Image mexicoImage = new Image(getClass().getResourceAsStream("/mx.png"));
 	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
-	
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
 	
