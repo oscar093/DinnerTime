@@ -45,6 +45,7 @@ public class ClientViewController implements Initializable {
 	private AnchorPane anchorpane;
 	@FXML
 	private ScrollPane scrollpane;
+	
 	private Client client;
 	private String username;
 	private Logout userLogout;
@@ -63,18 +64,14 @@ public class ClientViewController implements Initializable {
 	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
-	BackgroundFill b;
-	
-	TreeItem<String> root = new TreeItem<>();
-	
-
+	private BackgroundFill b;
+	private TreeItem<String> root = new TreeItem<>();
 	private TreeItem<String> africa;
 	private TreeItem<String> asia;
 	private TreeItem<String> europe;
 	private TreeItem<String> middleEast;
 	private TreeItem<String> northAmerica;
 	private TreeItem<String> southAmerica;
-	
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	

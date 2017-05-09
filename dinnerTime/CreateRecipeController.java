@@ -15,6 +15,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * @author Olof
+ */
+
 public class CreateRecipeController implements Initializable {
 	@FXML
 	private Button btnSend, btnAddIngredient, btnPicture;
@@ -29,6 +33,12 @@ public class CreateRecipeController implements Initializable {
 	private Client client;
 	private String imgFileName = null;
 
+	/**
+	 * taIngredients sätts till disabled så att användaren inte kan skriva direkt i den, enda sättet att lägga till ingredienser ska vara genom tfIngredientInput
+	 * lblConfirmation görs osynlig
+	 * alla länder läggs in i cbCountry från txtfilen
+	 */
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		taIngredients.setEditable(false);
@@ -45,6 +55,11 @@ public class CreateRecipeController implements Initializable {
 		}
 	}
 
+	/**
+	 * Kollar så att det finns någon input i textfälten/textarea innan de skickas till recipe
+	 * receptet skickas till servern
+	 * lblConfirmation visas
+	 */
 	@FXML
 	private void sendRecipe() {
 		Recipe recipe = new Recipe();
@@ -79,6 +94,10 @@ public class CreateRecipeController implements Initializable {
 		lblConfirmation.setVisible(true);
 	}
 
+	
+	/**
+	 * texten i tfIngredientInput läggs till i taIngredients
+	 */
 	@FXML
 	private void addIngredient() {
 		if (taIngredients.getText().isEmpty()) {
@@ -92,7 +111,33 @@ public class CreateRecipeController implements Initializable {
 		}
 		tfIngredientInput.setText("");
 	}
+	
+	/**
+	 * Tar bort senaste ingrediensen genom att skriva om hela innehållet i taIngredients förutom sista raden
+	 */
+	@FXML
+	private void removeLatestIngredient(){
+		String[] ingredients = taIngredients.getText().split("\n");
+		String newIngredientList = "";
+		
+		for(int i = 0; i < ingredients.length - 1; i++){
+			newIngredientList += ingredients[i] + "\n";
+		}
+		
+		taIngredients.setText(newIngredientList);
+	}
+	
+	/**
+	 * rensar alla ingredienser i taIngredients
+	 */
+	@FXML
+	private void clearIngredients(){
+		taIngredients.setText("");
+	}
 
+	/**
+	 * filsökvägen till bilden sparas
+	 */
 	@FXML
 	private void addPicture() {
 		if (tfPicture != null) {
@@ -101,6 +146,9 @@ public class CreateRecipeController implements Initializable {
 		}
 	}
 
+	/**
+	 * klientens information sparas i instansvariablen, används för att kunna veta vem som skriver receptet
+	 */
 	public void setClient(Client client) {
 		this.client = client;
 	}

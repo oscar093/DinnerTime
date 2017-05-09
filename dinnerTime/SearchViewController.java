@@ -77,9 +77,9 @@ public class SearchViewController implements Initializable  {
 		String list = "";
 		for(String s : response){
 			String[] split = s.split("_");
-			list += split[0].toUpperCase() + "\n";
+			list += split[0].toUpperCase() + ":\n";
 			for(int i = 1; i < split.length; i++){
-				list += split[i] + "\n";
+				list += split[i]+ "\n";
 			}
 		}
 		taList.setText(list);

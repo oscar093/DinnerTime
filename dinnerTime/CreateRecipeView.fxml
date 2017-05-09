@@ -12,26 +12,28 @@
    <children>
       <Pane layoutY="-1.0" prefHeight="538.0" prefWidth="651.0">
          <children>
-            <Button fx:id="btnSend" layoutX="315.0" layoutY="499.0" mnemonicParsing="false" onAction="#sendRecipe" text="Skicka!" />
-            <Label layoutX="11.0" layoutY="24.0" prefHeight="17.0" prefWidth="60.0" text="Rätt:" />
+            <Button fx:id="btnSend" layoutX="303.0" layoutY="495.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="36.0" prefWidth="60.0" text="SEND!" />
+            <Label layoutX="11.0" layoutY="24.0" prefHeight="17.0" prefWidth="60.0" text="Title:" />
             <Label layoutX="14.0" layoutY="54.0" />
-            <Label layoutX="11.0" layoutY="62.0" text="Tillagningstid: " />
+            <Label layoutX="11.0" layoutY="62.0" text="Cooking time:" />
             <Label layoutX="8.0" layoutY="103.0" />
-            <Label layoutX="12.0" layoutY="103.0" text="Land: " />
+            <Label layoutX="12.0" layoutY="103.0" text="Country:" />
             <TextField fx:id="tfTitle" layoutX="137.0" layoutY="19.0" prefHeight="27.0" prefWidth="196.0" />
             <TextField fx:id="tfTime" layoutX="138.0" layoutY="57.0" prefHeight="27.0" prefWidth="196.0" />
             <TextArea fx:id="taIngredients" editable="false" layoutX="16.0" layoutY="289.0" prefHeight="193.0" prefWidth="317.0" />
-            <Label layoutX="14.0" layoutY="144.0" text="Ingrediens:" />
+            <Label layoutX="14.0" layoutY="144.0" text="Ingredient:" />
             <TextField fx:id="tfIngredientInput" layoutX="140.0" layoutY="139.0" prefHeight="27.0" prefWidth="193.0" />
-            <Button fx:id="btnAddIngredient" layoutX="215.0" layoutY="166.0" mnemonicParsing="false" onAction="#addIngredient" text="Lägg till ingrediens" />
-            <Label layoutX="15.0" layoutY="269.0" text="Tillagda ingredienser:" />
-            <Label fx:id="lblConfirmation" layoutX="428.0" layoutY="504.0" text="SKICKAT!" textFill="#1ca120" />
-            <TextArea fx:id="taInstruction" layoutX="346.0" layoutY="44.0" prefHeight="440.0" prefWidth="288.0" />
-            <Label layoutX="346.0" layoutY="24.0" text="Instruktioner:" />
+            <Button fx:id="btnAddIngredient" layoutX="235.0" layoutY="166.0" mnemonicParsing="false" onAction="#addIngredient" text="Add ingredient" />
+            <Label layoutX="15.0" layoutY="269.0" text="Added ingredients:" />
+            <Label fx:id="lblConfirmation" layoutX="428.0" layoutY="504.0" text="RECIPE SENT!" textFill="#1ca120" />
+            <TextArea fx:id="taInstruction" layoutX="346.0" layoutY="35.0" prefHeight="449.0" prefWidth="288.0" />
+            <Label layoutX="346.0" layoutY="16.0" text="Instructions for the recipe:" />
             <ComboBox fx:id="cbCountry" layoutX="139.0" layoutY="99.0" prefHeight="25.0" prefWidth="196.0" />
-            <Button fx:id="btnPicture" layoutX="250.0" layoutY="237.0" mnemonicParsing="false" onAction="#addPicture" text="Lägg till bild" />
+            <Button fx:id="btnPicture" layoutX="252.0" layoutY="237.0" mnemonicParsing="false" onAction="#addPicture" text="Add Picture" />
             <TextField fx:id="tfPicture" layoutX="139.0" layoutY="210.0" prefHeight="27.0" prefWidth="193.0" />
-            <Label layoutX="16.0" layoutY="215.0" text="Sökväg till bild:" />
+            <Label layoutX="16.0" layoutY="215.0" text="Filepath to image:" />
+            <Button fx:id="btnClearIngredients" layoutX="17.0" layoutY="482.0" mnemonicParsing="false" onAction="#clearIngredients" text="Clear" />
+            <Button fx:id="btnRemoveIngredient" layoutX="91.0" layoutY="482.0" mnemonicParsing="false" onAction="#removeLatestIngredient" text="Remove Latest" />
          </children>
       </Pane>
    </children>
