@@ -3,6 +3,9 @@ package dinnerTime;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javafx.scene.image.Image;
 
 public class Client extends Thread {
 	private String ip;
@@ -14,8 +17,10 @@ public class Client extends Thread {
 	private LoginViewController lvc;
 	private RegisterViewController rvc;
 	private ClientViewController cvm;
+	private SearchViewController svc;
 	
 	private ArrayList<Recipe> downloadedRecipes = new ArrayList<Recipe>();
+	private HashMap<Image,Integer> ImageMap = new HashMap<Image,Integer>();
 	private String username;
 
 	
@@ -37,6 +42,10 @@ public class Client extends Thread {
 	
 	public void setClientViewController(ClientViewController cvm){
 		this.cvm= cvm;
+	}
+	
+	public void setSearchViewController(SearchViewController svc){
+		this.svc = svc;
 	}
 
 	public void run() {
@@ -60,8 +69,13 @@ public class Client extends Thread {
 					}
 					else if(obj instanceof Recipe){
 						
-					}else if(obj instanceof Recipe[]){
+					}
+					else if(obj instanceof Recipe[]){
 						storeRecipes((Recipe[]) obj);
+					}
+					else if(obj instanceof String[]){
+						String[] response = (String[])obj;
+						svc.showResponse(response);
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
@@ -92,20 +106,20 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * Find recipe by title.
-	 * @param title
-	 * @return recipe
-	 */
-	public Recipe getRecipe(String title){
-		
-		for(Recipe r : downloadedRecipes){
-			if(r.getTitle().toLowerCase().contentEquals(title.toLowerCase())){
-				return r;
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * Find recipe by title.
+//	 * @param title
+//	 * @return recipe
+//	 */
+//	public Recipe getRecipe(String title){
+//		
+//		for(Recipe r : downloadedRecipes){
+//			if(r.getTitle().toLowerCase().contentEquals(title.toLowerCase())){
+//				return r;
+//			}
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * Find recipe by id.
@@ -132,4 +146,22 @@ public class Client extends Thread {
 			downloadedRecipes.add(r);
 		}
 	}
+	
+//	/**
+//	 * Gets Image for recipe.
+//	 * @param id
+//	 * @return Image
+//	 */
+//	public byte[] getRecipeImage(int id){
+//		sendToServer("getRecipeImage " +  id);
+//		try {
+//			System.out.println("Test");
+//			byte[] image = (byte[])ois.readObject();
+//			System.out.println("Test2");
+//			return image;
+//		} catch (ClassNotFoundException | IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 }

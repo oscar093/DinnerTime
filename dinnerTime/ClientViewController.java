@@ -1,5 +1,8 @@
 package dinnerTime;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,27 +37,18 @@ public class ClientViewController implements Initializable {
 	
 	@FXML
 	private Main main;
-	
 	@FXML
 	private TreeView<String> treeview;
-	
 	@FXML
 	private Button logout;
-	
 	@FXML
 	private AnchorPane anchorpane;
-	
 	@FXML
 	private ScrollPane scrollpane;
-	
 	private Client client;
-	
 	private String username;
-	
 	private Logout userLogout;
-	
 	private TreeItemListener til = new TreeItemListener();
-	
 	private Image kenyaImage = new Image(getClass().getResourceAsStream("/ke.png"));
 	private Image moroccoImage = new Image(getClass().getResourceAsStream("/ma.png"));
 	private Image chinaImage = new Image(getClass().getResourceAsStream("/cn.png"));
@@ -69,117 +63,64 @@ public class ClientViewController implements Initializable {
 	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
 	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
 	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
-	
-//	private Image foodPic = new Image(getClass().getResourceAsStream("/images/dunderhonung.jpg"));
-	
 	BackgroundFill b;
 	
-	private TreeItem<String> kenya;
-	private TreeItem<String> marocco;
+	TreeItem<String> root = new TreeItem<>();
+	
+
 	private TreeItem<String> africa;
 	private TreeItem<String> asia;
-	private TreeItem<String> china;
-	private TreeItem<String> japan;
-	private TreeItem<String> thailand;
 	private TreeItem<String> europe;
-	private TreeItem<String> france;
-	private TreeItem<String> italy;
-	private TreeItem<String> sweden;
-	private TreeItem<String> middleeast;
-	private TreeItem<String> iran;
-	private TreeItem<String> lebanon;
+	private TreeItem<String> middleEast;
 	private TreeItem<String> northAmerica;
-	private TreeItem<String> mexico;
-	private TreeItem<String> usa;
 	private TreeItem<String> southAmerica;
-	private TreeItem<String> argentina;
-	private TreeItem<String> colombia;
 	
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		TreeItem<String> root = new TreeItem<>();
-		
-		// Africa
-		africa = new TreeItem<>("Africa");
+		africa = new TreeItem<String>("Africa");
 		countryItemList.add(africa);
-		kenya = new TreeItem<>("Kenya", new ImageView(kenyaImage));	
-		countryItemList.add(kenya);
-		marocco = new TreeItem<>("Marocco", new ImageView(moroccoImage));
-		countryItemList.add(marocco);
-		// Asia
-		asia = new TreeItem<>("Asia");
+		addItems("africa");
+		
+		asia = new TreeItem<String>("Asia");
 		countryItemList.add(asia);
-		china = new TreeItem<>("China", new ImageView(chinaImage));
-		countryItemList.add(china);
-		japan = new TreeItem<>("Japan", new ImageView(japanImage));
-		countryItemList.add(japan);
-		thailand = new TreeItem<>("Thailand", new ImageView(thailandImage));
-		countryItemList.add(thailand);
+		addItems("asia");
 		
-		// Europe
-		europe = new TreeItem<>("Europe");
+		europe = new TreeItem<String>("Europe");
 		countryItemList.add(europe);
-		france = new TreeItem<>("France", new ImageView(franceImage));
-		countryItemList.add(france);
-		italy = new TreeItem<>("Italy", new ImageView(italyImage));
-		countryItemList.add(italy);
-		sweden = new TreeItem<>("Sweden", new ImageView(swedenImage));
-		countryItemList.add(sweden);
+		addItems("europe");
 		
-		// Middle East
-		middleeast = new TreeItem<>("Middle East");
-		countryItemList.add(middleeast);
-		iran = new TreeItem<>("Iran", new ImageView(iranImage));
-		countryItemList.add(iran);
-		lebanon = new TreeItem<>("Lebanon", new ImageView(lebanonImage));
-		countryItemList.add(lebanon);
+		middleEast = new TreeItem<String>("Middle East");
+		countryItemList.add(middleEast);
+		addItems("middleEast");
 		
-		// North America
-		northAmerica = new TreeItem<>("North America");
+		northAmerica = new TreeItem<String>("North America");
 		countryItemList.add(northAmerica);
-		mexico = new TreeItem<>("Mexico", new ImageView(mexicoImage));
-		countryItemList.add(mexico);
-		usa = new TreeItem<>("USA", new ImageView(usaImage));
-		countryItemList.add(usa);
+		addItems("northAmerica");
 		
-		// South America
-		southAmerica = new TreeItem<>("South America");
+		southAmerica = new TreeItem<String>("South America");
 		countryItemList.add(southAmerica);
-		argentina = new TreeItem<>("Argentina", new ImageView(argentinaImage));
-		countryItemList.add(argentina);
-		colombia = new TreeItem<>("Colombia", new ImageView(colombiaImage));
-		countryItemList.add(colombia);
+		addItems("southAmerica");
 		
-		// Adding nodes
 		root.getChildren().add(africa);
+		addChildren("africa",africa);
+		
 		root.getChildren().add(asia);
+		addChildren("asia",asia);
+		
 		root.getChildren().add(europe);
-		root.getChildren().add(middleeast);
+		addChildren("europe",europe);
+		
+		root.getChildren().add(middleEast);
+		addChildren("middleEast",middleEast);
+		
 		root.getChildren().add(northAmerica);
+		addChildren("northAmerica",northAmerica);
+		
 		root.getChildren().add(southAmerica);
-		
-		africa.getChildren().add(kenya);
-		africa.getChildren().add(marocco);
-		
-		asia.getChildren().add(china);
-		asia.getChildren().add(japan);
-		asia.getChildren().add(thailand);
-		
-		europe.getChildren().add(france);
-		europe.getChildren().add(italy);
-		europe.getChildren().add(sweden);
-		
-		middleeast.getChildren().add(iran);
-		middleeast.getChildren().add(lebanon);
-		
-		northAmerica.getChildren().add(mexico);
-		northAmerica.getChildren().add(usa);
-		
-		southAmerica.getChildren().add(argentina);
-		southAmerica.getChildren().add(colombia);
+		addChildren("southAmerica",southAmerica);
 		
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);
 		treeview.setRoot(root);
@@ -193,21 +134,57 @@ public class ClientViewController implements Initializable {
 	            .rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
 	}
 	
+	private void addItems(String region){
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/" + region + ".txt"));
+			String strLine = br.readLine();
+			while (strLine != null) {
+				TreeItem<String> country = new TreeItem<String>(strLine);
+				countryItemList.add(country);
+				strLine = br.readLine();
+			}
+		} catch (IOException e) {
+		}
+	}
+	
+	private void addChildren(String regionString, TreeItem<String> regionItem){
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/" + regionString + ".txt"));
+			String strLine = br.readLine();
+			while (strLine != null) {
+				for(int i = 0; i < countryItemList.size(); i++){
+					TreeItem<String> tempItem = countryItemList.get(i);
+					if(tempItem.toString().contains(strLine)){
+						regionItem.getChildren().add(tempItem);
+					}
+				}
+				strLine = br.readLine();
+			}
+		} catch (IOException e) {
+		}
+		
+	}
+	
 	public void setClient(Client client) {
 		this.client = client;
 		client.setClientViewController(this);
 	}
 	
 	@FXML
-	public void logout() throws IOException {
+	private void logout() throws IOException {
 		userLogout = new Logout(username);
 		client.sendToServer(userLogout);
 		main.showLoginView();
 	}
 	
 	@FXML
-	public void myKitchen() throws IOException{
+	private void myKitchen() throws IOException{
 		main.showMyKitchenView(client);
+	}
+	
+	@FXML
+	private void search() throws IOException{
+		main.showSearchView(client);
 	}
 	
 	/**
@@ -216,7 +193,6 @@ public class ClientViewController implements Initializable {
 	 *
 	 */
 	private class TreeItemListener implements ChangeListener{
-
 		@Override
 		public void changed(ObservableValue arg0, Object arg1, Object arg2) {
 			MultipleSelectionModel msm = treeview.getSelectionModel();
@@ -266,9 +242,16 @@ public class ClientViewController implements Initializable {
 		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
 		title.setFont(Font.font ("Verdana", 36));
 		Text text = new Text();
-
 		text.setFont(Font.font ("Verdana", 14));
-//		ImageView vfoodPic = new ImageView(foodPic);
+		
+		if(recipe.getImg() != null){
+			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
+			Image img = new Image(in);
+			ImageView vfoodPic = new ImageView(img);
+			vfoodPic.setY(20);
+			vfoodPic.setX(320);
+			anchorpane.getChildren().add(vfoodPic);
+		}
 		
 		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
 							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
@@ -281,25 +264,18 @@ public class ClientViewController implements Initializable {
 		}
 		
 		text.setText(recepyInfo);
-		
 		Text instruction = new Text();
 		instruction.setText(recipe.getInstruction());
 		
-		instruction.setX(190);
-		instruction.setY(270);
-		
-//		vfoodPic.setY(20);
-//		vfoodPic.setX(320);
+		instruction.setX(140);
+		instruction.setY(230);
 		
 		title.setY(50);
 		title.setX(10);
-		
 		text.setY(100);
 		text.setX(10);
-		
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
-//		anchorpane.getChildren().add(vfoodPic);
 		anchorpane.getChildren().add(instruction);
 	}
 }

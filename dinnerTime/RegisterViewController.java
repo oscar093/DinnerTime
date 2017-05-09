@@ -1,5 +1,7 @@
 package dinnerTime;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,12 +18,6 @@ import javafx.scene.control.TextField;
 public class RegisterViewController implements Initializable {
 	
 	ObservableList<String> regionList = FXCollections.observableArrayList("Africa", "Asia", "Europe", "Middle East", "North America", "South America");
-	ObservableList<String> africaCountryList = FXCollections.observableArrayList("Kenya", "Morocco");
-	ObservableList<String> asiaCountryList = FXCollections.observableArrayList("China", "Japan", "Thailand");
-	ObservableList<String> europeCountryList = FXCollections.observableArrayList("France", "Italy", "Sweden");
-	ObservableList<String> middleeastCountryList = FXCollections.observableArrayList("Iran", "Lebanon");
-	ObservableList<String> northAmericaCountryList = FXCollections.observableArrayList("Mexico", "USA");
-	ObservableList<String> southAmericaCountryList = FXCollections.observableArrayList("Argentina", "Colombia");
 	
 	@FXML
 	private Main main;
@@ -59,22 +55,35 @@ public class RegisterViewController implements Initializable {
 	@FXML
 	private void regionChoice() {
 		if(region.getValue().equals("Africa")) {
-			country.setItems(africaCountryList);
+			addCountries("Africa");
 		}
 		else if(region.getValue().equals("Asia")) {
-			country.setItems(asiaCountryList);
+			addCountries("Asia");
 		}
 		else if(region.getValue().equals("Europe")) {
-			country.setItems(europeCountryList);
+			addCountries("Europe");
 		}
 		else if(region.getValue().equals("Middle East")) {
-			country.setItems(middleeastCountryList);
+			addCountries("MiddleEast");
 		}
 		else if(region.getValue().equals("North America")) {
-			country.setItems(northAmericaCountryList);
+			addCountries("NorthAmerica");
 		}
 		else if(region.getValue().equals("South America")) {
-			country.setItems(southAmericaCountryList);
+			addCountries("SouthAmerica");
+		}
+	}
+	
+	private void addCountries(String region){
+		country.getItems().clear();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/" + region.toLowerCase() + ".txt"));
+			String strLine = br.readLine();
+			while (strLine != null) {
+				country.getItems().add(strLine);
+				strLine = br.readLine();
+			}
+		} catch (IOException e) {
 		}
 	}
 	
