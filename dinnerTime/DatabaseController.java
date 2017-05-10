@@ -139,6 +139,7 @@ public class DatabaseController {
 	public void addImage(int recipeId, String filename) {
 		try {
 			File file = new File(filename);
+			
 			FileInputStream fis = new FileInputStream(file);
 			PreparedStatement ps = c.prepareStatement("INSERT INTO image VALUES (?, ?, ?)");
 			ps.setInt(1, recipeId);
