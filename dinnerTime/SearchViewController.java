@@ -3,6 +3,7 @@ package dinnerTime;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -25,12 +26,10 @@ public class SearchViewController implements Initializable  {
 	private Button btnBack;
 	@FXML
 	private Main main;
-
 	private Client client;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		taList.setEditable(false);
 	}
 	
@@ -68,7 +67,6 @@ public class SearchViewController implements Initializable  {
 		try {
 			main.showClientView(client);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

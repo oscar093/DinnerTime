@@ -220,8 +220,7 @@ public class DatabaseController {
 			Statement stmt1 = c.createStatement();
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
-					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.title like '"
-					+ search + "%';");
+					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.title like '%" + search + "%';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
