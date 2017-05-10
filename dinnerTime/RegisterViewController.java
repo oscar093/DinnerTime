@@ -77,7 +77,7 @@ public class RegisterViewController implements Initializable {
 	private void addCountries(String region){
 		country.getItems().clear();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + region.toLowerCase() + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + region.toLowerCase() + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				country.getItems().add(strLine);

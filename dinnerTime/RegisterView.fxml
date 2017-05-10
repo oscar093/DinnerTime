@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dinnerTime.RegisterViewController">
+<BorderPane prefHeight="400.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dinnerTime.RegisterViewController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,11 +24,6 @@
                   <Font size="70.0" />
                </font>
             </Label>
-            <ImageView fitHeight="122.0" fitWidth="124.0" layoutX="238.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/dt-logo-original.png" />
-               </image>
-            </ImageView>
             <Label layoutX="372.0" layoutY="14.0" text="Time" textFill="#464646">
                <font>
                   <Font size="70.0" />
@@ -68,6 +63,11 @@
             <Button fx:id="register" layoutX="235.0" layoutY="344.0" mnemonicParsing="false" onAction="#register" text="Register" />
             <Button fx:id="back" layoutX="448.0" layoutY="344.0" mnemonicParsing="false" onAction="#back" text="Back" />
             <Label fx:id="registerInfo" layoutX="300.0" layoutY="348.0" textFill="RED" />
+            <ImageView fitHeight="113.0" fitWidth="124.0" layoutX="242.0" layoutY="14.0">
+               <image>
+                  <Image url="@../images/dt-logo-original.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </center>

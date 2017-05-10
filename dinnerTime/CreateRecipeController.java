@@ -46,7 +46,7 @@ public class CreateRecipeController implements Initializable {
 		lblConfirmation.setVisible(false);
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/Countries.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				cbCountry.getItems().add(strLine);

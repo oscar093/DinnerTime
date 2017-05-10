@@ -126,7 +126,7 @@ public class ClientViewController implements Initializable {
 	 */
 	private void addItems(String region){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + region + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + region + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				TreeItem<String> country = new TreeItem<String>(strLine);
@@ -144,7 +144,7 @@ public class ClientViewController implements Initializable {
 	 */
 	private void addChildren(String regionString, TreeItem<String> regionItem){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + regionString + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + regionString + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				for(int i = 0; i < countryItemList.size(); i++){
