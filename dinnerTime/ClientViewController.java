@@ -50,20 +50,6 @@ public class ClientViewController implements Initializable {
 	private String username;
 	private Logout userLogout;
 	private TreeItemListener til = new TreeItemListener();
-	private Image kenyaImage = new Image(getClass().getResourceAsStream("/ke.png"));
-	private Image moroccoImage = new Image(getClass().getResourceAsStream("/ma.png"));
-	private Image chinaImage = new Image(getClass().getResourceAsStream("/cn.png"));
-	private Image japanImage = new Image(getClass().getResourceAsStream("/jp.png"));
-	private Image thailandImage = new Image(getClass().getResourceAsStream("/th.png"));
-	private Image franceImage = new Image(getClass().getResourceAsStream("/fr.png"));
-	private Image italyImage = new Image(getClass().getResourceAsStream("/it.png"));
-	private Image swedenImage = new Image(getClass().getResourceAsStream("/se.png"));
-	private Image iranImage = new Image(getClass().getResourceAsStream("/ir.png"));
-	private Image lebanonImage = new Image(getClass().getResourceAsStream("/lb.png"));
-	private Image mexicoImage = new Image(getClass().getResourceAsStream("/mx.png"));
-	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
-	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
-	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
 	private BackgroundFill b;
 	private TreeItem<String> root = new TreeItem<>();
 	private TreeItem<String> africa;
@@ -75,49 +61,52 @@ public class ClientViewController implements Initializable {
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	
+	/**
+	 * Initialize and show GUI for client.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		africa = new TreeItem<String>("Africa");
 		countryItemList.add(africa);
-		addItems("africa");
+		addItems("Africa");
 		
 		asia = new TreeItem<String>("Asia");
 		countryItemList.add(asia);
-		addItems("asia");
+		addItems("Asia");
 		
 		europe = new TreeItem<String>("Europe");
 		countryItemList.add(europe);
-		addItems("europe");
+		addItems("Europe");
 		
 		middleEast = new TreeItem<String>("Middle East");
 		countryItemList.add(middleEast);
-		addItems("middleEast");
+		addItems("MiddleEast");
 		
 		northAmerica = new TreeItem<String>("North America");
 		countryItemList.add(northAmerica);
-		addItems("northAmerica");
+		addItems("NorthAmerica");
 		
 		southAmerica = new TreeItem<String>("South America");
 		countryItemList.add(southAmerica);
-		addItems("southAmerica");
+		addItems("SouthAmerica");
 		
 		root.getChildren().add(africa);
-		addChildren("africa",africa);
+		addChildren("Africa",africa);
 		
 		root.getChildren().add(asia);
-		addChildren("asia",asia);
+		addChildren("Asia",asia);
 		
 		root.getChildren().add(europe);
-		addChildren("europe",europe);
+		addChildren("Europe",europe);
 		
 		root.getChildren().add(middleEast);
-		addChildren("middleEast",middleEast);
+		addChildren("MiddleEast",middleEast);
 		
 		root.getChildren().add(northAmerica);
-		addChildren("northAmerica",northAmerica);
+		addChildren("NorthAmerica",northAmerica);
 		
 		root.getChildren().add(southAmerica);
-		addChildren("southAmerica",southAmerica);
+		addChildren("SouthAmerica",southAmerica);
 		
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);
 		treeview.setRoot(root);
@@ -131,9 +120,13 @@ public class ClientViewController implements Initializable {
 	            .rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
 	}
 	
+	/**
+	 * Add regions to TreeView. 
+	 * @param region
+	 */
 	private void addItems(String region){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + region + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + region + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				TreeItem<String> country = new TreeItem<String>(strLine);
@@ -144,9 +137,14 @@ public class ClientViewController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Add countries to treeView.
+	 * @param regionString
+	 * @param regionItem
+	 */
 	private void addChildren(String regionString, TreeItem<String> regionItem){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + regionString + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + regionString + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				for(int i = 0; i < countryItemList.size(); i++){
@@ -159,7 +157,6 @@ public class ClientViewController implements Initializable {
 			}
 		} catch (IOException e) {
 		}
-		
 	}
 	
 	public void setClient(Client client) {

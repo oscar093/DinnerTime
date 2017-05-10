@@ -142,7 +142,14 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private void addPicture() {
 		if (tfPicture != null) {
-			imgFileName = tfPicture.getText();
+			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
+			ImageResizer ir = new ImageResizer();
+			try {
+				ir.resize(tfPicture.getText(), tmpPath, 200, 200);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			imgFileName = tmpPath;
 			tfPicture.setText("");
 		}
 	}

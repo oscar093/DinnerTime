@@ -2,9 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dinnerTime.MyKitchenController">
-   <center>
-      <Button fx:id="btnRecipe" mnemonicParsing="false" onAction="#newRecipe" text="New Recipe" BorderPane.alignment="CENTER" />
-   </center>
+   <top>
+      <Pane prefHeight="413.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnRecipe" layoutX="240.0" layoutY="50.0" mnemonicParsing="false" onAction="#newRecipe" text="New Recipe" />
+         </children>
+      </Pane>
+   </top>
 </BorderPane>

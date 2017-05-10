@@ -101,4 +101,3 @@ public class Recipe implements Serializable {
 		this.img = img;
 	}
 }
-
