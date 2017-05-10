@@ -30,9 +30,9 @@
             <Button fx:id="login" layoutX="162.0" layoutY="271.0" mnemonicParsing="false" onAction="#login" prefHeight="59.0" prefWidth="216.0" text="Login" />
             <Button fx:id="register" layoutX="242.0" layoutY="346.0" mnemonicParsing="false" onAction="#register" text="Register" />
             <Label fx:id="loginInfo" layoutX="164.0" layoutY="243.0" textFill="RED" />
-            <ImageView fitHeight="116.0" fitWidth="122.0" layoutX="242.0" layoutY="6.0">
+            <ImageView fitHeight="101.0" fitWidth="115.0" layoutX="242.0" layoutY="14.0">
                <image>
-                  <Image url="@../../images/dt-logo-original.png" />
+                  <Image url="@../images/dt-logo-original.png" />
                </image>
             </ImageView>
          </children>
