@@ -73,13 +73,18 @@ public class DatabaseController {
 		return "failed";
 	}
 
+	/**
+	 * author Olof
+	 * 
+	 * Lägger till det nya receptet i databasen
+	 */
 	public void newRecipe(Recipe recipe) {
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-
 			Statement idStmt = c.createStatement();
+			
 			ResultSet rs = idStmt.executeQuery(
 					"SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
 			rs.next();
@@ -97,17 +102,25 @@ public class DatabaseController {
 			String[] ingredientArray = recipe.getIngredients();
 			String ingredientList = "";
 
+			/**
+			 * Går igenom alla ingredienser och lagrar dem i en egen tabell i databasen
+			 * Alla får ett eget id
+			 */
 			for (int i = 0; i < ingredientArray.length; i++) {
 				sql += "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId
 						+ ",'" + ingredientArray[i] + "');";
 				ingredientId++;
 			}
-
+			/**
+			 * en metod för att lagra bilden kallas
+			 */
 			String recipeImg = recipe.getImgFileName();
 			if (recipeImg != null) {
 				addImage(recipeId, recipeImg);
 			}
-
+			/**
+			 * SQL utförs
+			 */
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.commit();
@@ -116,6 +129,13 @@ public class DatabaseController {
 		}
 	}
 
+	/**
+	 * author Olof
+	 * 
+	 * Lägger till bilden i databasen
+	 * @param recipeId: ID till tillhörande recept
+	 * @param filename: sökvägen till bilden
+	 */
 	public void addImage(int recipeId, String filename) {
 		try {
 			File file = new File(filename);
@@ -133,29 +153,13 @@ public class DatabaseController {
 	}
 
 	/**
-	 * Denna kommer förmodligen att tas bort.
-	 * @param recipeId
-	 * @return
+	 * author Oscar, Olof
+	 * 
+	 * Metod för att hämta en bild
+	 * Bilden är sparad i bytekod i databasen, metoden returnerar en bytearray
+	 * 
+	 * @param recipeId : ID till tillhörande recept
 	 */
-	public ImageIcon getImageIcon(int recipeId) {
-		ImageIcon img = null;
-		try {
-			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
-			ps.setInt(1, recipeId);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				byte[] imgBytes = rs.getBytes(1);
-				img = new ImageIcon(imgBytes);
-			}
-			rs.close();
-			ps.close();
-			return img;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return img;
-	}
-	
 	public byte[] getImage(int recipeId) {
 		byte[] img = null;
 		try {
@@ -212,15 +216,23 @@ public class DatabaseController {
 		return rArray;
 	}
 
-	public String[] getTitleSearch(String search) {
+	/**
+	 * author Olof
+	 * 
+	 * metod som hämtar alla recept som innehåller den titel användaren sökt efter
+	 * 
+	 * @param title : användarens sökning
+	 * @return returnerar en array med alla hittade recept
+	 */
+	public String[] getTitleSearch(String title) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
 		try {
 			Statement stmt1 = c.createStatement();
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
-					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.title like '"
-					+ search + "%';");
+					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.title like '%"
+					+ title + "%';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
@@ -254,7 +266,15 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	public String[] getCountrySearch(String search) {
+	/**
+	 * author Olof
+	 * 
+	 * metod som hämtar alla recept från det land användaren sökt efter
+	 * 
+	 * @param country : användarens sökning
+	 * @return : returnerar alla hittade recept
+	 */
+	public String[] getCountrySearch(String country) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
 		try {
@@ -262,7 +282,7 @@ public class DatabaseController {
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
 					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.country = '"
-					+ search + "';");
+					+ country + "';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
@@ -294,7 +314,15 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	public String[] getAuthorSearch(String search) {
+	/**
+	 * author Olof
+	 * 
+	 * metod som hämtar alla recept gjorda av den användare användaren sökt efter
+	 * 
+	 * @param användarens sökning
+	 * @return : returnerar alla hittade recept
+	 */
+	public String[] getAuthorSearch(String author) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
 		try {
@@ -302,7 +330,7 @@ public class DatabaseController {
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
 					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.author = '"
-					+ search + "';");
+					+ author + "';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {

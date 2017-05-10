@@ -50,20 +50,6 @@ public class ClientViewController implements Initializable {
 	private String username;
 	private Logout userLogout;
 	private TreeItemListener til = new TreeItemListener();
-	private Image kenyaImage = new Image(getClass().getResourceAsStream("/ke.png"));
-	private Image moroccoImage = new Image(getClass().getResourceAsStream("/ma.png"));
-	private Image chinaImage = new Image(getClass().getResourceAsStream("/cn.png"));
-	private Image japanImage = new Image(getClass().getResourceAsStream("/jp.png"));
-	private Image thailandImage = new Image(getClass().getResourceAsStream("/th.png"));
-	private Image franceImage = new Image(getClass().getResourceAsStream("/fr.png"));
-	private Image italyImage = new Image(getClass().getResourceAsStream("/it.png"));
-	private Image swedenImage = new Image(getClass().getResourceAsStream("/se.png"));
-	private Image iranImage = new Image(getClass().getResourceAsStream("/ir.png"));
-	private Image lebanonImage = new Image(getClass().getResourceAsStream("/lb.png"));
-	private Image mexicoImage = new Image(getClass().getResourceAsStream("/mx.png"));
-	private Image usaImage = new Image(getClass().getResourceAsStream("/us.png"));
-	private Image argentinaImage = new Image(getClass().getResourceAsStream("/ar.png"));
-	private Image colombiaImage = new Image(getClass().getResourceAsStream("/co.png"));
 	private BackgroundFill b;
 	private TreeItem<String> root = new TreeItem<>();
 	private TreeItem<String> africa;
@@ -133,7 +119,7 @@ public class ClientViewController implements Initializable {
 	
 	private void addItems(String region){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + region + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + region + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				TreeItem<String> country = new TreeItem<String>(strLine);
@@ -146,7 +132,7 @@ public class ClientViewController implements Initializable {
 	
 	private void addChildren(String regionString, TreeItem<String> regionItem){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + regionString + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("txtFiles/" + regionString + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				for(int i = 0; i < countryItemList.size(); i++){
@@ -159,7 +145,6 @@ public class ClientViewController implements Initializable {
 			}
 		} catch (IOException e) {
 		}
-		
 	}
 	
 	public void setClient(Client client) {
