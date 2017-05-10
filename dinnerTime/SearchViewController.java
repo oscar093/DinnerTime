@@ -14,6 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 
+/**
+ * @author Olof
+ */
+
 public class SearchViewController implements Initializable  {
 	private static Stage primaryStage;
 	@FXML
@@ -30,8 +34,12 @@ public class SearchViewController implements Initializable  {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		taList.setEditable(false);
+		taList.setEditable(false);	//textarean ska vara read-only
 	}
+	
+	/**
+	 * beroende på vad som söks efter skickas olika String till klienten/servern
+	 */
 	
 	@FXML
 	private void search(){
@@ -46,6 +54,9 @@ public class SearchViewController implements Initializable  {
 		}	
 	}
 	
+	/**
+	 * Bara en radioButton ska kunna vara vald
+	 */
 	@FXML
 	private void setSelect(){
 		if(rbTitle.isSelected()){
@@ -62,6 +73,10 @@ public class SearchViewController implements Initializable  {
 		}
 	}
 	
+	/**
+	 * Om man klickar på back kommer man tillbaka till ClientView
+	 */
+	
 	@FXML
 	private void back(){
 		try {
@@ -71,6 +86,12 @@ public class SearchViewController implements Initializable  {
 		}
 	}
 	
+	/**
+	 * Metoden tar emot resultatet av sökningen
+	 * Arrayen delas upp och listas i textarean taList
+	 * 
+	 * @param response : resultatet av sökningen
+	 */
 	public void showResponse(String[] response){
 		String list = "";
 		for(String s : response){
@@ -83,6 +104,12 @@ public class SearchViewController implements Initializable  {
 		taList.setText(list);
 	}
 	
+	/**
+	 * set-metod för klient-variablen
+	 * behövs för att kunna skicka sökningen till client/server och för att öppna clientview
+	 * 
+	 * @param client
+	 */
 	public void setClient(Client client){
 		this.client = client;
 		client.setSearchViewController(this);

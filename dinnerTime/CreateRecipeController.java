@@ -35,11 +35,12 @@ public class CreateRecipeController implements Initializable {
 	private String imgFileName = null;
 
 	/**
-	 * taIngredients sätts till disabled så att användaren inte kan skriva direkt i den, enda sättet att lägga till ingredienser ska vara genom tfIngredientInput
-	 * lblConfirmation görs osynlig
-	 * alla länder läggs in i cbCountry från txtfilen
+	 * taIngredients sätts till disabled så att användaren inte kan skriva
+	 * direkt i den, enda sättet att lägga till ingredienser ska vara genom
+	 * tfIngredientInput lblConfirmation görs osynlig alla länder läggs in i
+	 * cbCountry från txtfilen
 	 */
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		taIngredients.setEditable(false);
@@ -57,9 +58,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * Kollar så att det finns någon input i textfälten/textarea innan de skickas till recipe
-	 * receptet skickas till servern
-	 * lblConfirmation visas
+	 * Kollar så att det finns någon input i textfälten/textarea innan de
+	 * skickas till recipe receptet skickas till servern lblConfirmation visas
 	 */
 	@FXML
 	private void sendRecipe() {
@@ -95,7 +95,6 @@ public class CreateRecipeController implements Initializable {
 		lblConfirmation.setVisible(true);
 	}
 
-	
 	/**
 	 * texten i tfIngredientInput läggs till i taIngredients
 	 */
@@ -112,27 +111,31 @@ public class CreateRecipeController implements Initializable {
 		}
 		tfIngredientInput.setText("");
 	}
-	
+
 	/**
-	 * Tar bort senaste ingrediensen genom att skriva om hela innehållet i taIngredients förutom sista raden
+	 * Tar bort senaste ingrediensen genom att skriva om hela innehållet i
+	 * taIngredients förutom sista raden
 	 */
 	@FXML
-	private void removeLatestIngredient(){
+	private void removeLatestIngredient() {
 		String[] ingredients = taIngredients.getText().split("\n");
 		String newIngredientList = "";
-		
-		for(int i = 0; i < ingredients.length - 1; i++){
-			newIngredientList += ingredients[i] + "\n";
+
+		for (int i = 0; i < ingredients.length - 1; i++) {
+			if (i < ingredients.length - 2) {
+				newIngredientList += ingredients[i] + "\n";
+			} else {
+				newIngredientList += ingredients[i];
+			}
 		}
-		
 		taIngredients.setText(newIngredientList);
 	}
-	
+
 	/**
 	 * rensar alla ingredienser i taIngredients
 	 */
 	@FXML
-	private void clearIngredients(){
+	private void clearIngredients() {
 		taIngredients.setText("");
 	}
 
@@ -155,7 +158,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * klientens information sparas i instansvariablen, används för att kunna veta vem som skriver receptet
+	 * klientens information sparas i instansvariablen, används för att kunna
+	 * veta vem som skriver receptet
 	 */
 	public void setClient(Client client) {
 		this.client = client;

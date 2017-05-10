@@ -20,6 +20,12 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+/**
+ * 
+ * @author Olof, Oscar, David
+ *
+ */
+
 public class DatabaseController {
 
 	private Connection c = null;
@@ -244,7 +250,7 @@ public class DatabaseController {
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";
+						+ rs.getString("upload") + "';"; 					//söker i databasen efter ingredienserna som hör till receptet
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -254,7 +260,7 @@ public class DatabaseController {
 				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientList += ingredients.get(i) + "\n";
 				}
-				response.add("ingredient_" + ingredientList);
+				response.add("ingredient_" + ingredientList);	//lägger till alla ingredienser i resultatet. Detta är för att alla ingredienser ska vara samlade i resultatet av sökningen
 			}
 
 		} catch (SQLException e) {
@@ -264,7 +270,7 @@ public class DatabaseController {
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
 
-		return responseArray;
+		return responseArray;	//returnerar receptet + alla ingredienser som en array
 	}
 
 	/**
@@ -294,7 +300,7 @@ public class DatabaseController {
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";
+						+ rs.getString("upload") + "';";					//söker i databasen efter ingredienserna som hör till receptet
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -304,7 +310,7 @@ public class DatabaseController {
 				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientList += ingredients.get(i) + "\n";
 				}
-				response.add("ingredient_" + ingredientList);
+				response.add("ingredient_" + ingredientList);	//lägger till alla ingredienser i resultatet. Detta är för att alla ingredienser ska vara samlade i resultatet av sökningen
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -312,7 +318,7 @@ public class DatabaseController {
 
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
-		return responseArray;
+		return responseArray;	//returnerar receptet + alla ingredienser som en array
 	}
 
 	/**
@@ -342,7 +348,7 @@ public class DatabaseController {
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";
+						+ rs.getString("upload") + "';";	//söker i databasen efter ingredienserna som hör till receptet
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -352,7 +358,7 @@ public class DatabaseController {
 				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientList += ingredients.get(i) + "\n";
 				}
-				response.add("ingredient_" + ingredientList);
+				response.add("ingredient_" + ingredientList);	//lägger till alla ingredienser i resultatet. Detta är för att alla ingredienser ska vara samlade i resultatet av sökningen
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -360,7 +366,7 @@ public class DatabaseController {
 
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
-		return responseArray;
+		return responseArray;	//returnerar receptet + alla ingredienser som en array
 	}
 
 	/*

@@ -121,6 +121,8 @@ public class ClientViewController implements Initializable {
 	}
 	
 	/**
+	 * author Olof
+	 * 
 	 * Add regions to TreeView. 
 	 * @param region
 	 */
@@ -138,6 +140,8 @@ public class ClientViewController implements Initializable {
 	}
 	
 	/**
+	 * author Olof
+	 * 
 	 * Add countries to treeView.
 	 * @param regionString
 	 * @param regionItem
