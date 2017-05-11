@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import javax.swing.JLabel;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -30,8 +32,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextBoundsType;
 
 public class ClientViewController implements Initializable {
 	
@@ -228,30 +232,36 @@ public class ClientViewController implements Initializable {
 	}
 	
 	/**
-	 * Presents the recipe in the textflow.
+	 * @author Oscar
+	 * Precents the recipes in the TextArea.
 	 * @param recipe
 	 */
 	public void presentRecipe(Recipe recipe){
 		anchorpane.getChildren().clear();
 		Text title = new Text();
 		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
-		title.setFont(Font.font ("Verdana", 36));
+		title.setFont(Font.font ("Verdana",FontWeight.BOLD, 36));
 		Text text = new Text();
-		text.setFont(Font.font ("Verdana", 14));
+		text.setFont(Font.font ("Verdana", 16));
+		Text instructionTitle = new Text();
+		JLabel jlb = new JLabel();
+		instructionTitle.setText("Instruction");
+		instructionTitle.setFont(Font.font ("Verdana",  FontWeight.BOLD , 16));
+
 		
 		if(recipe.getImg() != null){
 			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
 			Image img = new Image(in);
 			ImageView vfoodPic = new ImageView(img);
-			vfoodPic.setY(20);
-			vfoodPic.setX(320);
+			vfoodPic.setY(70);
+			vfoodPic.setX((anchorpane.getWidth()/2) - 249.5);//249.5 ska vara halva bilden.
 			anchorpane.getChildren().add(vfoodPic);
+			
 		}
 		
 		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
 							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
-							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter"
-							+ "\n\nIngridienser:         Instruktion: \n\n";
+							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter\n";
 		
 		String[] ingridienser = recipe.getIngredients(); 
 		for(String ingr : ingridienser){
@@ -260,17 +270,24 @@ public class ClientViewController implements Initializable {
 		
 		text.setText(recepyInfo);
 		Text instruction = new Text();
+		String strInst = recipe.getInstruction();
 		instruction.setText(recipe.getInstruction());
 		
-		instruction.setX(140);
-		instruction.setY(230);
+		instruction.setX(15);
+		instruction.setY(70 + 312 + 15 + text.getLayoutBounds().getHeight() + 35);
 		
-		title.setY(50);
-		title.setX(10);
-		text.setY(100);
-		text.setX(10);
+		title.setY(40);
+		title.setX((anchorpane.getWidth()/2) - (title.getLayoutBounds().getWidth()/2));
+		text.setY(70 + 312 + 25);
+		text.setX(15);
+		
+		instructionTitle.setY(70 + 312 + 15 + text.getLayoutBounds().getHeight() + 15);
+		instructionTitle.setX(15);
+		instructionTitle.setBoundsType(TextBoundsType.LOGICAL);
+		
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
 		anchorpane.getChildren().add(instruction);
+		anchorpane.getChildren().add(instructionTitle);
 	}
 }

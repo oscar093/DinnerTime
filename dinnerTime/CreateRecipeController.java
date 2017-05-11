@@ -42,7 +42,9 @@ public class CreateRecipeController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		taIngredients.setEditable(false);
+		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
+		
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/Countries.txt"));
@@ -144,7 +146,7 @@ public class CreateRecipeController implements Initializable {
 			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
 			ImageResizer ir = new ImageResizer();
 			try {
-				ir.resize(tfPicture.getText(), tmpPath, 200, 200);
+				ir.resize(tfPicture.getText(), tmpPath, 499, 312);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

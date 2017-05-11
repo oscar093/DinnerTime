@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 public class ImageResizer {
  
     /**
+     * @author www.codejava.net, Oscar Arréhn Ågren
      * Resizes an image to a absolute width and height (the image may not be
      * proportional)
      * @param inputImagePath Path of the original image
@@ -46,53 +47,5 @@ public class ImageResizer {
  
         // writes to output file
         ImageIO.write(outputImage, formatName, new File(outputImagePath));
-    }
- 
-    /**
-     * Resizes an image by a percentage of original size (proportional).
-     * @param inputImagePath Path of the original image
-     * @param outputImagePath Path to save the resized image
-     * @param percent a double number specifies percentage of the output image
-     * over the input image.
-     * @throws IOException
-     */
-    public void resize(String inputImagePath,
-            String outputImagePath, double percent) throws IOException {
-        File inputFile = new File(inputImagePath);
-        BufferedImage inputImage = ImageIO.read(inputFile);
-        int scaledWidth = (int) (inputImage.getWidth() * percent);
-        int scaledHeight = (int) (inputImage.getHeight() * percent);
-        resize(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
-    }
- 
-    /**
-     * Test resizing images
-     */
-    public static void main(String[] args) {
-    	ImageResizer ir = new ImageResizer();
-        String inputImagePath = "D:/Photo/Puppy.jpg";
-        String outputImagePath1 = "D:/Photo/Puppy_Fixed.jpg";
-        String outputImagePath2 = "D:/Photo/Puppy_Smaller.jpg";
-        String outputImagePath3 = "D:/Photo/Puppy_Bigger.jpg";
- 
-        try {
-            // resize to a fixed width (not proportional)
-            int scaledWidth = 1024;
-            int scaledHeight = 768;
-            ir.resize(inputImagePath, outputImagePath1, scaledWidth, scaledHeight);
- 
-            // resize smaller by 50%
-            double percent = 0.5;
-                        ir.resize(inputImagePath, outputImagePath3, percent);ir.resize(inputImagePath, outputImagePath2, percent);
- 
-            // resize bigger by 50%
-            percent = 1.5;
-            ir.resize(inputImagePath, outputImagePath3, percent);
- 
-        } catch (IOException ex) {
-            System.out.println("Error resizing the image.");
-            ex.printStackTrace();
-        }
-    }
- 
+    } 
 }
