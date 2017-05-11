@@ -54,8 +54,8 @@ public class RegisterViewController implements Initializable {
 	
 	/**
 	 * author Olof
-	 * 
-	 * Beroende på vilken region som är vald skickas olika värden till addCountries-metoden
+	 *
+	 * the addCountries method adds different countries depending on the chosen region
 	 */
 	@FXML
 	private void regionChoice() {
@@ -81,10 +81,10 @@ public class RegisterViewController implements Initializable {
 	
 	/**
 	 * author Olof
+	 *
+	 * reads and adds the countries from the txtFile with the same name as the region
 	 * 
-	 * Läser och lägger in länderna från txtFilen med samma namn som regionen
-	 * 
-	 * @param region
+	 * @param region : the chosen region
 	 */
 	private void addCountries(String region){
 		country.getItems().clear();

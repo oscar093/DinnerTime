@@ -82,7 +82,7 @@ public class DatabaseController {
 	/**
 	 * author Olof
 	 * 
-	 * Lägger till det nya receptet i databasen
+	 * the new recipe is added to the database
 	 */
 	public void newRecipe(Recipe recipe) {
 		try {
@@ -109,24 +109,20 @@ public class DatabaseController {
 			String ingredientList = "";
 
 			/**
-			 * Går igenom alla ingredienser och lagrar dem i en egen tabell i databasen
-			 * Alla får ett eget id
+			 * walks through every ingredient and stores them in another table
+			 * every ingredient gets its own ID
 			 */
 			for (int i = 0; i < ingredientArray.length; i++) {
 				sql += "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId
 						+ ",'" + ingredientArray[i] + "');";
 				ingredientId++;
 			}
-			/**
-			 * en metod för att lagra bilden kallas
-			 */
+
 			String recipeImg = recipe.getImgFileName();
 			if (recipeImg != null) {
 				addImage(recipeId, recipeImg);
 			}
-			/**
-			 * SQL utförs
-			 */
+
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.commit();
@@ -138,9 +134,9 @@ public class DatabaseController {
 	/**
 	 * author Olof
 	 * 
-	 * Lägger till bilden i databasen
-	 * @param recipeId: ID till tillhörande recept
-	 * @param filename: sökvägen till bilden
+	 * adds the image to the database
+	 * @param recipeId: the ID of the recipe the image belongs to
+	 * @param filename: file path to the image
 	 */
 	public void addImage(int recipeId, String filename) {
 		try {
@@ -162,10 +158,10 @@ public class DatabaseController {
 	/**
 	 * author Oscar, Olof
 	 * 
-	 * Metod för att hämta en bild
-	 * Bilden är sparad i bytekod i databasen, metoden returnerar en bytearray
+	 * gets the image
+	 * the image is stored as byte, returns a byte-array
 	 * 
-	 * @param recipeId : ID till tillhörande recept
+	 * @param recipeId : the ID of the recipe the image belongs to
 	 */
 	public byte[] getImage(int recipeId) {
 		byte[] img = null;
@@ -225,11 +221,11 @@ public class DatabaseController {
 
 	/**
 	 * author Olof
+
+	 * gets all the recipes that matches the title-search
 	 * 
-	 * metod som hämtar alla recept som innehåller den titel användaren sökt efter
-	 * 
-	 * @param title : användarens sökning
-	 * @return returnerar en array med alla hittade recept
+	 * @param title : the users search
+	 * @return returns an array with all the recipes
 	 */
 	public String[] getTitleSearch(String title) {
 		ArrayList<String> response = new ArrayList<String>();
@@ -243,14 +239,14 @@ public class DatabaseController {
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));
+				response.add("title_" + rs.getString("title"));			//the string and values are split with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';"; 					//söker i databasen efter ingredienserna som hör till receptet
+						+ rs.getString("upload") + "';"; 
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -260,7 +256,7 @@ public class DatabaseController {
 				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientList += ingredients.get(i) + "\n";
 				}
-				response.add("ingredient_" + ingredientList);	//lägger till alla ingredienser i resultatet. Detta är för att alla ingredienser ska vara samlade i resultatet av sökningen
+				response.add("ingredient_" + ingredientList);
 			}
 
 		} catch (SQLException e) {
@@ -270,16 +266,16 @@ public class DatabaseController {
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
 
-		return responseArray;	//returnerar receptet + alla ingredienser som en array
+		return responseArray;
 	}
 
 	/**
 	 * author Olof
 	 * 
-	 * metod som hämtar alla recept från det land användaren sökt efter
+	 * gets all the recipes that matches the country-search
 	 * 
-	 * @param country : användarens sökning
-	 * @return : returnerar alla hittade recept
+	 * @param title : the users search
+	 * @return returns an array with all the recipes
 	 */
 	public String[] getCountrySearch(String country) {
 		ArrayList<String> response = new ArrayList<String>();
@@ -293,14 +289,14 @@ public class DatabaseController {
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));
+				response.add("title_" + rs.getString("title"));			//the string and values are split with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";					//söker i databasen efter ingredienserna som hör till receptet
+						+ rs.getString("upload") + "';";					
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -310,7 +306,7 @@ public class DatabaseController {
 				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientList += ingredients.get(i) + "\n";
 				}
-				response.add("ingredient_" + ingredientList);	//lägger till alla ingredienser i resultatet. Detta är för att alla ingredienser ska vara samlade i resultatet av sökningen
+				response.add("ingredient_" + ingredientList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -318,16 +314,16 @@ public class DatabaseController {
 
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
-		return responseArray;	//returnerar receptet + alla ingredienser som en array
+		return responseArray;
 	}
 
 	/**
 	 * author Olof
 	 * 
-	 * metod som hämtar alla recept gjorda av den användare användaren sökt efter
+	 * gets all the recipes that matches the author-search
 	 * 
-	 * @param användarens sökning
-	 * @return : returnerar alla hittade recept
+	 * @param title : the users search
+	 * @return returns an array with all the recipes
 	 */
 	public String[] getAuthorSearch(String author) {
 		ArrayList<String> response = new ArrayList<String>();
@@ -341,14 +337,14 @@ public class DatabaseController {
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));
+				response.add("title_" + rs.getString("title"));		//the string and value are split with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";	//söker i databasen efter ingredienserna som hör till receptet
+						+ rs.getString("upload") + "';";	
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -358,7 +354,7 @@ public class DatabaseController {
 				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientList += ingredients.get(i) + "\n";
 				}
-				response.add("ingredient_" + ingredientList);	//lägger till alla ingredienser i resultatet. Detta är för att alla ingredienser ska vara samlade i resultatet av sökningen
+				response.add("ingredient_" + ingredientList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -366,7 +362,7 @@ public class DatabaseController {
 
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
-		return responseArray;	//returnerar receptet + alla ingredienser som en array
+		return responseArray;	
 	}
 
 	/*

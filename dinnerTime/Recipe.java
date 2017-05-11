@@ -12,7 +12,6 @@ public class Recipe implements Serializable {
 	private String title, country, author, upload, instruction, imgFileName;
 	private int time, id;
 	private ArrayList<String> ingredientList = new ArrayList<String>();
-//	private Image img;
 	private byte[] img;
 
 	public Recipe() {

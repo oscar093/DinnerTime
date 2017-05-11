@@ -38,7 +38,7 @@ public class SearchViewController implements Initializable  {
 	}
 	
 	/**
-	 * beroende på vad som söks efter skickas olika String till klienten/servern
+	 * different Strings are sent to the client/server depending on what the user has chosen to search for
 	 */
 	
 	@FXML
@@ -55,7 +55,7 @@ public class SearchViewController implements Initializable  {
 	}
 	
 	/**
-	 * Bara en radioButton ska kunna vara vald
+	 * only one radioButton can be chosen at a time
 	 */
 	@FXML
 	private void setSelect(){
@@ -74,7 +74,7 @@ public class SearchViewController implements Initializable  {
 	}
 	
 	/**
-	 * Om man klickar på back kommer man tillbaka till ClientView
+	 * the user is taken to the ClientView if the button "back" is pressed
 	 */
 	
 	@FXML
@@ -87,10 +87,10 @@ public class SearchViewController implements Initializable  {
 	}
 	
 	/**
-	 * Metoden tar emot resultatet av sökningen
-	 * Arrayen delas upp och listas i textarean taList
+	 * gets the result of the search
+	 * the array is split up and listed in taList
 	 * 
-	 * @param response : resultatet av sökningen
+	 * @param response : the result of the search
 	 */
 	public void showResponse(String[] response){
 		String list = "";
@@ -103,13 +103,7 @@ public class SearchViewController implements Initializable  {
 		}
 		taList.setText(list);
 	}
-	
-	/**
-	 * set-metod för klient-variablen
-	 * behövs för att kunna skicka sökningen till client/server och för att öppna clientview
-	 * 
-	 * @param client
-	 */
+
 	public void setClient(Client client){
 		this.client = client;
 		client.setSearchViewController(this);
