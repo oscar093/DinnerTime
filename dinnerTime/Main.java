@@ -14,7 +14,7 @@ public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
 	private static AnchorPane testLayout;
-	private static Client client;
+//	private static Client client;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -52,6 +52,7 @@ public class Main extends Application {
 		mainLayout = loader.load();
 		ClientViewController cvc = loader.getController();
 		cvc.setClient(client);
+		cvc.addToTree();
 		Scene scene = new Scene(mainLayout, 900, 600);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(true);

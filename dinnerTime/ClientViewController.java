@@ -34,7 +34,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class ClientViewController implements Initializable {
-	
+
 	@FXML
 	private Main main;
 	@FXML
@@ -45,7 +45,6 @@ public class ClientViewController implements Initializable {
 	private AnchorPane anchorpane;
 	@FXML
 	private ScrollPane scrollpane;
-	
 	private Client client;
 	private String username;
 	private Logout userLogout;
@@ -60,73 +59,122 @@ public class ClientViewController implements Initializable {
 	private TreeItem<String> southAmerica;
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
-	
+	private int recipeCount = -1;
+
 	/**
 	 * Initialize and show GUI for client.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// africa = new TreeItem<String>("Africa");
+		// countryItemList.add(africa);
+		// addRegion("Africa");
+		//
+		// asia = new TreeItem<String>("Asia");
+		// countryItemList.add(asia);
+		// addRegion("Asia");
+		//
+		// europe = new TreeItem<String>("Europe");
+		// countryItemList.add(europe);
+		// addRegion("Europe");
+		//
+		// middleEast = new TreeItem<String>("Middle East");
+		// countryItemList.add(middleEast);
+		// addRegion("MiddleEast");
+		//
+		// northAmerica = new TreeItem<String>("North America");
+		// countryItemList.add(northAmerica);
+		// addRegion("NorthAmerica");
+		//
+		// southAmerica = new TreeItem<String>("South America");
+		// countryItemList.add(southAmerica);
+		// addRegion("SouthAmerica");
+		//
+		// root.getChildren().add(africa);
+		// addCountries("Africa",africa);
+		//
+		// root.getChildren().add(asia);
+		// addCountries("Asia",asia);
+		//
+		// root.getChildren().add(europe);
+		// addCountries("Europe",europe);
+		//
+		// root.getChildren().add(middleEast);
+		// addCountries("MiddleEast",middleEast);
+		//
+		// root.getChildren().add(northAmerica);
+		// addCountries("NorthAmerica",northAmerica);
+		//
+		// root.getChildren().add(southAmerica);
+		// addCountries("SouthAmerica",southAmerica);
+		//
+		// treeview.getSelectionModel().selectedItemProperty().addListener(til);
+		// treeview.setRoot(root);
+		// treeview.setShowRoot(false);
+
+		b = new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY);
+		anchorpane.setBackground(new Background(b));
+		anchorpane.setMaxWidth(535);
+		scrollpane.setBackground(
+				new Background((new BackgroundFill(Color.rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
+	}
+
+	public void addToTree() {
 		africa = new TreeItem<String>("Africa");
 		countryItemList.add(africa);
-		addItems("Africa");
-		
+		addRegion("Africa");
+
 		asia = new TreeItem<String>("Asia");
 		countryItemList.add(asia);
-		addItems("Asia");
-		
+		addRegion("Asia");
+
 		europe = new TreeItem<String>("Europe");
 		countryItemList.add(europe);
-		addItems("Europe");
-		
+		addRegion("Europe");
+
 		middleEast = new TreeItem<String>("Middle East");
 		countryItemList.add(middleEast);
-		addItems("MiddleEast");
-		
+		addRegion("MiddleEast");
+
 		northAmerica = new TreeItem<String>("North America");
 		countryItemList.add(northAmerica);
-		addItems("NorthAmerica");
-		
+		addRegion("NorthAmerica");
+
 		southAmerica = new TreeItem<String>("South America");
 		countryItemList.add(southAmerica);
-		addItems("SouthAmerica");
-		
+		addRegion("SouthAmerica");
+
 		root.getChildren().add(africa);
-		addChildren("Africa",africa);
-		
+		addCountries("Africa", africa);
+
 		root.getChildren().add(asia);
-		addChildren("Asia",asia);
-		
+		addCountries("Asia", asia);
+
 		root.getChildren().add(europe);
-		addChildren("Europe",europe);
-		
+		addCountries("Europe", europe);
+
 		root.getChildren().add(middleEast);
-		addChildren("MiddleEast",middleEast);
-		
+		addCountries("MiddleEast", middleEast);
+
 		root.getChildren().add(northAmerica);
-		addChildren("NorthAmerica",northAmerica);
-		
+		addCountries("NorthAmerica", northAmerica);
+
 		root.getChildren().add(southAmerica);
-		addChildren("SouthAmerica",southAmerica);
-		
+		addCountries("SouthAmerica", southAmerica);
+
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);
 		treeview.setRoot(root);
 		treeview.setShowRoot(false);
-		
-		b = new BackgroundFill(Color
-	            .rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY);
-		anchorpane.setBackground(new Background(b));
-		anchorpane.setMaxWidth(535);
-		scrollpane.setBackground(new Background((new BackgroundFill(Color
-	            .rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
 	}
-	
+
 	/**
 	 * author Olof
 	 * 
-	 * Add regions to TreeView. 
+	 * Add regions to TreeView.
+	 * 
 	 * @param region
 	 */
-	private void addItems(String region){
+	private synchronized void addRegion(String region) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + region + ".txt"));
 			String strLine = br.readLine();
@@ -138,22 +186,26 @@ public class ClientViewController implements Initializable {
 		} catch (IOException e) {
 		}
 	}
-	
+
 	/**
 	 * author Olof
 	 * 
 	 * Add countries to treeView.
+	 * 
 	 * @param regionString
 	 * @param regionItem
 	 */
-	private void addChildren(String regionString, TreeItem<String> regionItem){
+	private void addCountries(String regionString, TreeItem<String> regionItem) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + regionString + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
-				for(int i = 0; i < countryItemList.size(); i++){
+				for (int i = 0; i < countryItemList.size(); i++) {
 					TreeItem<String> tempItem = countryItemList.get(i);
-					if(tempItem.toString().contains(strLine)){
+					if (tempItem.toString().contains(strLine)) {
+						client.sendToServer("getRecipeCount " + strLine); //for each country, a request to count the recipes from the country is sent to the server/database
+						int recipeCount = getRecipeCount();
+						tempItem.setValue(strLine + "(" + recipeCount + ")");
 						regionItem.getChildren().add(tempItem);
 					}
 				}
@@ -162,47 +214,79 @@ public class ClientViewController implements Initializable {
 		} catch (IOException e) {
 		}
 	}
-	
+
+	/**
+	 * author Olof
+	 * 
+	 * returns the count of the recipe-count of each country.
+	 * it waits until a new value is received by setRecipeCount()
+	 * 
+	 * @return : the number of recipes
+	 */
+	private synchronized int getRecipeCount() {
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return recipeCount;
+	}
+
+	/**
+	 * author Olof
+	 * 
+	 * gets the recipe-count from the client and notifies all waiting methods
+	 * 
+	 * @param count
+	 */
+	public synchronized void setRecipeCount(int count) {
+		this.recipeCount = count;
+		notifyAll();
+	}
+
 	public void setClient(Client client) {
 		this.client = client;
 		client.setClientViewController(this);
 	}
-	
+
 	@FXML
 	private void logout() throws IOException {
 		userLogout = new Logout(username);
 		client.sendToServer(userLogout);
 		main.showLoginView();
 	}
-	
+
 	@FXML
-	private void myKitchen() throws IOException{
+	private void myKitchen() throws IOException {
 		main.showMyKitchenView(client);
 	}
-	
+
 	@FXML
-	private void search() throws IOException{
+	private void search() throws IOException {
 		main.showSearchView(client);
 	}
-	
+
 	/**
 	 * Listens for operations in treeview.
+	 * 
 	 * @author osc
 	 *
 	 */
-	private class TreeItemListener implements ChangeListener{
+	private class TreeItemListener implements ChangeListener {
 		@Override
 		public void changed(ObservableValue arg0, Object arg1, Object arg2) {
 			MultipleSelectionModel msm = treeview.getSelectionModel();
 			TreeItem<String> selectedItem = (TreeItem<String>) msm.getSelectedItem();
-			if(selectedItem.isLeaf() && !selectedItem.isExpanded() && countryItemList.contains(selectedItem)){
-				String command = "getrecipebycountry " + selectedItem.getValue();
-				client.sendToServer(command);	
-			}else if(selectedItem.isLeaf() && !countryItemList.contains(selectedItem)){
+			if (selectedItem.isLeaf() && !selectedItem.isExpanded() && countryItemList.contains(selectedItem)) {
+				String[] countryName = selectedItem.getValue().split("\\(");
+				String command = "getrecipebycountry " + countryName[0];
+//				String command = "getrecipebycountry " + selectedItem.getValue();
+				client.sendToServer(command);
+			} else if (selectedItem.isLeaf() && !countryItemList.contains(selectedItem)) {
 				Recipe selectedRecipe = client.getRecipe(recipeKeyMap.get(selectedItem));
-				if(selectedRecipe != null){
-					presentRecipe(selectedRecipe);	
-				}else{
+				if (selectedRecipe != null) {
+					presentRecipe(selectedRecipe);
+				} else {
 					System.out.print("Something is wrong, the recipe does not exist.");
 				}
 			}
@@ -210,39 +294,44 @@ public class ClientViewController implements Initializable {
 	}
 
 	/**
-	 * Updated all country nodes with the latest recipes based on that particular country.
-	 * @param recipe - is a Recipe array.
+	 * Updated all country nodes with the latest recipes based on that
+	 * particular country.
+	 * 
+	 * @param recipe
+	 *            - is a Recipe array.
 	 */
 	public void updateCountryNode(Recipe[] recipe) {
-		if(recipe.length>0){
-			for(TreeItem<String> ti : countryItemList){
-				for (Recipe r : recipe){
-					if(ti.getValue().toLowerCase().contentEquals(r.getCountry())){
-						TreeItem<String> title = new TreeItem<String>(r.getTitle().substring(0,1).toUpperCase() 
-																	+ r.getTitle().substring(1));
+		if (recipe.length > 0) {
+			for (TreeItem<String> ti : countryItemList) {
+				for (Recipe r : recipe) {
+//					if (ti.getValue().toLowerCase().contentEquals(r.getCountry())) {
+					if(ti.getValue().toLowerCase().startsWith(r.getCountry())){
+						TreeItem<String> title = new TreeItem<String>(
+								r.getTitle().substring(0, 1).toUpperCase() + r.getTitle().substring(1));
 						ti.getChildren().add(title);
-						
-						//test
+
+						// test
 						recipeKeyMap.put(title, r.getId());
 					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Presents the recipe in the textflow.
+	 * 
 	 * @param recipe
 	 */
-	public void presentRecipe(Recipe recipe){
+	public void presentRecipe(Recipe recipe) {
 		anchorpane.getChildren().clear();
 		Text title = new Text();
-		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
-		title.setFont(Font.font ("Verdana", 36));
+		title.setText(recipe.getTitle().substring(0, 1).toUpperCase() + recipe.getTitle().substring(1));
+		title.setFont(Font.font("Verdana", 36));
 		Text text = new Text();
-		text.setFont(Font.font ("Verdana", 14));
-		
-		if(recipe.getImg() != null){
+		text.setFont(Font.font("Verdana", 14));
+
+		if (recipe.getImg() != null) {
 			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
 			Image img = new Image(in);
 			ImageView vfoodPic = new ImageView(img);
@@ -250,24 +339,24 @@ public class ClientViewController implements Initializable {
 			vfoodPic.setX(320);
 			anchorpane.getChildren().add(vfoodPic);
 		}
-		
-		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
-							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
-							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter"
-							+ "\n\nIngridienser:         Instruktion: \n\n";
-		
-		String[] ingridienser = recipe.getIngredients(); 
-		for(String ingr : ingridienser){
+
+		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0, 1).toUpperCase()
+				+ recipe.getCountry().substring(1) + "\nFörfattare: " + recipe.getAuthor().substring(0, 1).toUpperCase()
+				+ recipe.getAuthor().substring(1) + "\n\nTillagningstid: " + recipe.getTime() + " minuter"
+				+ "\n\nIngridienser:         Instruktion: \n\n";
+
+		String[] ingridienser = recipe.getIngredients();
+		for (String ingr : ingridienser) {
 			recepyInfo += ingr + "\n";
 		}
-		
+
 		text.setText(recepyInfo);
 		Text instruction = new Text();
 		instruction.setText(recipe.getInstruction());
-		
+
 		instruction.setX(140);
 		instruction.setY(230);
-		
+
 		title.setY(50);
 		title.setX(10);
 		text.setY(100);

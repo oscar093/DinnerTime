@@ -1,6 +1,7 @@
 package dinnerTime;
 
 import javafx.scene.image.Image;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -363,6 +364,23 @@ public class DatabaseController {
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
 		return responseArray;	
+	}
+	/**
+	 * author Olof
+	 * count the recipes made for each country
+	 */
+	public int getRecipeCount(String country){
+		int response = 0;
+		try{
+			PreparedStatement ps = c.prepareStatement("select count(*) from recipe where country = ?;");
+			ps.setString(1, "" + country.toLowerCase()+ "");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			response = rs.getInt("count");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return response;
 	}
 
 	/*

@@ -186,6 +186,16 @@ public class Server implements Runnable {
 					e.printStackTrace();
 				}
 			}
+			
+			if(command.startsWith("getRecipeCount")){
+				String[] s =command.split(" ");
+				int response = dbc.getRecipeCount(s[1]);
+				try {
+					oos.writeObject(response);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		/**

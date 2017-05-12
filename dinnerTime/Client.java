@@ -77,6 +77,10 @@ public class Client extends Thread {
 						String[] response = (String[])obj;
 						svc.showResponse(response);
 					}
+					else if(obj instanceof Integer){
+						int count = (int)obj;
+						cvm.setRecipeCount(count);
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
