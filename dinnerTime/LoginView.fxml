@@ -14,11 +14,6 @@
    <center>
       <AnchorPane prefHeight="400.0" prefWidth="540.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="122.0" fitWidth="124.0" layoutX="230.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../dt-logo-original.png" />
-               </image>
-            </ImageView>
             <Label layoutX="14.0" layoutY="14.0" text="Dinner" textFill="#464646">
                <font>
                   <Font size="70.0" />
@@ -35,6 +30,11 @@
             <Button fx:id="login" layoutX="162.0" layoutY="271.0" mnemonicParsing="false" onAction="#login" prefHeight="59.0" prefWidth="216.0" text="Login" />
             <Button fx:id="register" layoutX="242.0" layoutY="346.0" mnemonicParsing="false" onAction="#register" text="Register" />
             <Label fx:id="loginInfo" layoutX="164.0" layoutY="243.0" textFill="RED" />
+            <ImageView fitHeight="101.0" fitWidth="115.0" layoutX="242.0" layoutY="14.0">
+               <image>
+                  <Image url="@../images/dt-logo-original.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </center>

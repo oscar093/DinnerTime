@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -16,7 +17,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
 /**
+ * 
+ * Controller class for new recipe view.
+ * 
  * @author Olof
+
  */
 
 public class CreateRecipeController implements Initializable {
@@ -34,11 +39,12 @@ public class CreateRecipeController implements Initializable {
 	private String imgFileName = null;
 
 	/**
-	 * taIngredients sätts till disabled så att användaren inte kan skriva direkt i den, enda sättet att lägga till ingredienser ska vara genom tfIngredientInput
-	 * lblConfirmation görs osynlig
-	 * alla länder läggs in i cbCountry från txtfilen
+	 * TaIngredients is set to disabled, the only way for ingredients to be added is through the ifIngredientInput.
+	 * lblConfrimation is made invisible.
+	 * cbCountry adds every country by reading the txtFile Countries.txt
+	 * @param URL, ResourceBundle, is not used.
 	 */
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		taIngredients.setEditable(false);
@@ -47,9 +53,9 @@ public class CreateRecipeController implements Initializable {
 		
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/Countries.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
 			String strLine = br.readLine();
-			while (strLine != null) {
+			while (strLine != null) {					
 				cbCountry.getItems().add(strLine);
 				strLine = br.readLine();
 			}
@@ -58,9 +64,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * Kollar så att det finns någon input i textfälten/textarea innan de skickas till recipe
-	 * receptet skickas till servern
-	 * lblConfirmation visas
+	 * If there is input in the textfields and textareas they are sent to the Recipe class.
+	 * lblConfirmation is made visible.
 	 */
 	@FXML
 	private void sendRecipe() {
@@ -96,9 +101,8 @@ public class CreateRecipeController implements Initializable {
 		lblConfirmation.setVisible(true);
 	}
 
-	
 	/**
-	 * texten i tfIngredientInput läggs till i taIngredients
+	 * The text in tfIngredientInput is added to taIngredients.
 	 */
 	@FXML
 	private void addIngredient() {
@@ -113,32 +117,38 @@ public class CreateRecipeController implements Initializable {
 		}
 		tfIngredientInput.setText("");
 	}
-	
+
 	/**
-	 * Tar bort senaste ingrediensen genom att skriva om hela innehållet i taIngredients förutom sista raden
+	 * Removes the latest added ingredient by rewriting 
+	 * everything but the last row in taIngredients list.
 	 */
 	@FXML
-	private void removeLatestIngredient(){
+	private void removeLatestIngredient() {
 		String[] ingredients = taIngredients.getText().split("\n");
 		String newIngredientList = "";
-		
-		for(int i = 0; i < ingredients.length - 1; i++){
-			newIngredientList += ingredients[i] + "\n";
+
+		for (int i = 0; i < ingredients.length - 1; i++) {
+			if (i < ingredients.length - 2) {
+				newIngredientList += ingredients[i] + "\n";
+			} else {
+				newIngredientList += ingredients[i];
+			}
 		}
-		
 		taIngredients.setText(newIngredientList);
-	}
-	
-	/**
-	 * rensar alla ingredienser i taIngredients
-	 */
-	@FXML
-	private void clearIngredients(){
-		taIngredients.setText("");
 	}
 
 	/**
-	 * filsökvägen till bilden sparas
+	 * Clears taIngredients.
+	 */
+	@FXML
+	private void clearIngredients() {
+		taIngredients.setText("");
+	}
+
+	/** 
+	 * Resizes the chosen picture and saves the path.
+	 * 
+	 * @author Oscar, Olof
 	 */
 	@FXML
 	private void addPicture() {
@@ -146,8 +156,10 @@ public class CreateRecipeController implements Initializable {
 			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
 			ImageResizer ir = new ImageResizer();
 			try {
+
 				ir.resize(tfPicture.getText(), tmpPath, 499, 312);
 			} catch (IOException e) {
+
 				e.printStackTrace();
 			}
 			imgFileName = tmpPath;
@@ -156,7 +168,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * klientens information sparas i instansvariablen, används för att kunna veta vem som skriver receptet
+	 * Set-method for the client.
+	 * the client is needed so that the author of the recipe can be saved.
 	 */
 	public void setClient(Client client) {
 		this.client = client;

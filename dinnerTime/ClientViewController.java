@@ -15,7 +15,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -29,14 +28,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 
+/** 
+ * Controller class for client startscene, country explore.
+ * 
+ * @author Oscar
+ */
 public class ClientViewController implements Initializable {
 	
 	@FXML
@@ -65,8 +67,10 @@ public class ClientViewController implements Initializable {
 	private ArrayList<TreeItem<String>> countryItemList = new ArrayList<TreeItem<String>>();
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	
-	/**
+	/** 
 	 * Initialize and show GUI for client.
+	 * 
+	 * @author Oscar, Olof, David
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -124,13 +128,15 @@ public class ClientViewController implements Initializable {
 	            .rgb(244, 244, 244), CornerRadii.EMPTY, Insets.EMPTY))));
 	}
 	
-	/**
+	/** 
 	 * Add regions to TreeView. 
+	 * 
+	 * @author Olof
 	 * @param region
 	 */
 	private void addItems(String region){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + region + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + region + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				TreeItem<String> country = new TreeItem<String>(strLine);
@@ -141,14 +147,16 @@ public class ClientViewController implements Initializable {
 		}
 	}
 	
-	/**
+	/** 
 	 * Add countries to treeView.
+	 * 
+	 * @author Olof
 	 * @param regionString
 	 * @param regionItem
 	 */
 	private void addChildren(String regionString, TreeItem<String> regionItem){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + regionString + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + regionString + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				for(int i = 0; i < countryItemList.size(); i++){
@@ -161,14 +169,22 @@ public class ClientViewController implements Initializable {
 			}
 		} catch (IOException e) {
 		}
-		
 	}
 	
+	/**
+	 * Set the Client of which communication is made.
+	 * 
+	 * @param client
+	 */
 	public void setClient(Client client) {
 		this.client = client;
 		client.setClientViewController(this);
 	}
 	
+	/**
+	 * Log out this user.
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout() throws IOException {
 		userLogout = new Logout(username);
@@ -176,20 +192,28 @@ public class ClientViewController implements Initializable {
 		main.showLoginView();
 	}
 	
+	/**
+	 * Show myKitchen view.
+	 * @throws IOException
+	 */
 	@FXML
 	private void myKitchen() throws IOException{
 		main.showMyKitchenView(client);
 	}
 	
+	/**
+	 * show search view.
+	 * @throws IOException
+	 */
 	@FXML
 	private void search() throws IOException{
 		main.showSearchView(client);
 	}
 	
 	/**
-	 * Listens for operations in treeview.
-	 * @author osc
-	 *
+	 * Listens for operations in treeview from user and delegates to other methods.
+	 * 
+	 * @author Oscar
 	 */
 	private class TreeItemListener implements ChangeListener{
 		@Override
@@ -212,6 +236,8 @@ public class ClientViewController implements Initializable {
 
 	/**
 	 * Updated all country nodes with the latest recipes based on that particular country.
+	 * 
+	 * @author Oscar
 	 * @param recipe - is a Recipe array.
 	 */
 	public void updateCountryNode(Recipe[] recipe) {
@@ -231,9 +257,10 @@ public class ClientViewController implements Initializable {
 		}
 	}
 	
-	/**
+	/** 
+	 * Presents the recipes in the TextArea.
+	 * 
 	 * @author Oscar
-	 * Precents the recipes in the TextArea.
 	 * @param recipe
 	 */
 	public void presentRecipe(Recipe recipe){
@@ -247,6 +274,7 @@ public class ClientViewController implements Initializable {
 		JLabel jlb = new JLabel();
 		instructionTitle.setText("Instruction");
 		instructionTitle.setFont(Font.font ("Verdana",  FontWeight.BOLD , 16));
+		int picHeight = 0;
 
 		
 		if(recipe.getImg() != null){
@@ -256,6 +284,7 @@ public class ClientViewController implements Initializable {
 			vfoodPic.setY(70);
 			vfoodPic.setX((anchorpane.getWidth()/2) - 249.5);//249.5 ska vara halva bilden.
 			anchorpane.getChildren().add(vfoodPic);
+			picHeight = 312;
 			
 		}
 		
@@ -274,14 +303,14 @@ public class ClientViewController implements Initializable {
 		instruction.setText(recipe.getInstruction());
 		
 		instruction.setX(15);
-		instruction.setY(70 + 312 + 15 + text.getLayoutBounds().getHeight() + 35);
+		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
 		
 		title.setY(40);
 		title.setX((anchorpane.getWidth()/2) - (title.getLayoutBounds().getWidth()/2));
-		text.setY(70 + 312 + 25);
+		text.setY(70 + picHeight + 25);
 		text.setX(15);
 		
-		instructionTitle.setY(70 + 312 + 15 + text.getLayoutBounds().getHeight() + 15);
+		instructionTitle.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 15);
 		instructionTitle.setX(15);
 		instructionTitle.setBoundsType(TextBoundsType.LOGICAL);
 		

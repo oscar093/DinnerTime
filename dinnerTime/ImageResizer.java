@@ -8,17 +8,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
  
 /**
- * This program demonstrates how to resize an image.
- *
- * @author www.codejava.net, Oscar Arréhn Ågren
- *
+ * Resizes a image and saves it as a new file.
+ * 
+ * @author www.codejava.net, Oscar
  */
 public class ImageResizer {
  
-    /**
-     * @author www.codejava.net, Oscar Arréhn Ågren
+    /** 
      * Resizes an image to a absolute width and height (the image may not be
      * proportional)
+     * 
+     * @author www.codejava.net, Oscar
      * @param inputImagePath Path of the original image
      * @param outputImagePath Path to save the resized image
      * @param scaledWidth absolute width in pixels

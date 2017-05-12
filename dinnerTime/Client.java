@@ -7,6 +7,11 @@ import java.util.HashMap;
 
 import javafx.scene.image.Image;
 
+/** 
+ * Client handles all communication between gui and the server. 
+ *
+ * @author Oscar, David
+ */
 public class Client extends Thread {
 	private String ip;
 	private int port;
@@ -20,7 +25,6 @@ public class Client extends Thread {
 	private SearchViewController svc;
 	
 	private ArrayList<Recipe> downloadedRecipes = new ArrayList<Recipe>();
-	private HashMap<Image,Integer> ImageMap = new HashMap<Image,Integer>();
 	private String username;
 
 	
@@ -28,22 +32,50 @@ public class Client extends Thread {
 		this.onConnected = onConnected;
 	}
 
+	/**
+	 * Constructor for client. Adds LoginViewController.
+	 * 
+	 * @author David
+	 * @param ip
+	 * @param port
+	 * @param LoginViewController
+	 */
 	public Client(String ip, int port, LoginViewController lvc) {
 		this.ip = ip;
 		this.port = port;
 		this.lvc = lvc;
 	}
 	
+	/**
+	 * Constructor for client. Adds RegisterViewController.
+	 * 
+	 * @author David
+	 * @param ip
+	 * @param port
+	 * @param rvc
+	 */
 	public Client(String ip, int port, RegisterViewController rvc) {
 		this.ip = ip;
 		this.port = port;
 		this.rvc = rvc;
 	}
 	
+	/**
+	 * Set ClientViewController.
+	 * 
+	 * @author David
+	 * @param ClientViewController
+	 */
 	public void setClientViewController(ClientViewController cvm){
 		this.cvm= cvm;
 	}
 	
+	/**
+	 * Set SearchViewController.
+	 * 
+	 * @author David
+	 * @param svc
+	 */
 	public void setSearchViewController(SearchViewController svc){
 		this.svc = svc;
 	}
@@ -86,16 +118,31 @@ public class Client extends Thread {
 		}
 	}
 	
+	/**
+	 * Set username for this client.
+	 * 
+	 * @author David
+	 * @param username
+	 */
 	public void setUsername(String username){
 		this.username = username;
 	}
 	
+	/**
+	 * Get username for this client.
+	 * 
+	 * @author David
+	 * @return username
+	 */
 	public String getUsername(){
 		return username;
 	}
 
 	/**
+	 *
+	 * 
 	 * Sends object to server. Make Sure Object is instance of known type.
+	 * @author Oscar
 	 * @param obj
 	 */
 	public void sendToServer(Object obj) {
@@ -106,23 +153,13 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
 	}
-//	/**
-//	 * Find recipe by title.
-//	 * @param title
-//	 * @return recipe
-//	 */
-//	public Recipe getRecipe(String title){
-//		
-//		for(Recipe r : downloadedRecipes){
-//			if(r.getTitle().toLowerCase().contentEquals(title.toLowerCase())){
-//				return r;
-//			}
-//		}
-//		return null;
-//	}
 	
 	/**
+	 * 
+	 * 
 	 * Find recipe by id.
+	 * 
+	 * @author Oscar
 	 * @param title
 	 * @return recipe
 	 */
@@ -137,7 +174,11 @@ public class Client extends Thread {
 	}
 	
 	/**
-	 * Stores all downloaded recipes.
+	 * 
+	 * 
+	 * Stores all downloaded recipes in client.
+	 * 
+	 * @author Oscar
 	 * @param array of recipes
 	 */
 	public void storeRecipes(Recipe[] recipes){
@@ -146,22 +187,4 @@ public class Client extends Thread {
 			downloadedRecipes.add(r);
 		}
 	}
-	
-//	/**
-//	 * Gets Image for recipe.
-//	 * @param id
-//	 * @return Image
-//	 */
-//	public byte[] getRecipeImage(int id){
-//		sendToServer("getRecipeImage " +  id);
-//		try {
-//			System.out.println("Test");
-//			byte[] image = (byte[])ois.readObject();
-//			System.out.println("Test2");
-//			return image;
-//		} catch (ClassNotFoundException | IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
 }

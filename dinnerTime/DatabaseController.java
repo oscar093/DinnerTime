@@ -20,10 +20,21 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+/**
+ * Handles communication between server and database.
+ * 
+ * @author Olof, Oscar, David
+ */
+
 public class DatabaseController {
 
 	private Connection c = null;
 
+	/**
+	 * Contructor for databasecontroller. Gets driver for Postgres and connects to database.
+	 * 
+	 * @author Oscar, David
+	 */
 	public DatabaseController() {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -33,12 +44,19 @@ public class DatabaseController {
 
 			// Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/** 
+	 * Controlles if combination of password and username exists in database.
+	 * 
+	 * @author David
+	 * @param username
+	 * @param password
+	 * @return 'success' if succesfull 'failed' if not.
+	 */
 	public String login(String username, String password) {
 		try {
 			Statement stmt = c.createStatement();
@@ -54,8 +72,21 @@ public class DatabaseController {
 		return "failed";
 	}
 
+	/** 
+	 * Saves a new user to the database.
+	 * 
+	 * @author David
+	 * @param username
+	 * @param password
+	 * @param firstname
+	 * @param surname
+	 * @param region
+	 * @param country
+	 * @return 'success' if succesfull 'failed' if not.c
+	 */
 	public String register(String username, String password, String firstname, String surname, String region,
 			String country) {
+		
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
@@ -74,13 +105,19 @@ public class DatabaseController {
 		return "failed";
 	}
 
+	/** 
+	 * The new recipe is added to the database.
+	 * 
+	 * @author Olof
+	 * @param recipe
+	 */
 	public void newRecipe(Recipe recipe) {
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-
 			Statement idStmt = c.createStatement();
+			
 			ResultSet rs = idStmt.executeQuery(
 					"SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
 			rs.next();
@@ -98,6 +135,10 @@ public class DatabaseController {
 			String[] ingredientArray = recipe.getIngredients();
 			String ingredientList = "";
 
+			/**
+			 * walks through every ingredient and stores them in another table
+			 * every ingredient gets its own ID
+			 */
 			for (int i = 0; i < ingredientArray.length; i++) {
 				sql += "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId
 						+ ",'" + ingredientArray[i] + "');";
@@ -117,6 +158,13 @@ public class DatabaseController {
 		}
 	}
 
+	/** 
+	 * Adds the image to the database
+	 * 
+	 * @author Olof
+	 * @param recipeId: the ID of the recipe the image belongs to.
+	 * @param filename: file path to the image
+	 */
 	public void addImage(int recipeId, String filename) {
 		try {
 			File file = new File(filename);
@@ -134,30 +182,13 @@ public class DatabaseController {
 		}
 	}
 
-	/**
-	 * Denna kommer förmodligen att tas bort.
-	 * @param recipeId
-	 * @return
+	/** 
+	 * Gets the image the image is stored as byte.
+	 * 
+	 * @author Oscar, Olof
+	 * @param recipeId : the ID of the recipe the image belongs to.
+	 * @return byte[]
 	 */
-	public ImageIcon getImageIcon(int recipeId) {
-		ImageIcon img = null;
-		try {
-			PreparedStatement ps = c.prepareStatement("SELECT img FROM image WHERE recipeid = ?");
-			ps.setInt(1, recipeId);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				byte[] imgBytes = rs.getBytes(1);
-				img = new ImageIcon(imgBytes);
-			}
-			rs.close();
-			ps.close();
-			return img;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return img;
-	}
-	
 	public byte[] getImage(int recipeId) {
 		byte[] img = null;
 		try {
@@ -176,6 +207,14 @@ public class DatabaseController {
 		return img;
 	}
 
+	/** 
+	 * Return all recipes from a specific country.
+	 * This method includes pictures with the recipes.
+	 * 
+	 * @author Oscar
+	 * @param country
+	 * @return Recipe[] 
+	 */
 	public Recipe[] getRecipeByCountry(String country) {
 		ArrayList<Recipe> result = new ArrayList<Recipe>();
 		Statement stmt;
@@ -214,26 +253,33 @@ public class DatabaseController {
 		return rArray;
 	}
 
-	public String[] getTitleSearch(String search) {
+	/**
+	 * Gets all the recipes that matches the title-search.
+	 * 
+	 * @author Olof
+	 * @param title : the users search
+	 * @return returns an array with all the recipes
+	 */
+	public String[] getTitleSearch(String title) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
 		try {
 			Statement stmt1 = c.createStatement();
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
-					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.title like '"
-					+ search + "%';");
+					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.title like '%"
+					+ title + "%';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));
+				response.add("title_" + rs.getString("title"));			//the string and values are split with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";
+						+ rs.getString("upload") + "';"; 
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -256,7 +302,14 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	public String[] getCountrySearch(String search) {
+	/** 
+	 * Gets all the recipes that matches the country-search.
+	 * 
+	 * @author Olof
+	 * @param title : the users search
+	 * @return returns an array with all the recipes
+	 */
+	public String[] getCountrySearch(String country) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
 		try {
@@ -264,18 +317,18 @@ public class DatabaseController {
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
 					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.country = '"
-					+ search + "';");
+					+ country + "';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));
+				response.add("title_" + rs.getString("title"));			//the string and values are split with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";
+						+ rs.getString("upload") + "';";					
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -296,7 +349,14 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	public String[] getAuthorSearch(String search) {
+	/** 
+	 * Gets all the recipes that matches the author-search.
+	 * 
+	 * @author Olof
+	 * @param title : the users search
+	 * @return returns an array with all the recipes
+	 */
+	public String[] getAuthorSearch(String author) {
 		ArrayList<String> response = new ArrayList<String>();
 		String[] responseArray;
 		try {
@@ -304,18 +364,18 @@ public class DatabaseController {
 			Statement stmt2 = c.createStatement();
 			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
 					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.author = '"
-					+ search + "';");
+					+ author + "';");
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));
+				response.add("title_" + rs.getString("title"));		//the string and value are split with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";
+						+ rs.getString("upload") + "';";	
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -333,22 +393,6 @@ public class DatabaseController {
 
 		responseArray = new String[response.size()];
 		response.toArray(responseArray);
-		return responseArray;
+		return responseArray;	
 	}
-
-	/*
-	 * Använd denna Main-metoden om du vill testa en metod direkt mot databasen.
-	 * Men ändra addressen till databasen först för att det ska fungera.
-	 */
-	public static void main(String[] args) {
-		DatabaseController d = new DatabaseController();	
-		if(d.getImage(12) == null){
-			System.out.println("Its null");
-		}
-
-		ByteArrayInputStream in = new ByteArrayInputStream(d.getImage(12));
-		Image img = new Image(in);
-		System.out.println(img.getHeight());
-	}	
 }
-

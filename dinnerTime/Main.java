@@ -10,22 +10,44 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Start clients gui and handles the scenes for different views.
+ *
+ * @author David
+ */
 public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
 	private static AnchorPane testLayout;
 	private static Client client;
 
+	/** 
+	 * This methos starts the client gui.
+	 * 
+	 * @author David
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/** 
+	 * Starts login view.
+	 * 
+	 * @author David
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		showLoginView();
 	}
 	
+	/** 
+	 * Show the login view.
+	 * 
+	 * @author David
+	 * @throws IOException
+	 */
 	public static void showLoginView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("LoginView.fxml"));
@@ -36,6 +58,12 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
+	/** 
+	 * show the register view.
+	 * 
+	 * @author David
+	 * @throws IOException
+	 */
 	public static void showRegisterView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("RegisterView.fxml"));
@@ -46,6 +74,13 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
+	/** 
+	 * show the client view.
+	 * 
+	 * @author David
+	 * @param client
+	 * @throws IOException
+	 */
 	public static void showClientView(Client client) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("ClientView.fxml"));
@@ -58,6 +93,13 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
+	/** 
+	 * Show myKitshen view.
+	 * 
+	 * @author David
+	 * @param client
+	 * @throws IOException
+	 */
 	public static void showMyKitchenView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("MyKitchenView.fxml"));
@@ -70,6 +112,13 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
+	/** 
+	 * show search view.
+	 * 
+	 * @author David
+	 * @param client
+	 * @throws IOException
+	 */
 	public static void showSearchView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("SearchView.fxml"));

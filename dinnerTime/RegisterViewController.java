@@ -15,6 +15,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/** 
+ * Controller class for the register view. 
+ * 
+ * @author David
+ */
 public class RegisterViewController implements Initializable {
 	
 	ObservableList<String> regionList = FXCollections.observableArrayList("Africa", "Asia", "Europe", "Middle East", "North America", "South America");
@@ -47,11 +52,22 @@ public class RegisterViewController implements Initializable {
 	@FXML
 	private Label registerInfo;
 	
+	
+	 
+	/**
+	 * Gives all countries to the combobox.
+	 * @param URL and ResourceBundle is not used.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		region.setItems(regionList);
 	}
 	
+	/**
+	 * @author Olof
+	 *
+	 * the addCountries method adds different countries depending on the chosen region
+	 */
 	@FXML
 	private void regionChoice() {
 		if(region.getValue().equals("Africa")) {
@@ -74,10 +90,16 @@ public class RegisterViewController implements Initializable {
 		}
 	}
 	
+	/**
+	 * reads and adds the countries from the txtFile with the same name as the region
+	 * 
+	 * @author Olof
+	 * @param region : the chosen region
+	 */
 	private void addCountries(String region){
 		country.getItems().clear();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/" + region.toLowerCase() + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + region.toLowerCase() + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				country.getItems().add(strLine);
@@ -87,6 +109,13 @@ public class RegisterViewController implements Initializable {
 		}
 	}
 	
+	/** 
+	 * Method reads user input and tries to register person.
+	 * Username must be unique.
+	 * 
+	 * @author David.
+	 * @throws IOException
+	 */
 	@FXML
 	private void register() throws IOException {
 		registerStatus = "timeout";
@@ -121,15 +150,31 @@ public class RegisterViewController implements Initializable {
 		}		
 	}
 	
+	/**
+	 * Returns to login view.
+	 * @throws IOException
+	 */
 	@FXML
 	private void back() throws IOException {
 		main.showLoginView();
 	}
 	
+	/**
+	 * Get register status.
+	 * Returns 'success' if successful 'failed' if not. 
+	 * 'timeout' if no connection is fount whiten reasonable time.
+	 * @return register status
+	 */
 	public String getRegisterStatus() {
 		return registerStatus;
 	}
 	
+	/**
+	 * Set register status.
+	 * 	Set 'success' if successful 'failed' if not. 
+	 * 'timeout' if no connection is fount whiten reasonable time.
+	 * @param registerStatus
+	 */
 	public void setRegisterStatus(String registerStatus) {
 		this.registerStatus = registerStatus;
 	}

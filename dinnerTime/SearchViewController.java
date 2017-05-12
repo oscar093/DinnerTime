@@ -3,6 +3,7 @@ package dinnerTime;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,6 +13,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
+
+/** 
+ * Controller class for the search view.
+ * 
+ * @author Olof
+ */
 
 public class SearchViewController implements Initializable  {
 	private static Stage primaryStage;
@@ -25,15 +32,20 @@ public class SearchViewController implements Initializable  {
 	private Button btnBack;
 	@FXML
 	private Main main;
-
 	private Client client;
 	
+	/**
+	 * Adds all found recipes to this textarea.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		taList.setEditable(false);
+		taList.setEditable(false);	//textarean ska vara read-only
 	}
 	
+	/**
+	 * Different Strings are sent to the client/server depending on what
+	 * the user has chosen to search for.
+	 */
 	@FXML
 	private void search(){
 		if(rbTitle.isSelected()){
@@ -47,6 +59,9 @@ public class SearchViewController implements Initializable  {
 		}	
 	}
 	
+	/**
+	 * Only one radioButton can be chosen at a time.
+	 */
 	@FXML
 	private void setSelect(){
 		if(rbTitle.isSelected()){
@@ -63,16 +78,25 @@ public class SearchViewController implements Initializable  {
 		}
 	}
 	
+	/**
+	 * The user is taken to the ClientView if the button "back" is pressed.
+	 */
+	
 	@FXML
 	private void back(){
 		try {
 			main.showClientView(client);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Gets the result of the search
+	 * the array is split up and listed in taList.
+	 * 
+	 * @param response : the result of the search
+	 */
 	public void showResponse(String[] response){
 		String list = "";
 		for(String s : response){
@@ -84,7 +108,11 @@ public class SearchViewController implements Initializable  {
 		}
 		taList.setText(list);
 	}
-	
+
+	/**
+	 * Set which client to use.
+	 * @param client
+	 */
 	public void setClient(Client client){
 		this.client = client;
 		client.setSearchViewController(this);

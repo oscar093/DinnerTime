@@ -13,6 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * Class handles communication between gui and client.
+ * 
+ * @author David, Oscar
+ */
 public class LoginViewController implements Initializable {
 	@FXML
 	private Main main;
@@ -34,11 +39,20 @@ public class LoginViewController implements Initializable {
 	@FXML
 	private Label loginInfo;
 	
+	/**
+	 * Initializes login view.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loginInfo.setVisible(false);
 	}
 	
+	/**
+	 * 
+	 * Reads user input and tries to login to server.
+	 * @author Oscar, David
+	 * @throws IOException
+	 */
 	@FXML
 	public void login() throws IOException {
 		loginStatus = "timeout";
@@ -78,16 +92,34 @@ public class LoginViewController implements Initializable {
 			loginInfo.setText("Timeout: Check connection");
 		}
 	}
-	
+
+	/**
+	 * Show register view.
+	 * @throws IOException
+	 */
 	@FXML
 	public void register() throws IOException {
 		main.showRegisterView();
 	}
 	
+	/**
+	 * Get login status.
+	 * Should be success if login 'seceded', 
+	 * 'failed' if not. 
+	 * 'timeout' if there is no connection.
+	 * @return
+	 */
 	public String getLoginStatus() {
 		return loginStatus;
 	}
 	
+	/**
+	 * Set login status.
+	 * Should be success if login 'seceded', 
+	 * 'failed' if not. 
+	 * 'timeout' if there is no connection.
+	 * @param loginStatus
+	 */
 	public void setLoginStatus(String loginStatus) {
 		this.loginStatus = loginStatus;
 	}
