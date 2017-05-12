@@ -1,4 +1,4 @@
-package dinnerTime;
+package server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.scene.image.Image;
+import module.Login;
+import module.Logout;
+import module.Recipe;
+import module.Register;
 
 import java.io.*;
 import java.net.*;

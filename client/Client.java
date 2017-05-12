@@ -1,4 +1,4 @@
-package dinnerTime;
+package client;
 
 import java.io.*;
 import java.net.*;
@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.scene.image.Image;
+import module.Login;
+import module.Recipe;
+import module.Register;
+import viewControllers.ClientViewController;
+import viewControllers.LoginViewController;
+import viewControllers.RegisterViewController;
+import viewControllers.SearchViewController;
 
 /** 
  * Client handles all communication between gui and the server. 

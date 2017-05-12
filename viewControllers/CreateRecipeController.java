@@ -1,4 +1,4 @@
-package dinnerTime;
+package viewControllers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
+import client.Client;
+import client.ImageResizer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import module.Recipe;
 
 /**
  * 

@@ -1,9 +1,11 @@
-package dinnerTime;
+package viewControllers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.Client;
+import client.Main;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -24,8 +26,7 @@ public class MyKitchenController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
+		// Auto-generated method stub
 	}
 
 	/**
@@ -35,7 +36,7 @@ public class MyKitchenController implements Initializable {
 	@FXML
 	private void newRecipe() throws IOException{
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("CreateRecipeView.fxml"));
+			loader.setLocation(Main.class.getResource("../fmxlView/CreateRecipeView.fxml"));
 			pane = loader.load();
 			
 			CreateRecipeController crc = loader.getController();

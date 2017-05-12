@@ -1,4 +1,4 @@
-package dinnerTime;
+package module;
 
 import java.io.Serializable; 
 /**

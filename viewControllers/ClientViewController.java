@@ -1,4 +1,4 @@
-package dinnerTime;
+package viewControllers;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
 
+import client.Client;
+import client.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -33,6 +35,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+import module.Logout;
+import module.Recipe;
 
 /** 
  * Controller class for client startscene, country explore.
@@ -265,6 +269,7 @@ public class ClientViewController implements Initializable {
 	 */
 	public void presentRecipe(Recipe recipe){
 		anchorpane.getChildren().clear();
+		double anchorPaneWidth = anchorpane.getWidth();
 		Text title = new Text();
 		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
 		title.setFont(Font.font ("Verdana",FontWeight.BOLD, 36));
@@ -280,10 +285,10 @@ public class ClientViewController implements Initializable {
 		if(recipe.getImg() != null){
 			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
 			Image img = new Image(in);
-			ImageView vfoodPic = new ImageView(img);
-			vfoodPic.setY(70);
-			vfoodPic.setX((anchorpane.getWidth()/2) - 249.5);//249.5 ska vara halva bilden.
-			anchorpane.getChildren().add(vfoodPic);
+			ImageView recipeImage = new ImageView(img);
+			recipeImage.setY(70);
+			recipeImage.setX((anchorPaneWidth/2) - 249.5);//249.5 ska vara halva recept bilden.
+			anchorpane.getChildren().add(recipeImage);
 			picHeight = 312;
 			
 		}
@@ -306,7 +311,7 @@ public class ClientViewController implements Initializable {
 		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
 		
 		title.setY(40);
-		title.setX((anchorpane.getWidth()/2) - (title.getLayoutBounds().getWidth()/2));
+		title.setX((anchorPaneWidth/2) - (title.getLayoutBounds().getWidth()/2));
 		text.setY(70 + picHeight + 25);
 		text.setX(15);
 		

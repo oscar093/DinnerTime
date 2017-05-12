@@ -1,4 +1,4 @@
-package dinnerTime;
+package client;
 
 import java.io.IOException;
 import javafx.application.Application;
@@ -9,6 +9,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import viewControllers.ClientViewController;
+import viewControllers.MyKitchenController;
+import viewControllers.SearchViewController;
 
 /**
  * Start clients gui and handles the scenes for different views.
@@ -50,7 +53,7 @@ public class Main extends Application {
 	 */
 	public static void showLoginView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("LoginView.fxml"));
+		loader.setLocation(Main.class.getResource("../fmxlView/LoginView.fxml"));
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout, 540, 400);
 		primaryStage.setScene(scene);
@@ -66,7 +69,7 @@ public class Main extends Application {
 	 */
 	public static void showRegisterView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("RegisterView.fxml"));
+		loader.setLocation(Main.class.getResource("../fmxlView/RegisterView.fxml"));
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout, 540, 400);
 		primaryStage.setScene(scene);
@@ -83,7 +86,7 @@ public class Main extends Application {
 	 */
 	public static void showClientView(Client client) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("ClientView.fxml"));
+		loader.setLocation(Main.class.getResource("../fmxlView/ClientView.fxml"));
 		mainLayout = loader.load();
 		ClientViewController cvc = loader.getController();
 		cvc.setClient(client);
@@ -102,7 +105,7 @@ public class Main extends Application {
 	 */
 	public static void showMyKitchenView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("MyKitchenView.fxml"));
+		loader.setLocation(Main.class.getResource("../fmxlView/MyKitchenView.fxml"));
 		mainLayout = loader.load();
 		MyKitchenController mkc = loader.getController();
 		mkc.setClient(client);
@@ -121,7 +124,7 @@ public class Main extends Application {
 	 */
 	public static void showSearchView(Client client) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("SearchView.fxml"));
+		loader.setLocation(Main.class.getResource("../fmxlView/SearchView.fxml"));
 		mainLayout = loader.load();
 		SearchViewController svc = loader.getController();
 		svc.setClient(client);
