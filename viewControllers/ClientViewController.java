@@ -38,7 +38,7 @@ import javafx.scene.text.TextBoundsType;
 import module.Logout;
 import module.Recipe;
 
-/** 
+/**
  * Controller class for client startscene, country explore.
  * 
  * @author Oscar
@@ -71,9 +71,7 @@ public class ClientViewController implements Initializable {
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	private int recipeCount = -1;
 
-
-	
-	/** 
+	/**
 	 * Initialize and show GUI for client.
 	 * 
 	 * @author Oscar, Olof, David
@@ -113,32 +111,26 @@ public class ClientViewController implements Initializable {
 		addRegion("SouthAmerica");
 
 		root.getChildren().add(africa);
-		addCountries("Africa", africa);
 
 		root.getChildren().add(asia);
-		addCountries("Asia", asia);
 
 		root.getChildren().add(europe);
-		addCountries("Europe", europe);
 
 		root.getChildren().add(middleEast);
-		addCountries("MiddleEast", middleEast);
 
 		root.getChildren().add(northAmerica);
-		addCountries("NorthAmerica", northAmerica);
 
 		root.getChildren().add(southAmerica);
-		addCountries("SouthAmerica", southAmerica);
 
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);
 		treeview.setRoot(root);
 		treeview.setShowRoot(false);
 	}
-	
+
 	/**
 	 * author Olof
-	 *  
-	 * Add regions to TreeView. 
+	 * 
+	 * Add regions to TreeView.
 	 * 
 	 * @param region
 	 */
@@ -159,18 +151,25 @@ public class ClientViewController implements Initializable {
 	 * author Olof
 	 * 
 	 * Add countries to treeView.
+	 * 
 	 * @param regionString
 	 * @param regionItem
 	 */
 	private void addCountries(String regionString, TreeItem<String> regionItem) {
 		try {
+			if (regionString.contains(" ")) {
+				String[] noSpace = regionString.split(" ");
+				regionString = noSpace[0] + noSpace[1];
+			}
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + regionString + ".txt"));
 			String strLine = br.readLine();
 			while (strLine != null) {
 				for (int i = 0; i < countryItemList.size(); i++) {
 					TreeItem<String> tempItem = countryItemList.get(i);
 					if (tempItem.toString().contains(strLine)) {
-						client.sendToServer("getRecipeCount " + strLine); //for each country, a request to count the recipes from the country is sent to the server/database
+						// for each country, a request to count the recipes from
+						// the country is sent to the server/database
+						client.sendToServer("getRecipeCount " + strLine);
 						int recipeCount = getRecipeCount();
 						tempItem.setValue(strLine + "(" + recipeCount + ")");
 						regionItem.getChildren().add(tempItem);
@@ -181,11 +180,12 @@ public class ClientViewController implements Initializable {
 		} catch (IOException e) {
 		}
 	}
+
 	/**
 	 * author Olof
 	 * 
-	 * returns the count of the recipe-count of each country.
-	 * it waits until a new value is received by setRecipeCount()
+	 * returns the count of the recipe-count of each country. it waits until a
+	 * new value is received by setRecipeCount()
 	 * 
 	 * @return : the number of recipes
 	 */
@@ -209,7 +209,7 @@ public class ClientViewController implements Initializable {
 		this.recipeCount = count;
 		notifyAll();
 	}
-	
+
 	/**
 	 * Set the Client of which communication is made.
 	 * 
@@ -220,9 +220,10 @@ public class ClientViewController implements Initializable {
 		this.client = client;
 		client.setClientViewController(this);
 	}
-	
+
 	/**
 	 * Log out this user.
+	 * 
 	 * @throws IOException
 	 */
 	@FXML
@@ -231,8 +232,10 @@ public class ClientViewController implements Initializable {
 		client.sendToServer(userLogout);
 		main.showLoginView();
 	}
+
 	/**
 	 * Show myKitchen view.
+	 * 
 	 * @throws IOException
 	 */
 	@FXML
@@ -240,9 +243,9 @@ public class ClientViewController implements Initializable {
 		main.showMyKitchenView(client);
 	}
 
-	
 	/**
 	 * show search view.
+	 * 
 	 * @throws IOException
 	 */
 	@FXML
@@ -251,9 +254,11 @@ public class ClientViewController implements Initializable {
 	}
 
 	/**
-	 * Listens for operations in treeview from user and delegates to other methods.
+	 * Listens for operations in treeview from user and delegates to other
+	 * methods. When a region is pressed, all the countries are added as
+	 * children to the region.
 	 * 
-	 * @author Oscar
+	 * @author Oscar, Olof
 	 */
 	private class TreeItemListener implements ChangeListener {
 		@Override
@@ -261,9 +266,9 @@ public class ClientViewController implements Initializable {
 			MultipleSelectionModel msm = treeview.getSelectionModel();
 			TreeItem<String> selectedItem = (TreeItem<String>) msm.getSelectedItem();
 			if (selectedItem.isLeaf() && !selectedItem.isExpanded() && countryItemList.contains(selectedItem)) {
+				addCountries(selectedItem.getValue(), selectedItem);
 				String[] countryName = selectedItem.getValue().split("\\(");
 				String command = "getrecipebycountry " + countryName[0];
-//				String command = "getrecipebycountry " + selectedItem.getValue();
 				client.sendToServer(command);
 			} else if (selectedItem.isLeaf() && !countryItemList.contains(selectedItem)) {
 				Recipe selectedRecipe = client.getRecipe(recipeKeyMap.get(selectedItem));
@@ -277,17 +282,18 @@ public class ClientViewController implements Initializable {
 	}
 
 	/**
-	 * Updated all country nodes with the latest recipes based on that particular country.
+	 * Updated all country nodes with the latest recipes based on that
+	 * particular country.
 	 * 
 	 * @author Oscar
-	 * @param recipe - is a Recipe array.
+	 * @param recipe
+	 *            - is a Recipe array.
 	 */
 	public void updateCountryNode(Recipe[] recipe) {
 		if (recipe.length > 0) {
 			for (TreeItem<String> ti : countryItemList) {
 				for (Recipe r : recipe) {
-//					if (ti.getValue().toLowerCase().contentEquals(r.getCountry())) {
-					if(ti.getValue().toLowerCase().startsWith(r.getCountry())){
+					if (ti.getValue().toLowerCase().startsWith(r.getCountry())) {
 						TreeItem<String> title = new TreeItem<String>(
 								r.getTitle().substring(0, 1).toUpperCase() + r.getTitle().substring(1));
 						ti.getChildren().add(title);
@@ -300,7 +306,7 @@ public class ClientViewController implements Initializable {
 		}
 	}
 
-	/** 
+	/**
 	 * Presents the recipes in the TextArea.
 	 * 
 	 * @author Oscar
@@ -310,34 +316,35 @@ public class ClientViewController implements Initializable {
 		anchorpane.getChildren().clear();
 		double anchorPaneWidth = anchorpane.getWidth();
 		Text title = new Text();
-		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
-		title.setFont(Font.font ("Verdana",FontWeight.BOLD, 36));
+		title.setText(recipe.getTitle().substring(0, 1).toUpperCase() + recipe.getTitle().substring(1));
+		title.setFont(Font.font("Verdana", FontWeight.BOLD, 36));
 		Text text = new Text();
-		text.setFont(Font.font ("Verdana", 16));
+		text.setFont(Font.font("Verdana", 16));
 		Text instructionTitle = new Text();
 		JLabel jlb = new JLabel();
 		instructionTitle.setText("Instruction");
-		instructionTitle.setFont(Font.font ("Verdana",  FontWeight.BOLD , 16));
+		instructionTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 		int picHeight = 0;
 
-		
-		if(recipe.getImg() != null){
+		if (recipe.getImg() != null) {
 			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
 			Image img = new Image(in);
 			ImageView recipeImage = new ImageView(img);
 			recipeImage.setY(70);
-			recipeImage.setX((anchorPaneWidth/2) - 249.5);//249.5 ska vara halva recept bilden.
+			recipeImage.setX((anchorPaneWidth / 2) - 249.5);// 249.5 ska vara
+															// halva recept
+															// bilden.
 			anchorpane.getChildren().add(recipeImage);
 			picHeight = 312;
-			
+
 		}
-		
-		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
-							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
-							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter\n";
-		
-		String[] ingridienser = recipe.getIngredients(); 
-		for(String ingr : ingridienser){
+
+		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0, 1).toUpperCase()
+				+ recipe.getCountry().substring(1) + "\nFörfattare: " + recipe.getAuthor().substring(0, 1).toUpperCase()
+				+ recipe.getAuthor().substring(1) + "\n\nTillagningstid: " + recipe.getTime() + " minuter\n";
+
+		String[] ingridienser = recipe.getIngredients();
+		for (String ingr : ingridienser) {
 			recepyInfo += ingr + "\n";
 		}
 
@@ -346,19 +353,18 @@ public class ClientViewController implements Initializable {
 		String strInst = recipe.getInstruction();
 		instruction.setText(recipe.getInstruction());
 
-		
 		instruction.setX(15);
 		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
-		
+
 		title.setY(40);
-		title.setX((anchorPaneWidth/2) - (title.getLayoutBounds().getWidth()/2));
+		title.setX((anchorPaneWidth / 2) - (title.getLayoutBounds().getWidth() / 2));
 		text.setY(70 + picHeight + 25);
 		text.setX(15);
-		
+
 		instructionTitle.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 15);
 		instructionTitle.setX(15);
 		instructionTitle.setBoundsType(TextBoundsType.LOGICAL);
-	
+
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
 		anchorpane.getChildren().add(instruction);

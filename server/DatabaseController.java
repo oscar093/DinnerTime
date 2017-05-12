@@ -408,6 +408,8 @@ public class DatabaseController {
 	public int getRecipeCount(String country){
 		int response = 0;
 		try{
+			System.out.println(country);
+			
 			PreparedStatement ps = c.prepareStatement("select count(*) from recipe where country = ?;");
 			ps.setString(1, "" + country.toLowerCase()+ "");
 			ResultSet rs = ps.executeQuery();
