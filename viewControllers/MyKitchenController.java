@@ -1,9 +1,11 @@
-package dinnerTime;
+package viewControllers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.Client;
+import client.Main;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +14,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.*;
 
+/**
+ * Controller class for myKitchen view.
+ * 
+ * 
+ */
 public class MyKitchenController implements Initializable {
 	private static Stage primaryStage;
 	private AnchorPane pane;
@@ -19,14 +26,17 @@ public class MyKitchenController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
+		// Auto-generated method stub
 	}
 
+	/**
+	 * Method shows new recipe view.
+	 * @throws IOException
+	 */
 	@FXML
 	private void newRecipe() throws IOException{
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("CreateRecipeView.fxml"));
+			loader.setLocation(Main.class.getResource("../fmxlView/CreateRecipeView.fxml"));
 			pane = loader.load();
 			
 			CreateRecipeController crc = loader.getController();
@@ -43,6 +53,10 @@ public class MyKitchenController implements Initializable {
 			addRecipeStage.showAndWait();
 	}
 	
+	/**
+	 * Set which client to be used.
+	 * @param client
+	 */
 	public void setClient(Client client){
 		this.client = client;
 	}

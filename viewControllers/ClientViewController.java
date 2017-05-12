@@ -1,4 +1,4 @@
-package dinnerTime;
+package viewControllers;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import javax.swing.JLabel;
+
+import client.Client;
+import client.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -27,12 +30,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextBoundsType;
+import module.Logout;
+import module.Recipe;
 
+/** 
+ * Controller class for client startscene, country explore.
+ * 
+ * @author Oscar
+ */
 public class ClientViewController implements Initializable {
 
 	@FXML
@@ -61,57 +71,15 @@ public class ClientViewController implements Initializable {
 	private HashMap<TreeItem<String>, Integer> recipeKeyMap = new HashMap<TreeItem<String>, Integer>();
 	private int recipeCount = -1;
 
-	/**
+
+	
+	/** 
 	 * Initialize and show GUI for client.
+	 * 
+	 * @author Oscar, Olof, David
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// africa = new TreeItem<String>("Africa");
-		// countryItemList.add(africa);
-		// addRegion("Africa");
-		//
-		// asia = new TreeItem<String>("Asia");
-		// countryItemList.add(asia);
-		// addRegion("Asia");
-		//
-		// europe = new TreeItem<String>("Europe");
-		// countryItemList.add(europe);
-		// addRegion("Europe");
-		//
-		// middleEast = new TreeItem<String>("Middle East");
-		// countryItemList.add(middleEast);
-		// addRegion("MiddleEast");
-		//
-		// northAmerica = new TreeItem<String>("North America");
-		// countryItemList.add(northAmerica);
-		// addRegion("NorthAmerica");
-		//
-		// southAmerica = new TreeItem<String>("South America");
-		// countryItemList.add(southAmerica);
-		// addRegion("SouthAmerica");
-		//
-		// root.getChildren().add(africa);
-		// addCountries("Africa",africa);
-		//
-		// root.getChildren().add(asia);
-		// addCountries("Asia",asia);
-		//
-		// root.getChildren().add(europe);
-		// addCountries("Europe",europe);
-		//
-		// root.getChildren().add(middleEast);
-		// addCountries("MiddleEast",middleEast);
-		//
-		// root.getChildren().add(northAmerica);
-		// addCountries("NorthAmerica",northAmerica);
-		//
-		// root.getChildren().add(southAmerica);
-		// addCountries("SouthAmerica",southAmerica);
-		//
-		// treeview.getSelectionModel().selectedItemProperty().addListener(til);
-		// treeview.setRoot(root);
-		// treeview.setShowRoot(false);
-
 		b = new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY);
 		anchorpane.setBackground(new Background(b));
 		anchorpane.setMaxWidth(535);
@@ -166,11 +134,11 @@ public class ClientViewController implements Initializable {
 		treeview.setRoot(root);
 		treeview.setShowRoot(false);
 	}
-
+	
 	/**
 	 * author Olof
-	 * 
-	 * Add regions to TreeView.
+	 *  
+	 * Add regions to TreeView. 
 	 * 
 	 * @param region
 	 */
@@ -191,7 +159,6 @@ public class ClientViewController implements Initializable {
 	 * author Olof
 	 * 
 	 * Add countries to treeView.
-	 * 
 	 * @param regionString
 	 * @param regionItem
 	 */
@@ -214,7 +181,6 @@ public class ClientViewController implements Initializable {
 		} catch (IOException e) {
 		}
 	}
-
 	/**
 	 * author Olof
 	 * 
@@ -243,34 +209,51 @@ public class ClientViewController implements Initializable {
 		this.recipeCount = count;
 		notifyAll();
 	}
+	
+	/**
+	 * Set the Client of which communication is made.
+	 * 
+	 * @param client
+	 */
 
 	public void setClient(Client client) {
 		this.client = client;
 		client.setClientViewController(this);
 	}
-
+	
+	/**
+	 * Log out this user.
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout() throws IOException {
 		userLogout = new Logout(username);
 		client.sendToServer(userLogout);
 		main.showLoginView();
 	}
-
+	/**
+	 * Show myKitchen view.
+	 * @throws IOException
+	 */
 	@FXML
 	private void myKitchen() throws IOException {
 		main.showMyKitchenView(client);
 	}
 
+	
+	/**
+	 * show search view.
+	 * @throws IOException
+	 */
 	@FXML
 	private void search() throws IOException {
 		main.showSearchView(client);
 	}
 
 	/**
-	 * Listens for operations in treeview.
+	 * Listens for operations in treeview from user and delegates to other methods.
 	 * 
-	 * @author osc
-	 *
+	 * @author Oscar
 	 */
 	private class TreeItemListener implements ChangeListener {
 		@Override
@@ -294,11 +277,10 @@ public class ClientViewController implements Initializable {
 	}
 
 	/**
-	 * Updated all country nodes with the latest recipes based on that
-	 * particular country.
+	 * Updated all country nodes with the latest recipes based on that particular country.
 	 * 
-	 * @param recipe
-	 *            - is a Recipe array.
+	 * @author Oscar
+	 * @param recipe - is a Recipe array.
 	 */
 	public void updateCountryNode(Recipe[] recipe) {
 		if (recipe.length > 0) {
@@ -318,51 +300,68 @@ public class ClientViewController implements Initializable {
 		}
 	}
 
-	/**
-	 * Presents the recipe in the textflow.
+	/** 
+	 * Presents the recipes in the TextArea.
 	 * 
+	 * @author Oscar
 	 * @param recipe
 	 */
 	public void presentRecipe(Recipe recipe) {
 		anchorpane.getChildren().clear();
+		double anchorPaneWidth = anchorpane.getWidth();
 		Text title = new Text();
-		title.setText(recipe.getTitle().substring(0, 1).toUpperCase() + recipe.getTitle().substring(1));
-		title.setFont(Font.font("Verdana", 36));
+		title.setText(recipe.getTitle().substring(0,1).toUpperCase() + recipe.getTitle().substring(1));
+		title.setFont(Font.font ("Verdana",FontWeight.BOLD, 36));
 		Text text = new Text();
-		text.setFont(Font.font("Verdana", 14));
+		text.setFont(Font.font ("Verdana", 16));
+		Text instructionTitle = new Text();
+		JLabel jlb = new JLabel();
+		instructionTitle.setText("Instruction");
+		instructionTitle.setFont(Font.font ("Verdana",  FontWeight.BOLD , 16));
+		int picHeight = 0;
 
-		if (recipe.getImg() != null) {
+		
+		if(recipe.getImg() != null){
 			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
 			Image img = new Image(in);
-			ImageView vfoodPic = new ImageView(img);
-			vfoodPic.setY(20);
-			vfoodPic.setX(320);
-			anchorpane.getChildren().add(vfoodPic);
+			ImageView recipeImage = new ImageView(img);
+			recipeImage.setY(70);
+			recipeImage.setX((anchorPaneWidth/2) - 249.5);//249.5 ska vara halva recept bilden.
+			anchorpane.getChildren().add(recipeImage);
+			picHeight = 312;
+			
 		}
-
-		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0, 1).toUpperCase()
-				+ recipe.getCountry().substring(1) + "\nFörfattare: " + recipe.getAuthor().substring(0, 1).toUpperCase()
-				+ recipe.getAuthor().substring(1) + "\n\nTillagningstid: " + recipe.getTime() + " minuter"
-				+ "\n\nIngridienser:         Instruktion: \n\n";
-
-		String[] ingridienser = recipe.getIngredients();
-		for (String ingr : ingridienser) {
+		
+		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0,1).toUpperCase() + recipe.getCountry().substring(1)
+							+ "\nFörfattare: " + recipe.getAuthor().substring(0,1).toUpperCase() + recipe.getAuthor().substring(1)
+							+ "\n\nTillagningstid: " + recipe.getTime() + " minuter\n";
+		
+		String[] ingridienser = recipe.getIngredients(); 
+		for(String ingr : ingridienser){
 			recepyInfo += ingr + "\n";
 		}
 
 		text.setText(recepyInfo);
 		Text instruction = new Text();
+		String strInst = recipe.getInstruction();
 		instruction.setText(recipe.getInstruction());
 
-		instruction.setX(140);
-		instruction.setY(230);
-
-		title.setY(50);
-		title.setX(10);
-		text.setY(100);
-		text.setX(10);
+		
+		instruction.setX(15);
+		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
+		
+		title.setY(40);
+		title.setX((anchorPaneWidth/2) - (title.getLayoutBounds().getWidth()/2));
+		text.setY(70 + picHeight + 25);
+		text.setX(15);
+		
+		instructionTitle.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 15);
+		instructionTitle.setX(15);
+		instructionTitle.setBoundsType(TextBoundsType.LOGICAL);
+	
 		anchorpane.getChildren().add(title);
 		anchorpane.getChildren().add(text);
 		anchorpane.getChildren().add(instruction);
+		anchorpane.getChildren().add(instructionTitle);
 	}
 }

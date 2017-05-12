@@ -1,6 +1,10 @@
-package dinnerTime;
+package server;
 
 import javafx.scene.image.Image;
+//<<<<<<< HEAD:dinnerTime/DatabaseController.java
+//=======
+import module.Recipe;
+//>>>>>>> 98b5c9d441d0b43aedd447f435bd7b839e006825:server/DatabaseController.java
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -22,15 +26,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
+ * Handles communication between server and database.
  * 
  * @author Olof, Oscar, David
- *
  */
 
 public class DatabaseController {
 
 	private Connection c = null;
 
+	/**
+	 * Contructor for databasecontroller. Gets driver for Postgres and connects to database.
+	 * 
+	 * @author Oscar, David
+	 */
 	public DatabaseController() {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -45,6 +54,14 @@ public class DatabaseController {
 		}
 	}
 
+	/** 
+	 * Controlles if combination of password and username exists in database.
+	 * 
+	 * @author David
+	 * @param username
+	 * @param password
+	 * @return 'success' if succesfull 'failed' if not.
+	 */
 	public String login(String username, String password) {
 		try {
 			Statement stmt = c.createStatement();
@@ -60,8 +77,21 @@ public class DatabaseController {
 		return "failed";
 	}
 
+	/** 
+	 * Saves a new user to the database.
+	 * 
+	 * @author David
+	 * @param username
+	 * @param password
+	 * @param firstname
+	 * @param surname
+	 * @param region
+	 * @param country
+	 * @return 'success' if succesfull 'failed' if not.c
+	 */
 	public String register(String username, String password, String firstname, String surname, String region,
 			String country) {
+		
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
@@ -80,10 +110,11 @@ public class DatabaseController {
 		return "failed";
 	}
 
-	/**
-	 * author Olof
+	/** 
+	 * The new recipe is added to the database.
 	 * 
-	 * the new recipe is added to the database
+	 * @author Olof
+	 * @param recipe
 	 */
 	public void newRecipe(Recipe recipe) {
 		try {
@@ -132,11 +163,11 @@ public class DatabaseController {
 		}
 	}
 
-	/**
-	 * author Olof
+	/** 
+	 * Adds the image to the database
 	 * 
-	 * adds the image to the database
-	 * @param recipeId: the ID of the recipe the image belongs to
+	 * @author Olof
+	 * @param recipeId: the ID of the recipe the image belongs to.
 	 * @param filename: file path to the image
 	 */
 	public void addImage(int recipeId, String filename) {
@@ -156,13 +187,12 @@ public class DatabaseController {
 		}
 	}
 
-	/**
-	 * author Oscar, Olof
+	/** 
+	 * Gets the image the image is stored as byte.
 	 * 
-	 * gets the image
-	 * the image is stored as byte, returns a byte-array
-	 * 
-	 * @param recipeId : the ID of the recipe the image belongs to
+	 * @author Oscar, Olof
+	 * @param recipeId : the ID of the recipe the image belongs to.
+	 * @return byte[]
 	 */
 	public byte[] getImage(int recipeId) {
 		byte[] img = null;
@@ -182,6 +212,14 @@ public class DatabaseController {
 		return img;
 	}
 
+	/** 
+	 * Return all recipes from a specific country.
+	 * This method includes pictures with the recipes.
+	 * 
+	 * @author Oscar
+	 * @param country
+	 * @return Recipe[] 
+	 */
 	public Recipe[] getRecipeByCountry(String country) {
 		ArrayList<Recipe> result = new ArrayList<Recipe>();
 		Statement stmt;
@@ -221,10 +259,9 @@ public class DatabaseController {
 	}
 
 	/**
-	 * author Olof
-
-	 * gets all the recipes that matches the title-search
+	 * Gets all the recipes that matches the title-search.
 	 * 
+	 * @author Olof
 	 * @param title : the users search
 	 * @return returns an array with all the recipes
 	 */
@@ -270,11 +307,10 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	/**
-	 * author Olof
+	/** 
+	 * Gets all the recipes that matches the country-search.
 	 * 
-	 * gets all the recipes that matches the country-search
-	 * 
+	 * @author Olof
 	 * @param title : the users search
 	 * @return returns an array with all the recipes
 	 */
@@ -318,11 +354,10 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	/**
-	 * author Olof
+	/** 
+	 * Gets all the recipes that matches the author-search.
 	 * 
-	 * gets all the recipes that matches the author-search
-	 * 
+	 * @author Olof
 	 * @param title : the users search
 	 * @return returns an array with all the recipes
 	 */
@@ -365,6 +400,7 @@ public class DatabaseController {
 		response.toArray(responseArray);
 		return responseArray;	
 	}
+
 	/**
 	 * author Olof
 	 * count the recipes made for each country

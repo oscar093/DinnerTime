@@ -1,4 +1,4 @@
-package dinnerTime;
+package server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -6,10 +6,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.scene.image.Image;
+import module.Login;
+import module.Logout;
+import module.Recipe;
+import module.Register;
 
 import java.io.*;
 import java.net.*;
 
+/**
+ * Serves clients with information.
+ * 
+ * @author Oscar, David 
+ *
+ */
 public class Server implements Runnable {
 	private int port;
 	private Thread server = new Thread(this);
@@ -19,6 +29,12 @@ public class Server implements Runnable {
 	private Register reg;
 	private DatabaseController dbc = new DatabaseController();
 
+	/** 
+	 * Contructor for server, takes port On which the server is to run.
+	 * 
+	 * @author David
+	 * @param port
+	 */
 	public Server(int port) {
 		this.port = port;
 		server.start();
@@ -44,11 +60,23 @@ public class Server implements Runnable {
 		}
 	}
 	
+	/** 
+	 * Handles every clients threads and communication between them.
+	 * 
+	 * @author Oscar
+	 */
 	private class ClientHandler extends Thread {
 		private Socket socket;
 		private ObjectInputStream ois;
 		private ObjectOutputStream oos;
 		
+		/** 
+		 * Constructor for clienthandler, takes socket from connections.
+		 * 
+		 * @author Oscar
+		 * @param socket
+		 * @throws IOException
+		 */
 		public ClientHandler(Socket socket) throws IOException {
 			this.socket = socket;
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -94,6 +122,13 @@ public class Server implements Runnable {
 			}
 		}
 		
+		/** 
+		 * Controls if username and password is correct. 
+		 * 
+		 * @author Oscar, David
+		 * @param username
+		 * @param password
+		 */
 		public void login(String username, String password) {
 			DatabaseController dbc = new DatabaseController();
 			String loginStatus;
@@ -114,6 +149,17 @@ public class Server implements Runnable {
 			}
 		}
 		
+		/** 
+		 * Registers a person as a member of DinnerTime.
+		 * 
+		 * @author David
+		 * @param username
+		 * @param password
+		 * @param firstname
+		 * @param surname
+		 * @param region
+		 * @param country
+		 */
 		public void register(String username, String password, String firstname, String surname, String region, String country) {
 			DatabaseController dbc = new DatabaseController();
 			String registerStatus;
@@ -134,11 +180,21 @@ public class Server implements Runnable {
 			}
 		}
 		
+		/**
+		 * Saves a new recipe in to database.
+		 * 
+		 * @param recipe
+		 */
 		public void newRecipe(Recipe recipe){
 			DatabaseController dbc = new DatabaseController();
 			dbc.newRecipe(recipe);
 		}
 		
+		/**
+		 * Log out a user.
+		 * 
+		 * @param username
+		 */
 		public void logout(String username) {
 			ClientHandler ch = usersAndThreads.get(username);
 			usersAndThreads.remove(username);
@@ -149,8 +205,10 @@ public class Server implements Runnable {
 			System.out.println(threads.toString());
 		}
 		
-		/**
-		 * Translates and directs all incoming Strings from client.
+		/** 
+		 * Translates and delegates all incoming Strings from client.
+		 * 
+		 * @author Oscar
 		 * @param command - What the client wants the server to do. 
 		 */
 		public void stringHandler(String command){
@@ -200,6 +258,8 @@ public class Server implements Runnable {
 		
 		/**
 		 * Sends a array of recipe from specified country to client.
+		 * 
+		 * @author Oscar
 		 * @param country - country of wish the recipes should be from.
 		 */
 		public void recipeByCountryRequest(String country){
@@ -213,6 +273,10 @@ public class Server implements Runnable {
 		}
 	}
 
+	/**
+	 * Start method for server.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Server server = new Server(3250);
 		
