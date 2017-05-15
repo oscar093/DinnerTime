@@ -1,13 +1,6 @@
 package server;
 
-import javafx.scene.image.Image;
-//<<<<<<< HEAD:dinnerTime/DatabaseController.java
-//=======
 import module.Recipe;
-//>>>>>>> 98b5c9d441d0b43aedd447f435bd7b839e006825:server/DatabaseController.java
-
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,10 +13,6 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  * Handles communication between server and database.
@@ -402,8 +391,9 @@ public class DatabaseController {
 	}
 
 	/**
-	 * author Olof
-	 * count the recipes made for each country
+	 * Count the recipes made for each country
+	 * 
+	 * @author Olof
 	 */
 	public int getRecipeCount(String country){
 		int response = 0;
@@ -418,15 +408,4 @@ public class DatabaseController {
 		}
 		return response;
 	}
-
-	/*
-	 * Använd denna Main-metoden om du vill testa en metod direkt mot databasen.
-	 * Men ändra addressen till databasen först för att det ska fungera.
-	 */
-//	public static void main(String[] args) {
-//		DatabaseController d = new DatabaseController();	
-//		if(d.getImage(12) == null){
-//			System.out.println("Its null");
-//		}
-//	}
 }
