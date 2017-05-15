@@ -7,10 +7,10 @@ import javax.swing.*;
 
 import javafx.scene.image.Image;
 
-/** 
+/**
  * This is a recipe with all information needed to view it.
  *
- * @author Oscar
+ * @author Oscar, Olof
  */
 public class Recipe implements Serializable {
 
@@ -19,7 +19,7 @@ public class Recipe implements Serializable {
 	private ArrayList<String> ingredientList = new ArrayList<String>();
 	private byte[] img;
 
-	/** 
+	/**
 	 * Set title for recipe.
 	 * 
 	 * @author Oscar
@@ -29,7 +29,7 @@ public class Recipe implements Serializable {
 		this.title = name;
 	}
 
-	/** 
+	/**
 	 * Get title for recipe.
 	 * 
 	 * @author Oscar
@@ -38,8 +38,8 @@ public class Recipe implements Serializable {
 	public String getTitle() {
 		return this.title;
 	}
-	
-	/** 
+
+	/**
 	 * Set cookingtime for recipe.
 	 * 
 	 * @author Oscar
@@ -49,7 +49,7 @@ public class Recipe implements Serializable {
 		this.time = time;
 	}
 
-	/** 
+	/**
 	 * Get cookingtime for recipe.
 	 * 
 	 * @author Oscar
@@ -59,17 +59,22 @@ public class Recipe implements Serializable {
 		return this.time;
 	}
 
-	/** 
+	/**
 	 * Get Country where the recipe is from.
 	 * 
-	 * @author Oscar
+	 * @author Oscar, Olof
 	 * @return country
 	 */
 	public String getCountry() {
-		return country;
+		if (country != null) {
+			return country;
+		}
+		else{
+			return "No specified country";
+		}
 	}
 
-	/** 
+	/**
 	 * Set country to where the recipe is from.
 	 * 
 	 * @author Oscar
@@ -79,10 +84,11 @@ public class Recipe implements Serializable {
 		this.country = country;
 	}
 
-	/** 
+	/**
 	 * Add ingredient to the recipe.
 	 * 
 	 * @param ingredient
+	 * @author Olof
 	 */
 	public void addIngredient(String ingredient) {
 		ingredientList.add(ingredient);
@@ -91,6 +97,7 @@ public class Recipe implements Serializable {
 	/**
 	 * Get the ingredients for this recipe.
 	 * 
+	 * @author Olof
 	 * @return String[] ingredients
 	 */
 	public String[] getIngredients() {
@@ -99,7 +106,7 @@ public class Recipe implements Serializable {
 		return ingredients;
 	}
 
-	/** 
+	/**
 	 * Get ID for this recipe. Is uniqe.
 	 * 
 	 * @author Oscar
@@ -109,7 +116,7 @@ public class Recipe implements Serializable {
 		return id;
 	}
 
-	/** 
+	/**
 	 * Set unique Id for this recipe.
 	 * 
 	 * @author Oscar
@@ -119,7 +126,7 @@ public class Recipe implements Serializable {
 		this.id = id;
 	}
 
-	/** 
+	/**
 	 * Get author of this recipe.
 	 * 
 	 * @author Oscar
@@ -129,7 +136,7 @@ public class Recipe implements Serializable {
 		return author;
 	}
 
-	/** 
+	/**
 	 * Set author for this recipe.
 	 * 
 	 * @author Oscar
@@ -139,7 +146,7 @@ public class Recipe implements Serializable {
 		this.author = author;
 	}
 
-	/** 
+	/**
 	 * Set uploadtime of this recipe.
 	 * 
 	 * @author Oscar
@@ -149,7 +156,7 @@ public class Recipe implements Serializable {
 		return upload;
 	}
 
-	/** 
+	/**
 	 * Set uppload time for this recipe.
 	 * 
 	 * @author Oscar
@@ -161,7 +168,9 @@ public class Recipe implements Serializable {
 
 	/**
 	 * Set instruction for this recipe.
+	 * 
 	 * @param instruction
+	 * @author Olof
 	 */
 	public void setInstruction(String instruction) {
 		this.instruction = instruction;
@@ -169,29 +178,35 @@ public class Recipe implements Serializable {
 
 	/**
 	 * Get instruction for this recipe.
+	 * 
+	 * @author Olof
 	 * @return instruction
 	 */
 	public String getInstruction() {
 		return instruction;
 	}
-	
+
 	/**
 	 * Set img filename
+	 * 
 	 * @param filename
+	 * @author Olof
 	 */
-	public void setImgFileName(String filename){
+	public void setImgFileName(String filename) {
 		this.imgFileName = filename;
 	}
-	
+
 	/**
 	 * Get image filename.
+	 * 
 	 * @return
+	 * @author Olof
 	 */
-	public String getImgFileName(){
+	public String getImgFileName() {
 		return imgFileName;
 	}
 
-	/** 
+	/**
 	 * Get image for this recipe.
 	 * 
 	 * @author Oscar
@@ -201,7 +216,7 @@ public class Recipe implements Serializable {
 		return img;
 	}
 
-	/** 
+	/**
 	 * Set image for this recipe.
 	 * 
 	 * @author Oscar

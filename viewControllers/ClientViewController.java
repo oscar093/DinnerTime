@@ -169,7 +169,7 @@ public class ClientViewController implements Initializable {
 					if (tempItem.toString().contains(strLine)) {
 						// for each country, a request to count the recipes from
 						// the country is sent to the server/database
-						client.sendToServer("getRecipeCount " + strLine);
+						client.sendToServer("getRecipeCount_" + strLine);
 						int recipeCount = getRecipeCount();
 						tempItem.setValue(strLine + "(" + recipeCount + ")");
 						regionItem.getChildren().add(tempItem);
@@ -268,7 +268,7 @@ public class ClientViewController implements Initializable {
 			if (selectedItem.isLeaf() && !selectedItem.isExpanded() && countryItemList.contains(selectedItem)) {
 				addCountries(selectedItem.getValue(), selectedItem);
 				String[] countryName = selectedItem.getValue().split("\\(");
-				String command = "getrecipebycountry " + countryName[0];
+				String command = "getrecipebycountry_" + countryName[0];
 				client.sendToServer(command);
 			} else if (selectedItem.isLeaf() && !countryItemList.contains(selectedItem)) {
 				Recipe selectedRecipe = client.getRecipe(recipeKeyMap.get(selectedItem));

@@ -20,28 +20,26 @@ import javafx.scene.layout.AnchorPane;
 import module.Recipe;
 
 /**
- * 
- * Controller class for new recipe view.
- * 
- * @author Olof
-
+ * Controller class for createRecipeView
  */
 
 public class CreateRecipeController implements Initializable {
 	@FXML
 	private Button btnSend, btnAddIngredient, btnPicture;
 	@FXML
-	private TextField tfTitle, tfTime, tfCountry, tfIngredientInput, tfPicture;
+	private TextField tfTitle, tfTime, tfIngredientInput, tfPicture;
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
 	private Label lblConfirmation;
 	@FXML
-	private ComboBox cbCountry;
+	private ComboBox<String> cbCountry;
 	private Client client;
 	private String imgFileName = null;
 
 	/**
+	 * author Olof
+	 * 
 	 * TaIngredients is set to disabled, the only way for ingredients to be added is through the ifIngredientInput.
 	 * lblConfrimation is made invisible.
 	 * cbCountry adds every country by reading the txtFile Countries.txt
@@ -54,7 +52,6 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
 		
-
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
 			String strLine = br.readLine();
@@ -67,6 +64,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
+	 * author Olof
+	 * 
 	 * If there is input in the textfields and textareas they are sent to the Recipe class.
 	 * lblConfirmation is made visible.
 	 */
@@ -78,7 +77,8 @@ public class CreateRecipeController implements Initializable {
 			recipe.setTitle(tfTitle.getText());
 		}
 		if (cbCountry.getValue() != null) {
-			recipe.setCountry(cbCountry.getValue().toString());
+			recipe.setCountry(cbCountry.getValue());
+//			System.out.println(cbCountry.getValue());
 		}
 		if (!tfTime.getText().isEmpty()) {
 			try {
@@ -105,6 +105,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
+	 * author Olof
+	 * 
 	 * The text in tfIngredientInput is added to taIngredients.
 	 */
 	@FXML
@@ -122,6 +124,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
+	 * author Olof
+	 * 
 	 * Removes the latest added ingredient by rewriting 
 	 * everything but the last row in taIngredients list.
 	 */
@@ -141,6 +145,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
+	 * author Olof
+	 * 
 	 * Clears taIngredients.
 	 */
 	@FXML
@@ -149,6 +155,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/** 
+	 * author Olof
+	 * 
 	 * Resizes the chosen picture and saves the path.
 	 * 
 	 * @author Oscar, Olof
@@ -171,6 +179,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
+	 * author Olof
+	 * 
 	 * Set-method for the client.
 	 * the client is needed so that the author of the recipe can be saved.
 	 */

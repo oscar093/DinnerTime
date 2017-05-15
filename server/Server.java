@@ -213,7 +213,7 @@ public class Server implements Runnable {
 		 */
 		public void stringHandler(String command){
 			if(command.contains("getrecipebycountry")){
-				String[] strArray = command.split(" ");
+				String[] strArray = command.split("_");
 				String country = strArray[1];
 				recipeByCountryRequest(country.toLowerCase());
 			}else if(command.contains("getRecipeImage")){
@@ -221,7 +221,8 @@ public class Server implements Runnable {
 				String id = strArray[1];
 			}
 			if(command.startsWith("titleSearch")){
-				String[] response = dbc.getTitleSearch(command.substring(11));
+				String[] search = command.split("_");
+				String[] response = dbc.getTitleSearch(search[1]);
 				try {
 					oos.writeObject(response);
 				} catch (IOException e) {
@@ -229,7 +230,8 @@ public class Server implements Runnable {
 				}
 			}
 			if(command.startsWith("countrySearch")){
-				String[] response = dbc.getCountrySearch(command.substring(13));
+				String[] search = command.split("_");
+				String[] response = dbc.getCountrySearch(search[1]);
 				try {
 					oos.writeObject(response);
 				} catch (IOException e) {
@@ -237,16 +239,16 @@ public class Server implements Runnable {
 				}
 			}
 			if(command.startsWith("authorSearch")){
-				String[] response = dbc.getAuthorSearch(command.substring(12));
+				String[] search = command.split("_");
+				String[] response = dbc.getAuthorSearch(search[1]);
 				try {
 					oos.writeObject(response);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			
+			}	
 			if(command.startsWith("getRecipeCount")){
-				String[] s =command.split(" ");
+				String[] s =command.split("_");
 				int response = dbc.getRecipeCount(s[1]);
 				try {
 					oos.writeObject(response);
