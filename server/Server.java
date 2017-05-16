@@ -43,11 +43,15 @@ public class Server implements Runnable {
 	public void run() {
 		Socket socket = null;
 		try(ServerSocket ss = new ServerSocket(port)) {
+			System.out.println("Server started.\nLocal IP: " 	+ InetAddress.getLocalHost().getHostAddress()
+														+ "\nHost-name: " + InetAddress.getLocalHost().getHostName()
+														+ "\nPort: "+  ss.getLocalPort() + "\n");
 			while(true) {
 				try {
 					socket = ss.accept();
 					ClientHandler ch = new ClientHandler(socket);
 					threads.add(ch);
+					System.out.println("Client connected.\nIP: " + ss.getInetAddress() + "\n");
 				} catch(IOException e) {
 					e.printStackTrace();
 					if(socket != null) {
@@ -73,7 +77,7 @@ public class Server implements Runnable {
 		/** 
 		 * Constructor for clienthandler, takes socket from connections.
 		 * 
-		 * @author Oscar
+		 * @author Oscar, David
 		 * @param socket
 		 * @throws IOException
 		 */
