@@ -51,13 +51,13 @@ public class SearchViewController implements Initializable  {
 	@FXML
 	private void search(){
 		if(rbTitle.isSelected()){
-			client.sendToServer("titleSearch" + tfSearch.getText());
+			client.sendToServer("titleSearch_" + tfSearch.getText());
 		}
 		if(rbCountry.isSelected()){
-			client.sendToServer("countrySearch" + tfSearch.getText());
+			client.sendToServer("countrySearch_" + tfSearch.getText().toLowerCase());
 		}
 		if(rbAuthor.isSelected()){
-			client.sendToServer("authorSearch" + tfSearch.getText());
+			client.sendToServer("authorSearch_" + tfSearch.getText());
 		}	
 	}
 	

@@ -1,5 +1,6 @@
 Afghanistan
 Armenia
+Azerbaijan
 Bahrain
 Egypt
 Iran
@@ -14,5 +15,6 @@ Qatar
 Saudi Arabia
 Syria
 Turkey
-United Arab Emirates
+UnitedArab Emirates
+Uzbekistan
 Yemen

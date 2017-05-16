@@ -1,6 +1,3 @@
-Armenia
-Azerbaijan
-Bahrain
 Bangladesh
 Bhutan
 Brunei
@@ -23,11 +20,9 @@ North Korea
 Pakistan
 Philippines
 Singapore
-South Korea
+South_Korea
 Sri Lanka
 Tajikistan
 Thailand
 Taiwan
-Turkmenistan
-Uzbekistan
 Vietnam
