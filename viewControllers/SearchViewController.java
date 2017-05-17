@@ -101,8 +101,8 @@ public class SearchViewController implements Initializable  {
 	 */
 	public void showResponse(String[] response){
 		String list = "";
-		for(String s : response){
-			String[] split = s.split("_");
+		for(int j = 0; j < response.length - 1; j++){
+			String[] split = response[j].split("_");
 			list += split[0].toUpperCase() + ":\n";
 			for(int i = 1; i < split.length; i++){
 				list += split[i]+ "\n";
