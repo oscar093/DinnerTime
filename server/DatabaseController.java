@@ -76,7 +76,7 @@ public class DatabaseController {
 	 * @param surname
 	 * @param region
 	 * @param country
-	 * @return 'success' if succesfull 'failed' if not.c
+	 * @return 'success' if succesfull 'failed' if not
 	 */
 	public String register(String username, String password, String firstname, String surname, String region,
 			String country) {
@@ -568,8 +568,6 @@ public class DatabaseController {
 	public int getRecipeCount(String country){
 		int response = 0;
 		try{
-			System.out.println(country);
-			
 			PreparedStatement ps = c.prepareStatement("select count(*) from recipe where country = ?;");
 			ps.setString(1, "" + country.toLowerCase()+ "");
 			ResultSet rs = ps.executeQuery();

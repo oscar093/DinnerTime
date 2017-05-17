@@ -4,8 +4,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javafx.scene.image.Image;
 import module.Login;
 import module.Logout;
 import module.Recipe;
@@ -192,7 +190,7 @@ public class Server implements Runnable {
 		
 		/**
 		 * Saves a new recipe in to database.
-		 * 
+		 * @author Olof
 		 * @param recipe
 		 */
 		public void newRecipe(Recipe recipe){
@@ -218,7 +216,7 @@ public class Server implements Runnable {
 		/** 
 		 * Translates and delegates all incoming Strings from client.
 		 * 
-		 * @author Oscar, Jonathan
+		 * @author Oscar, Jonathan, Olof
 		 * @param command - What the client wants the server to do. 
 		 */
 		public void stringHandler(String command){

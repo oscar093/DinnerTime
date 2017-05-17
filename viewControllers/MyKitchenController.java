@@ -86,7 +86,7 @@ public class MyKitchenController implements Initializable {
 		crc.setClient(client);
 
 		Stage addRecipeStage = new Stage();
-		addRecipeStage.setTitle("New Recipe!");
+		addRecipeStage.setTitle("My Kitchen!");
 		addRecipeStage.initModality(Modality.WINDOW_MODAL);
 		addRecipeStage.initOwner(primaryStage);
 		addRecipeStage.setResizable(false);
