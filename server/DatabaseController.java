@@ -290,10 +290,10 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 
-		responseArray = new String[response.size()];
+		responseArray = new String[response.size() + 1];
 		response.toArray(responseArray);
-
-		return responseArray;
+		responseArray[responseArray.length - 1] = "searchview";
+		return responseArray;	
 	}
 
 	/** 
@@ -338,9 +338,10 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 
-		responseArray = new String[response.size()];
+		responseArray = new String[response.size() + 1];
 		response.toArray(responseArray);
-		return responseArray;
+		responseArray[responseArray.length - 1] = "searchview";
+		return responseArray;	
 	}
 
 	/** 
@@ -385,8 +386,9 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 
-		responseArray = new String[response.size()];
+		responseArray = new String[response.size() + 1];
 		response.toArray(responseArray);
+		responseArray[responseArray.length - 1] = "searchview";
 		return responseArray;	
 	}
 

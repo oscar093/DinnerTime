@@ -114,7 +114,9 @@ public class Client extends Thread {
 					}
 					else if(obj instanceof String[]){
 						String[] response = (String[])obj;
-						svc.showResponse(response);
+						if(response[response.length -1].equals("searchview")){
+							svc.showResponse(response);		
+						}
 					}
 					else if(obj instanceof Integer){
 						int count = (int)obj;

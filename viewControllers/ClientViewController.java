@@ -89,39 +89,27 @@ public class ClientViewController implements Initializable {
 		africa = new TreeItem<String>("Africa");
 		countryItemList.add(africa);
 		addRegion("Africa");
-
 		asia = new TreeItem<String>("Asia");
 		countryItemList.add(asia);
 		addRegion("Asia");
-
 		europe = new TreeItem<String>("Europe");
 		countryItemList.add(europe);
 		addRegion("Europe");
-
 		middleEast = new TreeItem<String>("Middle East");
 		countryItemList.add(middleEast);
 		addRegion("MiddleEast");
-
 		northAmerica = new TreeItem<String>("North America");
 		countryItemList.add(northAmerica);
 		addRegion("NorthAmerica");
-
 		southAmerica = new TreeItem<String>("South America");
 		countryItemList.add(southAmerica);
 		addRegion("SouthAmerica");
-
 		root.getChildren().add(africa);
-
 		root.getChildren().add(asia);
-
 		root.getChildren().add(europe);
-
 		root.getChildren().add(middleEast);
-
 		root.getChildren().add(northAmerica);
-
 		root.getChildren().add(southAmerica);
-
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);
 		treeview.setRoot(root);
 		treeview.setShowRoot(false);
