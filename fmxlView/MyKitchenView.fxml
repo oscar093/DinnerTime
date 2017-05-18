@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
-
 <?import javafx.scene.layout.Pane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewControllers.MyKitchenController">
-   <top>
+   <left>
       <Pane prefHeight="413.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnRecipe" layoutX="240.0" layoutY="50.0" mnemonicParsing="false" onAction="#newRecipe" text="New Recipe" />
+            <Button fx:id="btnRecipe" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newRecipe" text="New Recipe" />
+            <Button fx:id="btnBack" layoutX="497.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="89.0" text="Back" />
+            <Label fx:id="usernameLbl" layoutX="120.0" layoutY="5.0" prefHeight="44.0" prefWidth="361.0" text="Label" />
+            <Label fx:id="infoLbl" layoutX="14.0" layoutY="78.0" prefHeight="32.0" prefWidth="212.0" text="Info om X" />
+            <Label fx:id="firstName" layoutX="12.0" layoutY="110.0" prefHeight="32.0" prefWidth="216.0" text="Namn" />
+            <Label fx:id="surNameLbl" layoutX="12.0" layoutY="142.0" prefHeight="32.0" prefWidth="216.0" text="Efternamn" />
+            <Label fx:id="regionLbl" layoutX="12.0" layoutY="174.0" prefHeight="32.0" prefWidth="216.0" text="Region" />
+            <Label fx:id="countryLbl" layoutX="12.0" layoutY="206.0" prefHeight="32.0" prefWidth="216.0" text="Land" />
+            <TextArea fx:id="taRecipe" layoutX="254.0" layoutY="106.0" prefHeight="295.0" prefWidth="346.0" />
+            <ComboBox fx:id="myRecipesCb" layoutX="12.0" layoutY="254.0" onAction="#recipeChoice" prefWidth="150.0" promptText="My Recipes" />
          </children>
       </Pane>
-   </top>
+   </left>
 </BorderPane>

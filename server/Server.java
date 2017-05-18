@@ -4,8 +4,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javafx.scene.image.Image;
 import module.Login;
 import module.Logout;
 import module.Recipe;
@@ -17,7 +15,7 @@ import java.net.*;
 /**
  * Serves clients with information.
  * 
- * @author Oscar, David 
+ * @author Oscar, David, Jonathan, Olof
  *
  */
 public class Server implements Runnable {
@@ -40,6 +38,9 @@ public class Server implements Runnable {
 		server.start();
 	}
 	
+	/**
+	 * Connects a client with the server
+	 */
 	public void run() {
 		Socket socket = null;
 		try(ServerSocket ss = new ServerSocket(port)) {
@@ -88,6 +89,9 @@ public class Server implements Runnable {
 			start();
 		}
 		
+		/**
+		 * Starts the server's thread
+		 */
 		public void run() {
 			try {
 				while(true) {
@@ -186,7 +190,7 @@ public class Server implements Runnable {
 		
 		/**
 		 * Saves a new recipe in to database.
-		 * 
+		 * @author Olof
 		 * @param recipe
 		 */
 		public void newRecipe(Recipe recipe){
@@ -212,7 +216,7 @@ public class Server implements Runnable {
 		/** 
 		 * Translates and delegates all incoming Strings from client.
 		 * 
-		 * @author Oscar
+		 * @author Oscar, Jonathan, Olof
 		 * @param command - What the client wants the server to do. 
 		 */
 		public void stringHandler(String command){
@@ -257,6 +261,55 @@ public class Server implements Runnable {
 				try {
 					oos.writeObject(response);
 				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("username")){
+				String firstname = dbc.firstName(command.substring(8));
+				try {
+					oos.writeObject(firstname);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("surname")){
+				String surname = dbc.surName(command.substring(7));
+				try {
+					oos.writeObject(surname);
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("region")){
+				String region = dbc.region(command.substring(6));
+				try {
+					oos.writeObject(region);
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("country")){
+				String country = dbc.country(command.substring(7));
+				try {
+					oos.writeObject(country);
+				} catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("recipes")){
+				ArrayList<String> recipes = dbc.getAuthorRecipes(command.substring(7));
+				try {
+					oos.writeObject(recipes);
+				} catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+			if(command.startsWith("reccipe")){
+				String[] recept = command.split(",");
+				String[] result = dbc.getRecipeByAuthor(recept[1],recept[2]);
+				try{
+					oos.writeObject(result);
+				}catch(IOException e){
 					e.printStackTrace();
 				}
 			}

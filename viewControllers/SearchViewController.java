@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 /** 
  * Controller class for the search view.
- * 
  * @author Olof
  */
 
@@ -38,6 +37,7 @@ public class SearchViewController implements Initializable  {
 	
 	/**
 	 * Adds all found recipes to this textarea.
+	 * @author Olof
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -47,6 +47,7 @@ public class SearchViewController implements Initializable  {
 	/**
 	 * Different Strings are sent to the client/server depending on what
 	 * the user has chosen to search for.
+	 * @author Olof
 	 */
 	@FXML
 	private void search(){
@@ -63,6 +64,7 @@ public class SearchViewController implements Initializable  {
 	
 	/**
 	 * Only one radioButton can be chosen at a time.
+	 * @author Olof
 	 */
 	@FXML
 	private void setSelect(){
@@ -82,6 +84,7 @@ public class SearchViewController implements Initializable  {
 	
 	/**
 	 * The user is taken to the ClientView if the button "back" is pressed.
+	 * @author Olof
 	 */
 	
 	@FXML
@@ -98,7 +101,9 @@ public class SearchViewController implements Initializable  {
 	 * the array is split up and listed in taList.
 	 * 
 	 * @param response : the result of the search
+	 * @author Olof
 	 */
+	@FXML
 	public void showResponse(String[] response){
 		String list = "";
 		for(int j = 0; j < response.length - 1; j++){
@@ -108,12 +113,24 @@ public class SearchViewController implements Initializable  {
 				list += split[i]+ "\n";
 			}
 		}
-		taList.setText(list);
+		if(rbTitle.isSelected() && list.equals("")){
+			taList.setText("No recipes with that title has been made!");
+		}
+		else if(rbCountry.isSelected() && list.equals("")){
+			taList.setText("No recipes from this country has been made!");
+		}
+		else if(rbAuthor.isSelected() && list.equals("")){
+			taList.setText("No user with this username has made any recipes!");
+		}
+		else{
+			taList.setText(list);
+		}
 	}
 
 	/**
 	 * Set which client to use.
 	 * @param client
+	 * @author Olof
 	 */
 	public void setClient(Client client){
 		this.client = client;

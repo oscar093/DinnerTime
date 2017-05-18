@@ -16,7 +16,7 @@ import viewControllers.SearchViewController;
 /**
  * Start clients gui and handles the scenes for different views.
  *
- * @author David
+ * @author David, Jonathan
  */
 public class Main extends Application {
 	private static Stage primaryStage;
@@ -45,12 +45,14 @@ public class Main extends Application {
 		showLoginView();
 	}
 	
+
 	/** 
-	 * Show the login view.
+	 * Shows the login view.
 	 * 
 	 * @author David
 	 * @throws IOException
 	 */
+
 	public static void showLoginView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("../fmxlView/LoginView.fxml"));
@@ -62,7 +64,7 @@ public class Main extends Application {
 	}
 	
 	/** 
-	 * show the register view.
+	 * Shows the register view.
 	 * 
 	 * @author David
 	 * @throws IOException
@@ -78,9 +80,9 @@ public class Main extends Application {
 	}
 	
 	/** 
-	 * show the client view.
+	 * shows the client view.
 	 * 
-	 * @author David
+	 * @author David, Jonathan
 	 * @param client
 	 * @throws IOException
 	 */
@@ -90,6 +92,11 @@ public class Main extends Application {
 		mainLayout = loader.load();
 		ClientViewController cvc = loader.getController();
 		cvc.setClient(client);
+		client.sendToServer("username" + client.getUsername());
+		client.sendToServer("surname" + client.getUsername());
+		client.sendToServer("region" + client.getUsername());
+		client.sendToServer("country" + client.getUsername());
+		client.sendToServer("recipes" + client.getUsername());
 		cvc.addToTree();
 		Scene scene = new Scene(mainLayout, 900, 600);
 		primaryStage.setScene(scene);
@@ -98,9 +105,9 @@ public class Main extends Application {
 	}
 	
 	/** 
-	 * Show myKitshen view.
+	 * Shows myKitchen view.
 	 * 
-	 * @author David
+	 * @author David, Jonathan
 	 * @param client
 	 * @throws IOException
 	 */
@@ -110,6 +117,14 @@ public class Main extends Application {
 		mainLayout = loader.load();
 		MyKitchenController mkc = loader.getController();
 		mkc.setClient(client);
+		mkc.setUsername();
+		mkc.setName();
+		mkc.setFirstName();
+		mkc.setSurName();
+		mkc.setRegion();
+		mkc.setCountry();
+		mkc.setMyRecipes();
+		mkc.setClient(client);
 		Scene scene = new Scene(mainLayout, 900, 600);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(true);
@@ -117,7 +132,7 @@ public class Main extends Application {
 	}
 	
 	/** 
-	 * show search view.
+	 * Shows search view.
 	 * 
 	 * @author David
 	 * @param client

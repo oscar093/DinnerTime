@@ -17,7 +17,7 @@ import java.util.Calendar;
 /**
  * Handles communication between server and database.
  * 
- * @author Olof, Oscar, David
+ * @author Olof, Oscar, David, Jonathan
  */
 
 public class DatabaseController {
@@ -76,7 +76,7 @@ public class DatabaseController {
 	 * @param surname
 	 * @param region
 	 * @param country
-	 * @return 'success' if succesfull 'failed' if not.c
+	 * @return 'success' if succesfull 'failed' if not
 	 */
 	public String register(String username, String password, String firstname, String surname, String region,
 			String country) {
@@ -98,6 +98,102 @@ public class DatabaseController {
 		}
 		return "failed";
 	}
+
+	/**
+	 * Method for getting the first name of a specific user
+	 * 
+	 * @author Jonathan
+	 * @param username name of the user
+	 * @return the first name
+	 */
+	public String firstName(String username){
+		String firstName = "";
+		try{
+			c.setAutoCommit(false);
+			Statement stmt = c.createStatement();
+			String sql = "SELECT firstname FROM member WHERE username = '" + username + "' ;";
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			firstName = rs.getString("firstname");
+			rs.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return "firstName"+firstName;
+	
+	}
+	
+	/**
+	 * Method for getting the surname of a specific user
+	 * 
+	 * @author Jonathan
+	 * @param username name of the user
+	 * @return the surname
+	 */
+	public String surName(String username){
+		String surName = "";
+		try{
+			c.setAutoCommit(false);
+			Statement stmt = c.createStatement();
+			String sql = "SELECT surname FROM member where username = '" + username + "' ;";
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			surName = rs.getString("surname");
+			rs.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return "surname" + surName;
+	}
+	
+	/**
+	 * Method for getting which region a specific user is from
+	 * 
+	 * @author Jonathan
+	 * @param username name of the user
+	 * @return the region
+	 */
+	public String region(String username){
+		String region = "";
+		try{
+			c.setAutoCommit(false);
+			Statement stmt = c.createStatement();
+			String sql = "SELECT region FROM member where username = '" + username + "' ;";
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			region = rs.getString("region");
+			rs.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return "region" + region;
+	}
+	
+	/**
+	 * Method for getting which country a specific user is from
+	 * 
+	 * @author Jonathan
+	 * @param username name of the user
+	 * @return the country
+	 */
+	public String country (String username){
+		String country = "";
+		try {
+			c.setAutoCommit(false);
+			Statement stmt = c.createStatement();
+			String sql = "SELECT country FROM member WHERE username = '" + username + "' ;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+			country = rs.getString("country");
+			}
+			rs.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return "country" + country;
+	}
+
+
 
 	/** 
 	 * The new recipe is added to the database.
@@ -293,7 +389,7 @@ public class DatabaseController {
 		responseArray = new String[response.size() + 1];
 		response.toArray(responseArray);
 		responseArray[responseArray.length - 1] = "searchview";
-		return responseArray;	
+		return responseArray;
 	}
 
 	/** 
@@ -341,7 +437,7 @@ public class DatabaseController {
 		responseArray = new String[response.size() + 1];
 		response.toArray(responseArray);
 		responseArray[responseArray.length - 1] = "searchview";
-		return responseArray;	
+		return responseArray;
 	}
 
 	/** 
@@ -391,6 +487,78 @@ public class DatabaseController {
 		responseArray[responseArray.length - 1] = "searchview";
 		return responseArray;	
 	}
+	
+	/**
+	 * Method for getting information about a specific recipe written by an specific author
+	 * 
+	 * @author Jonathan
+	 * @param author the author's name
+	 * @param title the title of the recipe
+	 * @return an array containing the recipe's information
+	 */
+	public String[] getRecipeByAuthor(String author, String title) {
+		ArrayList<String> response = new ArrayList<String>();
+		String[] responseArray;
+		try {
+			Statement stmt1 = c.createStatement();
+			Statement stmt2 = c.createStatement();
+			String sqlRecipe = ("select distinct recipe.title, recipe.country, recipe.time, recipe.author, recipe.instruction, recipe.upload "
+					+ "from recipe join ingredient on recipe.recipeid = ingredient.recipeid and recipe.author = '"
+					+ author + "' and recipe.title = '" + title + "' ;");
+			ResultSet rs = stmt1.executeQuery(sqlRecipe);
+
+			while (rs.next()) {
+				response.add("title_" + rs.getString("title"));
+				response.add("country_" + rs.getString("country"));
+				response.add("time_" + rs.getString("time"));
+				response.add("author_" + rs.getString("author"));
+				response.add("instruction_" + rs.getString("instruction"));
+
+				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
+						+ rs.getString("upload") + "';";
+				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
+				ArrayList<String> ingredients = new ArrayList<String>();
+				while (rsIngredient.next()) {
+					ingredients.add(rsIngredient.getString("name"));
+				}
+				String ingredientList = "";
+				for (int i = 0; i < ingredients.size(); i++) {
+					ingredientList += ingredients.get(i) + "\n";
+				}
+				response.add("ingredient_" + ingredientList);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		responseArray = new String[response.size() + 1];
+		response.toArray(responseArray);
+		responseArray[responseArray.length - 1] = "mykitchen";
+		return responseArray;
+	}
+	
+	/**
+	 * Method for getting the names of all recipes created by a specific author 
+	 * 
+	 * @author Jonathan
+	 * @param author the author's name
+	 * @return an ArrayList containing all the recipes' names
+	 */
+	public ArrayList<String> getAuthorRecipes(String author){
+		ArrayList<String> recipes = new ArrayList<String>();
+		try {
+			Statement stmt = c.createStatement();
+			String sql = "SELECT title FROM recipe where author = '" + author + "' ;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				recipes.add(rs.getString("title"));
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return recipes;
+	}
 
 	/**
 	 * Count the recipes made for each country
@@ -400,8 +568,6 @@ public class DatabaseController {
 	public int getRecipeCount(String country){
 		int response = 0;
 		try{
-			System.out.println(country);
-			
 			PreparedStatement ps = c.prepareStatement("select count(*) from recipe where country = ?;");
 			ps.setString(1, "" + country.toLowerCase()+ "");
 			ResultSet rs = ps.executeQuery();
