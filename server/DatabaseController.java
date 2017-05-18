@@ -223,10 +223,9 @@ public class DatabaseController {
 					+ "');";
 
 			String[] ingredientArray = recipe.getIngredients();
-			String ingredientList = "";
 
 			/**
-			 * walks through every ingredient and stores them in another table
+			 * goes through every ingredient and stores them in another table
 			 * every ingredient gets its own ID
 			 */
 			for (int i = 0; i < ingredientArray.length; i++) {

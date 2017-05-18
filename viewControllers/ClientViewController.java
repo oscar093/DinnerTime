@@ -111,15 +111,10 @@ public class ClientViewController implements Initializable {
 		addRegion("SouthAmerica");
 
 		root.getChildren().add(africa);
-
 		root.getChildren().add(asia);
-
 		root.getChildren().add(europe);
-
 		root.getChildren().add(middleEast);
-
 		root.getChildren().add(northAmerica);
-
 		root.getChildren().add(southAmerica);
 
 		treeview.getSelectionModel().selectedItemProperty().addListener(til);

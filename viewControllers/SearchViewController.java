@@ -9,14 +9,9 @@ import client.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  * Controller class for the search view.
@@ -25,7 +20,6 @@ import javafx.stage.Stage;
  */
 
 public class SearchViewController implements Initializable {
-	private static Stage primaryStage;
 	@FXML
 	private RadioButton rbTitle, rbCountry, rbAuthor;
 	@FXML

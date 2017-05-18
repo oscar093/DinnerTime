@@ -3,9 +3,6 @@ package viewControllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import client.Client;
 import client.Main;
 import javafx.fxml.FXML;

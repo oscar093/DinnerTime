@@ -226,7 +226,7 @@ public class Server implements Runnable {
 				recipeByCountryRequest(country.toLowerCase());
 			}else if(command.contains("getRecipeImage")){
 				String[] strArray = command.split(" ");
-				String id = strArray[1];
+//				String id = strArray[1];
 			}
 			if(command.startsWith("titleSearch")){
 				String[] search = command.split("_");

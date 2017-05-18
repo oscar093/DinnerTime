@@ -3,10 +3,6 @@ package module;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
-import javafx.scene.image.Image;
-
 /**
  * This is a recipe with all information needed to view it.
  *
