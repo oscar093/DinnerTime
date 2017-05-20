@@ -31,7 +31,7 @@ public class CreateRecipeController implements Initializable {
 	private String imgFileName = null;
 
 	/**
-	 * author Olof
+	 * @author Olof
 	 * 
 	 * TaIngredients is set to disabled, the only way for ingredients to be
 	 * added is through the ifIngredientInput. lblConfrimation is made
@@ -62,7 +62,7 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * @author Olof
 	 * 
 	 * If there is input in the textfields and textareas they are sent to the
 	 * Recipe class. lblConfirmation is made visible.
@@ -101,7 +101,7 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * @author Olof
 	 * 
 	 * The text in tfIngredientInput is added to taIngredients.
 	 */
@@ -120,7 +120,7 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * @author Olof
 	 * 
 	 * Removes the latest added ingredient by rewriting everything but the last
 	 * row in taIngredients list.
@@ -141,7 +141,7 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * @author Olof
 	 * 
 	 * Clears taIngredients.
 	 */
@@ -151,7 +151,6 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
 	 * 
 	 * Resizes the chosen picture and saves the path.
 	 * 
@@ -177,7 +176,7 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * @author Olof
 	 * 
 	 * Set-method for the client. the client is needed so that the author of the
 	 * recipe can be saved.

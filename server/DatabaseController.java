@@ -25,7 +25,8 @@ public class DatabaseController {
 	private Connection c = null;
 
 	/**
-	 * Contructor for databasecontroller. Gets driver for Postgres and connects to database.
+	 * Contructor for databasecontroller. Gets driver for Postgres and connects
+	 * to database.
 	 * 
 	 * @author Oscar, David
 	 */
@@ -34,7 +35,9 @@ public class DatabaseController {
 			Class.forName("org.postgresql.Driver");
 
 			// Om man kör servern remote.
-			// c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime", "postgres", "P@ssw0rd");
+			// c =
+			// DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime",
+			// "postgres", "P@ssw0rd");
 
 			// Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
@@ -43,7 +46,7 @@ public class DatabaseController {
 		}
 	}
 
-	/** 
+	/**
 	 * Controlles if combination of password and username exists in database.
 	 * 
 	 * @author David
@@ -56,7 +59,7 @@ public class DatabaseController {
 			Statement stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM member;");
 			while (rs.next()) {
-				if ((username.equals(rs.getString(1))) && (password.equals(rs.getString(2)))) {
+				 if ((username.equals(rs.getString(1))) && (password.equals(rs.getString(2)))) {
 					return "success";
 				}
 			}
@@ -66,7 +69,7 @@ public class DatabaseController {
 		return "failed";
 	}
 
-	/** 
+	/**
 	 * Saves a new user to the database.
 	 * 
 	 * @author David
@@ -80,7 +83,7 @@ public class DatabaseController {
 	 */
 	public String register(String username, String password, String firstname, String surname, String region,
 			String country) {
-		
+
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
@@ -103,99 +106,106 @@ public class DatabaseController {
 	 * Method for getting the first name of a specific user
 	 * 
 	 * @author Jonathan
-	 * @param username name of the user
+	 * @param username
+	 *            name of the user
 	 * @return the first name
 	 */
-	public String firstName(String username){
+	public String firstName(String username) {
 		String firstName = "";
-		try{
+		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String sql = "SELECT firstname FROM member WHERE username = '" + username + "' ;";
 			ResultSet rs = stmt.executeQuery(sql);
-			rs.next();
-			firstName = rs.getString("firstname");
+			while (rs.next()) {
+				firstName = rs.getString("firstname");
+			}
 			rs.close();
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "firstName"+firstName;
-	
+		return "firstName" + firstName;
+
 	}
-	
+
 	/**
 	 * Method for getting the surname of a specific user
 	 * 
 	 * @author Jonathan
-	 * @param username name of the user
+	 * @param username
+	 *            name of the user
 	 * @return the surname
 	 */
-	public String surName(String username){
+	public String surName(String username) {
 		String surName = "";
-		try{
+		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String sql = "SELECT surname FROM member where username = '" + username + "' ;";
 			ResultSet rs = stmt.executeQuery(sql);
-			rs.next();
-			surName = rs.getString("surname");
+			// rs.next();
+			while (rs.next()) {
+				surName = rs.getString("surname");
+			}
 			rs.close();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "surname" + surName;
 	}
-	
+
 	/**
 	 * Method for getting which region a specific user is from
 	 * 
 	 * @author Jonathan
-	 * @param username name of the user
+	 * @param username
+	 *            name of the user
 	 * @return the region
 	 */
-	public String region(String username){
+	public String region(String username) {
 		String region = "";
-		try{
+		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String sql = "SELECT region FROM member where username = '" + username + "' ;";
 			ResultSet rs = stmt.executeQuery(sql);
-			rs.next();
-			region = rs.getString("region");
+			// rs.next();
+			while (rs.next()) {
+				region = rs.getString("region");
+			}
 			rs.close();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "region" + region;
 	}
-	
+
 	/**
 	 * Method for getting which country a specific user is from
 	 * 
 	 * @author Jonathan
-	 * @param username name of the user
+	 * @param username
+	 *            name of the user
 	 * @return the country
 	 */
-	public String country (String username){
+	public String country(String username) {
 		String country = "";
 		try {
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String sql = "SELECT country FROM member WHERE username = '" + username + "' ;";
 			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
-			country = rs.getString("country");
+			while (rs.next()) {
+				country = rs.getString("country");
 			}
 			rs.close();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "country" + country;
 	}
 
-
-
-	/** 
+	/**
 	 * The new recipe is added to the database.
 	 * 
 	 * @author Olof
@@ -207,14 +217,18 @@ public class DatabaseController {
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 			Statement idStmt = c.createStatement();
-			
+
 			ResultSet rs = idStmt.executeQuery(
 					"SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
-			rs.next();
-			int recipeId = rs.getInt("recipeCount");
-			int ingredientId = rs.getInt("ingredientCount");
-			recipeId++;
-			ingredientId++;
+			// rs.next();
+			int recipeId = 0;
+			int ingredientId = 0;
+			while (rs.next()) {
+				recipeId = rs.getInt("recipeCount");
+				ingredientId = rs.getInt("ingredientCount");
+				recipeId++;
+				ingredientId++;
+			}
 			rs.close();
 
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country,instruction) " + "VALUES ('"
@@ -247,17 +261,19 @@ public class DatabaseController {
 		}
 	}
 
-	/** 
+	/**
 	 * Adds the image to the database
 	 * 
 	 * @author Olof
-	 * @param recipeId: the ID of the recipe the image belongs to.
-	 * @param filename: file path to the image
+	 * @param recipeId:
+	 *            the ID of the recipe the image belongs to.
+	 * @param filename:
+	 *            file path to the image
 	 */
 	public void addImage(int recipeId, String filename) {
 		try {
 			File file = new File(filename);
-			
+
 			FileInputStream fis = new FileInputStream(file);
 			PreparedStatement ps = c.prepareStatement("INSERT INTO image VALUES (?, ?, ?)");
 			ps.setInt(1, recipeId);
@@ -271,11 +287,12 @@ public class DatabaseController {
 		}
 	}
 
-	/** 
+	/**
 	 * Gets the image the image is stored as byte.
 	 * 
 	 * @author Oscar, Olof
-	 * @param recipeId : the ID of the recipe the image belongs to.
+	 * @param recipeId
+	 *            : the ID of the recipe the image belongs to.
 	 * @return byte[]
 	 */
 	public byte[] getImage(int recipeId) {
@@ -296,13 +313,13 @@ public class DatabaseController {
 		return img;
 	}
 
-	/** 
-	 * Return all recipes from a specific country.
-	 * This method includes pictures with the recipes.
+	/**
+	 * Return all recipes from a specific country. This method includes pictures
+	 * with the recipes.
 	 * 
 	 * @author Oscar
 	 * @param country
-	 * @return Recipe[] 
+	 * @return Recipe[]
 	 */
 	public Recipe[] getRecipeByCountry(String country) {
 		ArrayList<Recipe> result = new ArrayList<Recipe>();
@@ -329,7 +346,7 @@ public class DatabaseController {
 				while (rsIngr.next()) {
 					recipe.addIngredient(rsIngr.getString("name"));
 				}
-				if(getImage(recipe.getId()) != null ){
+				if (getImage(recipe.getId()) != null) {
 					recipe.setImg(getImage(recipe.getId()));
 				}
 			}
@@ -346,7 +363,8 @@ public class DatabaseController {
 	 * Gets all the recipes that matches the title-search.
 	 * 
 	 * @author Olof
-	 * @param title : the users search
+	 * @param title
+	 *            : the users search
 	 * @return returns an array with all the recipes
 	 */
 	public String[] getTitleSearch(String title) {
@@ -361,14 +379,17 @@ public class DatabaseController {
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));			//the string and values are split with "_"
+				response.add("title_" + rs.getString("title")); // the string
+																// and values
+																// are split
+																// with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';"; 
+						+ rs.getString("upload") + "';";
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -391,11 +412,12 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	/** 
+	/**
 	 * Gets all the recipes that matches the country-search.
 	 * 
 	 * @author Olof
-	 * @param title : the users search
+	 * @param title
+	 *            : the users search
 	 * @return returns an array with all the recipes
 	 */
 	public String[] getCountrySearch(String country) {
@@ -410,14 +432,17 @@ public class DatabaseController {
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));			//the string and values are split with "_"
+				response.add("title_" + rs.getString("title")); // the string
+																// and values
+																// are split
+																// with "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";					
+						+ rs.getString("upload") + "';";
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -439,11 +464,12 @@ public class DatabaseController {
 		return responseArray;
 	}
 
-	/** 
+	/**
 	 * Gets all the recipes that matches the author-search.
 	 * 
 	 * @author Olof
-	 * @param title : the users search
+	 * @param title
+	 *            : the users search
 	 * @return returns an array with all the recipes
 	 */
 	public String[] getAuthorSearch(String author) {
@@ -458,14 +484,17 @@ public class DatabaseController {
 			ResultSet rs = stmt1.executeQuery(sqlRecipe);
 
 			while (rs.next()) {
-				response.add("title_" + rs.getString("title"));		//the string and value are split with "_"
+				response.add("title_" + rs.getString("title")); // the string
+																// and value are
+																// split with
+																// "_"
 				response.add("country_" + rs.getString("country"));
 				response.add("time_" + rs.getString("time"));
 				response.add("author_" + rs.getString("author"));
 				response.add("instruction_" + rs.getString("instruction"));
 
 				String sqlIngredient = "select ingredient.name from ingredient join recipe on ingredient.recipeid = recipe.recipeid and recipe.upload = '"
-						+ rs.getString("upload") + "';";	
+						+ rs.getString("upload") + "';";
 				ResultSet rsIngredient = stmt2.executeQuery(sqlIngredient);
 				ArrayList<String> ingredients = new ArrayList<String>();
 				while (rsIngredient.next()) {
@@ -486,13 +515,16 @@ public class DatabaseController {
 		responseArray[responseArray.length - 1] = "searchview";
 		return responseArray;
 	}
-	
+
 	/**
-	 * Method for getting information about a specific recipe written by an specific author
+	 * Method for getting information about a specific recipe written by an
+	 * specific author
 	 * 
 	 * @author Jonathan
-	 * @param author the author's name
-	 * @param title the title of the recipe
+	 * @param author
+	 *            the author's name
+	 * @param title
+	 *            the title of the recipe
 	 * @return an array containing the recipe's information
 	 */
 	public String[] getRecipeByAuthor(String author, String title) {
@@ -535,27 +567,28 @@ public class DatabaseController {
 		responseArray[responseArray.length - 1] = "mykitchen";
 		return responseArray;
 	}
-	
+
 	/**
-	 * Method for getting the names of all recipes created by a specific author 
+	 * Method for getting the names of all recipes created by a specific author
 	 * 
 	 * @author Jonathan
-	 * @param author the author's name
+	 * @param author
+	 *            the author's name
 	 * @return an ArrayList containing all the recipes' names
 	 */
-	public ArrayList<String> getAuthorRecipes(String author){
+	public ArrayList<String> getAuthorRecipes(String author) {
 		ArrayList<String> recipes = new ArrayList<String>();
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT title FROM recipe where author = '" + author + "' ;";
 			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
+			while (rs.next()) {
 				recipes.add(rs.getString("title"));
 			}
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return recipes;
 	}
 
@@ -564,15 +597,15 @@ public class DatabaseController {
 	 * 
 	 * @author Olof
 	 */
-	public int getRecipeCount(String country){
+	public int getRecipeCount(String country) {
 		int response = 0;
-		try{
+		try {
 			PreparedStatement ps = c.prepareStatement("select count(*) from recipe where country = ?;");
-			ps.setString(1, "" + country.toLowerCase()+ "");
+			ps.setString(1, "" + country.toLowerCase() + "");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			response = rs.getInt("count");
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return response;
