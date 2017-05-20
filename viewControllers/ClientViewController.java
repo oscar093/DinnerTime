@@ -346,7 +346,7 @@ public class ClientViewController implements Initializable {
 		text.setText(recepyInfo);
 		Text instruction = new Text();
 		String strInst = recipe.getInstruction();
-		if(strInst.equals(null) || strInst.equals("null")){
+		if(strInst == null || strInst.equals("null") || strInst.equals("")){
 			instruction.setText("Inga instruktioner!");
 		}
 		else{
