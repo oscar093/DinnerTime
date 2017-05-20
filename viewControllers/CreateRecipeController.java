@@ -24,7 +24,7 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
-	private Label lblConfirmation, lblSendError;
+	private Label lblConfirmation, lblSendError, lblPictureConfirmation;
 	@FXML
 	private ComboBox<String> cbCountry;
 	private Client client;
@@ -48,6 +48,7 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
 		lblSendError.setVisible(false);
+		lblPictureConfirmation.setVisible(false);
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
@@ -170,6 +171,8 @@ public class CreateRecipeController implements Initializable {
 			}
 			imgFileName = tmpPath;
 			tfPicture.setText("");
+			lblPictureConfirmation.setVisible(true);
+			btnPicture.setDisable(true);
 		}
 	}
 

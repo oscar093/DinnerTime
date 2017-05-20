@@ -356,7 +356,7 @@ public class ClientViewController implements Initializable {
 		instruction.setX(15);
 		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
 
-		title.setY(40);
+		title.setY(45);
 		title.setX((anchorPaneWidth / 2) - (title.getLayoutBounds().getWidth() / 2));
 		text.setY(70 + picHeight + 25);
 		text.setX(15);
