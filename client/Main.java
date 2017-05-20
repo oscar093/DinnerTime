@@ -40,7 +40,6 @@ public class Main extends Application {
 		showLoginView();
 	}
 	
-
 	/** 
 	 * Shows the login view.
 	 * 

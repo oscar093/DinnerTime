@@ -68,6 +68,8 @@
                   <Image url="@../images/dt-logo-original.png" />
                </image>
             </ImageView>
+            <Label fx:id="nameError" layoutX="408.0" layoutY="147.0" text="*" textFill="RED" />
+            <Label fx:id="pwError" layoutX="408.0" layoutY="183.0" text="*" textFill="RED" />
          </children>
       </AnchorPane>
    </center>

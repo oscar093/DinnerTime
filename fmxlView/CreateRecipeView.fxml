@@ -34,6 +34,7 @@
             <Label layoutX="16.0" layoutY="215.0" text="Filepath to image:" />
             <Button fx:id="btnClearIngredients" layoutX="15.0" layoutY="548.0" mnemonicParsing="false" onAction="#clearIngredients" text="Clear" />
             <Button fx:id="btnRemoveIngredient" layoutX="85.0" layoutY="548.0" mnemonicParsing="false" onAction="#removeLatestIngredient" text="Remove Latest" />
+            <Label fx:id="lblSendError" layoutX="383.0" layoutY="553.0" text="TITLE,  COUNTRY AND AT LEAST ONE INGREDIENT MUST BE GIVEN" textFill="RED" />
          </children>
       </Pane>
    </children>

@@ -24,7 +24,7 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
-	private Label lblConfirmation;
+	private Label lblConfirmation, lblSendError;
 	@FXML
 	private ComboBox<String> cbCountry;
 	private Client client;
@@ -33,10 +33,13 @@ public class CreateRecipeController implements Initializable {
 	/**
 	 * author Olof
 	 * 
-	 * TaIngredients is set to disabled, the only way for ingredients to be added is through the ifIngredientInput.
-	 * lblConfrimation is made invisible.
-	 * cbCountry adds every country by reading the txtFile Countries.txt
-	 * @param URL, ResourceBundle, is not used.
+	 * TaIngredients is set to disabled, the only way for ingredients to be
+	 * added is through the ifIngredientInput. lblConfrimation is made
+	 * invisible. cbCountry adds every country by reading the txtFile
+	 * Countries.txt
+	 * 
+	 * @param URL,
+	 *            ResourceBundle, is not used.
 	 */
 
 	@Override
@@ -44,11 +47,12 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setEditable(false);
 		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
-		
+		lblSendError.setVisible(false);
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
 			String strLine = br.readLine();
-			while (strLine != null) {					
+			while (strLine != null) {
 				cbCountry.getItems().add(strLine);
 				strLine = br.readLine();
 			}
@@ -59,42 +63,40 @@ public class CreateRecipeController implements Initializable {
 	/**
 	 * author Olof
 	 * 
-	 * If there is input in the textfields and textareas they are sent to the Recipe class.
-	 * lblConfirmation is made visible.
+	 * If there is input in the textfields and textareas they are sent to the
+	 * Recipe class. lblConfirmation is made visible.
 	 */
 	@FXML
 	private void sendRecipe() {
 		Recipe recipe = new Recipe();
 
-		if (!tfTitle.getText().isEmpty()) {
+		if (tfTitle.getText().equals("") || cbCountry.getValue() == null || taIngredients.getText().equals("")) {
+			lblSendError.setVisible(true);
+		} else {
 			recipe.setTitle(tfTitle.getText());
-		}
-		if (cbCountry.getValue() != null) {
 			recipe.setCountry(cbCountry.getValue());
-//			System.out.println(cbCountry.getValue());
-		}
-		if (!tfTime.getText().isEmpty()) {
-			try {
-				recipe.setTime(Integer.parseInt(tfTime.getText()));
-			} catch (NumberFormatException e) {
-				recipe.setTime(0);
+			if (!tfTime.getText().equals("")) {
+				try {
+					recipe.setTime(Integer.parseInt(tfTime.getText()));
+				} catch (NumberFormatException e) {
+					recipe.setTime(0);
+				}
 			}
-		}
-		if (!taIngredients.getText().isEmpty()) {
 			String[] ingredients = taIngredients.getText().split("\\n");
 			for (int i = 0; i < ingredients.length; i++) {
 				recipe.addIngredient(ingredients[i]);
 			}
+			if (!taInstruction.getText().equals("")) {
+				recipe.setInstruction(taInstruction.getText());
+			}
+			if (imgFileName != null) {
+				recipe.setImgFileName(imgFileName);
+			}
+			recipe.setAuthor(client.getUsername());
+			client.sendToServer(recipe);
+			lblSendError.setVisible(false);
+			lblConfirmation.setVisible(true);
 		}
-		if (!taInstruction.getText().isEmpty()) {
-			recipe.setInstruction(taInstruction.getText());
-		}
-		if (imgFileName != null) {
-			recipe.setImgFileName(imgFileName);
-		}
-		recipe.setAuthor(client.getUsername());
-		client.sendToServer(recipe);
-		lblConfirmation.setVisible(true);
 	}
 
 	/**
@@ -119,8 +121,8 @@ public class CreateRecipeController implements Initializable {
 	/**
 	 * author Olof
 	 * 
-	 * Removes the latest added ingredient by rewriting 
-	 * everything but the last row in taIngredients list.
+	 * Removes the latest added ingredient by rewriting everything but the last
+	 * row in taIngredients list.
 	 */
 	@FXML
 	private void removeLatestIngredient() {
@@ -147,7 +149,7 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setText("");
 	}
 
-	/** 
+	/**
 	 * author Olof
 	 * 
 	 * Resizes the chosen picture and saves the path.
@@ -174,8 +176,8 @@ public class CreateRecipeController implements Initializable {
 	/**
 	 * author Olof
 	 * 
-	 * Set-method for the client.
-	 * the client is needed so that the author of the recipe can be saved.
+	 * Set-method for the client. the client is needed so that the author of the
+	 * recipe can be saved.
 	 */
 	public void setClient(Client client) {
 		this.client = client;

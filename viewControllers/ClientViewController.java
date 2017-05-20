@@ -346,7 +346,12 @@ public class ClientViewController implements Initializable {
 		text.setText(recepyInfo);
 		Text instruction = new Text();
 		String strInst = recipe.getInstruction();
-		instruction.setText(recipe.getInstruction());
+		if(strInst.equals(null) || strInst.equals("null")){
+			instruction.setText("Inga instruktioner!");
+		}
+		else{
+			instruction.setText(recipe.getInstruction());	
+		}
 
 		instruction.setX(15);
 		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
