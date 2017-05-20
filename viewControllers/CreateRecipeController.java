@@ -10,6 +10,7 @@ import client.ImageResizer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import module.Recipe;
 
 /**
@@ -24,7 +25,7 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
-	private Label lblConfirmation, lblSendError, lblPictureConfirmation;
+	private Label lblConfirmation, lblPictureConfirmation;
 	@FXML
 	private ComboBox<String> cbCountry;
 	private Client client;
@@ -47,7 +48,6 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setEditable(false);
 		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
-		lblSendError.setVisible(false);
 		lblPictureConfirmation.setVisible(false);
 
 		try {
@@ -72,7 +72,10 @@ public class CreateRecipeController implements Initializable {
 		Recipe recipe = new Recipe();
 
 		if (tfTitle.getText().equals("") || cbCountry.getValue() == null || taIngredients.getText().equals("")) {
-			lblSendError.setVisible(true);
+//			lblSendError.setVisible(true);
+			lblConfirmation.setText("TITLE, COUNTRY AND AT LEAST ONE INGREDIENT MUST BE GIVEN");
+			lblConfirmation.setTextFill(Color.RED);
+			lblConfirmation.setVisible(true);
 		} else {
 			recipe.setTitle(tfTitle.getText());
 			recipe.setCountry(cbCountry.getValue());
@@ -95,7 +98,8 @@ public class CreateRecipeController implements Initializable {
 			}
 			recipe.setAuthor(client.getUsername());
 			client.sendToServer(recipe);
-			lblSendError.setVisible(false);
+			lblConfirmation.setText("RECIPE SENT!");
+			lblConfirmation.setTextFill(Color.GREEN);
 			lblConfirmation.setVisible(true);
 		}
 	}
@@ -158,7 +162,12 @@ public class CreateRecipeController implements Initializable {
 	 */
 	@FXML
 	private void addPicture() {
-		if (tfPicture != null) {
+		if (tfPicture.getText().equals("")) {
+			lblPictureConfirmation.setTextFill(Color.RED);
+			lblPictureConfirmation.setText("You must choose a picture before adding!");
+			lblPictureConfirmation.setVisible(true);
+		}
+		else{
 			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
 			ImageResizer ir = new ImageResizer();
 			try {
@@ -170,6 +179,8 @@ public class CreateRecipeController implements Initializable {
 			}
 			imgFileName = tmpPath;
 			tfPicture.setText("");
+			lblPictureConfirmation.setTextFill(Color.GREEN);
+			lblPictureConfirmation.setText("Picture added!");
 			lblPictureConfirmation.setVisible(true);
 			btnPicture.setDisable(true);
 		}

@@ -25,7 +25,7 @@
             <TextField fx:id="tfIngredientInput" layoutX="140.0" layoutY="139.0" prefHeight="27.0" prefWidth="193.0" />
             <Button fx:id="btnAddIngredient" layoutX="236.0" layoutY="166.0" mnemonicParsing="false" onAction="#addIngredient" text="Add ingredient" />
             <Label layoutX="15.0" layoutY="269.0" text="Added ingredients:" />
-            <Label fx:id="lblConfirmation" layoutX="387.0" layoutY="553.0" text="RECIPE SENT!" textFill="#0cb909" />
+            <Label fx:id="lblConfirmation" layoutX="387.0" layoutY="553.0" text="CONFIRMATION" textFill="#0cb909" />
             <TextArea fx:id="taInstruction" layoutX="346.0" layoutY="35.0" prefHeight="505.0" prefWidth="541.0" />
             <Label layoutX="346.0" layoutY="16.0" text="Instructions for the recipe:" />
             <ComboBox fx:id="cbCountry" layoutX="139.0" layoutY="99.0" prefHeight="25.0" prefWidth="196.0" />
@@ -34,8 +34,7 @@
             <Label layoutX="16.0" layoutY="215.0" text="Filepath to image:" />
             <Button fx:id="btnClearIngredients" layoutX="15.0" layoutY="548.0" mnemonicParsing="false" onAction="#clearIngredients" text="Clear" />
             <Button fx:id="btnRemoveIngredient" layoutX="85.0" layoutY="548.0" mnemonicParsing="false" onAction="#removeLatestIngredient" text="Remove Latest" />
-            <Label fx:id="lblSendError" layoutX="383.0" layoutY="553.0" text="TITLE,  COUNTRY AND AT LEAST ONE INGREDIENT MUST BE GIVEN" textFill="RED" />
-            <Label fx:id="lblPictureConfirmation" layoutX="147.0" layoutY="241.0" text="Picture added!" textFill="#0cb909" />
+            <Label fx:id="lblPictureConfirmation" layoutX="18.0" layoutY="241.0" text="Picture added!" textFill="#0cb909" />
          </children>
       </Pane>
    </children>
