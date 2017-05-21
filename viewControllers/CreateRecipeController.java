@@ -32,8 +32,6 @@ public class CreateRecipeController implements Initializable {
 	private String imgFileName = null;
 
 	/**
-	 * @author Olof
-	 * 
 	 * TaIngredients is set to disabled, the only way for ingredients to be
 	 * added is through the ifIngredientInput. lblConfrimation is made
 	 * invisible. cbCountry adds every country by reading the txtFile
@@ -41,6 +39,8 @@ public class CreateRecipeController implements Initializable {
 	 * 
 	 * @param URL,
 	 *            ResourceBundle, is not used.
+	 * 
+	 * @author Olof
 	 */
 
 	@Override
@@ -62,17 +62,17 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * @author Olof
-	 * 
 	 * If there is input in the textfields and textareas they are sent to the
 	 * Recipe class. lblConfirmation is made visible.
+	 * 
+	 * @author Olof
 	 */
 	@FXML
 	private void sendRecipe() {
 		Recipe recipe = new Recipe();
 
 		if (tfTitle.getText().equals("") || cbCountry.getValue() == null || taIngredients.getText().equals("")) {
-//			lblSendError.setVisible(true);
+			// lblSendError.setVisible(true);
 			lblConfirmation.setText("TITLE, COUNTRY AND AT LEAST ONE INGREDIENT MUST BE GIVEN");
 			lblConfirmation.setTextFill(Color.RED);
 			lblConfirmation.setVisible(true);
@@ -105,18 +105,18 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * @author Olof
-	 * 
 	 * The text in tfIngredientInput is added to taIngredients.
+	 * 
+	 * @author Olof
 	 */
 	@FXML
 	private void addIngredient() {
-		if (taIngredients.getText().isEmpty()) {
-			if (tfIngredientInput != null) {
-				taIngredients.setText(tfIngredientInput.getText());
-			}
+		if (tfIngredientInput.getText().equals("")) {
+
 		} else {
-			if (tfIngredientInput != null) {
+			if (taIngredients.getText().equals("")) {
+				taIngredients.setText(tfIngredientInput.getText());
+			} else {
 				taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
 			}
 		}
@@ -124,10 +124,10 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * @author Olof
-	 * 
 	 * Removes the latest added ingredient by rewriting everything but the last
 	 * row in taIngredients list.
+	 * 
+	 * @author Olof
 	 */
 	@FXML
 	private void removeLatestIngredient() {
@@ -145,9 +145,9 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * @author Olof
-	 * 
 	 * Clears taIngredients.
+	 * 
+	 * @author Olof
 	 */
 	@FXML
 	private void clearIngredients() {
@@ -155,8 +155,8 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * 
-	 * Resizes the chosen picture and saves the path.
+	 * Resizes the chosen picture and saves the path. Gives error message if
+	 * picture is invalid.
 	 * 
 	 * @author Oscar, Olof
 	 */
@@ -166,31 +166,36 @@ public class CreateRecipeController implements Initializable {
 			lblPictureConfirmation.setTextFill(Color.RED);
 			lblPictureConfirmation.setText("You must choose a picture before adding!");
 			lblPictureConfirmation.setVisible(true);
-		}
-		else{
+		} else {
 			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
 			ImageResizer ir = new ImageResizer();
-			try {
-
-				ir.resize(tfPicture.getText(), tmpPath, 499, 312);
-			} catch (IOException e) {
-
-				e.printStackTrace();
+			boolean validPicture = ir.validPicture(tfPicture.getText(), tmpPath, 499, 312);
+			if (validPicture == true) {
+				try {
+					ir.resize(tfPicture.getText(), tmpPath, 499, 312);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				imgFileName = tmpPath;
+				tfPicture.setText("");
+				lblPictureConfirmation.setTextFill(Color.GREEN);
+				lblPictureConfirmation.setText("Picture added!");
+				lblPictureConfirmation.setVisible(true);
+				btnPicture.setDisable(true);
+			} else {
+				lblPictureConfirmation.setTextFill(Color.RED);
+				lblPictureConfirmation.setText("Invalid picture!");
+				lblPictureConfirmation.setVisible(true);
 			}
-			imgFileName = tmpPath;
-			tfPicture.setText("");
-			lblPictureConfirmation.setTextFill(Color.GREEN);
-			lblPictureConfirmation.setText("Picture added!");
-			lblPictureConfirmation.setVisible(true);
-			btnPicture.setDisable(true);
 		}
 	}
 
 	/**
-	 * @author Olof
 	 * 
 	 * Set-method for the client. the client is needed so that the author of the
 	 * recipe can be saved.
+	 * 
+	 * @author Olof
 	 */
 	public void setClient(Client client) {
 		this.client = client;

@@ -34,7 +34,6 @@ public class Main extends Application {
 	 * 
 	 * @author David
 	 */
-	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		showLoginView();
