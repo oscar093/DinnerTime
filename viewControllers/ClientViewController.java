@@ -311,16 +311,17 @@ public class ClientViewController implements Initializable {
 		anchorpane.getChildren().clear();
 		double anchorPaneWidth = anchorpane.getWidth();
 		Text title = new Text();
+		Text recipeInfoTxt = new Text();
+		Text ingredientTitle = new Text("Ingredients");
+		Text ingredientTxt = new Text();
+		Text instructionTitle = new Text();
+		Text instruction = new Text();
+
+		
 		title.setText(recipe.getTitle().substring(0, 1).toUpperCase() + recipe.getTitle().substring(1));
 		title.setFont(Font.font("Verdana", FontWeight.BOLD, 36));
-		Text text = new Text();
-		text.setFont(Font.font("Verdana", 16));
-		Text instructionTitle = new Text();
-		JLabel jlb = new JLabel();
-		instructionTitle.setText("Instruction");
-		instructionTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+		
 		int picHeight = 0;
-
 		if (recipe.getImg() != null) {
 			ByteArrayInputStream in = new ByteArrayInputStream(recipe.getImg());
 			Image img = new Image(in);
@@ -333,18 +334,27 @@ public class ClientViewController implements Initializable {
 			picHeight = 312;
 
 		}
+	
+		recipeInfoTxt.setFont(Font.font("Verdana", 16));
+		String recepyInfo = "Författare: " + recipe.getAuthor().substring(0, 1).toUpperCase() + recipe.getAuthor().substring(1)
+				+ "\nUrsprung: " + recipe.getCountry().substring(0, 1).toUpperCase()
+				+ recipe.getCountry().substring(1)  + "\nTillagningstid: " + recipe.getTime() + " minuter\n";
+		recipeInfoTxt.setText(recepyInfo);
+		
+		ingredientTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
-		String recepyInfo = "Ursprung: " + recipe.getCountry().substring(0, 1).toUpperCase()
-				+ recipe.getCountry().substring(1) + "\nFörfattare: " + recipe.getAuthor().substring(0, 1).toUpperCase()
-				+ recipe.getAuthor().substring(1) + "\n\nTillagningstid: " + recipe.getTime() + " minuter\n";
 
+		String ingredients = "";
 		String[] ingridienser = recipe.getIngredients();
 		for (String ingr : ingridienser) {
-			recepyInfo += ingr + "\n";
+			ingredients += ingr + "\n";
 		}
+//		ingredientTxt.setFont(Font.font("Verdana", 16));
+		ingredientTxt.setText(ingredients);
 
-		text.setText(recepyInfo);
-		Text instruction = new Text();
+		instructionTitle.setText("Instruction");
+		instructionTitle.setFont(Font.font("Verdana", FontWeight.BOLD, 16));	
+
 		String strInst = recipe.getInstruction();
 		if(strInst == null || strInst.equals("null") || strInst.equals("")){
 			instruction.setText("Inga instruktioner!");
@@ -352,22 +362,34 @@ public class ClientViewController implements Initializable {
 		else{
 			instruction.setText(recipe.getInstruction());	
 		}
-
-		instruction.setX(15);
-		instruction.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 35);
-
+		
 		title.setY(45);
 		title.setX((anchorPaneWidth / 2) - (title.getLayoutBounds().getWidth() / 2));
-		text.setY(70 + picHeight + 25);
-		text.setX(15);
+		
+		recipeInfoTxt.setY(70 + picHeight + 25);
+		recipeInfoTxt.setX(15);
 
-		instructionTitle.setY(70 + picHeight + 15 + text.getLayoutBounds().getHeight() + 15);
+		ingredientTitle.setY(70 + picHeight + 15 + recipeInfoTxt.getLayoutBounds().getHeight() + 15);
+		ingredientTitle.setX(15);
+		
+		ingredientTxt.setY(70 + picHeight + 15 + recipeInfoTxt.getLayoutBounds().getHeight() + 15 + ingredientTitle.getLayoutBounds().getHeight());
+		ingredientTxt.setX(15);
+		
+		instructionTitle.setY(70 + picHeight + 15 + recipeInfoTxt.getLayoutBounds().getHeight() + 15 + ingredientTitle.getLayoutBounds().getHeight()
+									+ ingredientTxt.getLayoutBounds().getHeight());
 		instructionTitle.setX(15);
 		instructionTitle.setBoundsType(TextBoundsType.LOGICAL);
 
+		instruction.setX(15);
+		instruction.setY(70 + picHeight + 15 + recipeInfoTxt.getLayoutBounds().getHeight() + 15 + ingredientTitle.getLayoutBounds().getHeight()
+				+ ingredientTxt.getLayoutBounds().getHeight() + instructionTitle.getLayoutBounds().getHeight());
+		
 		anchorpane.getChildren().add(title);
-		anchorpane.getChildren().add(text);
-		anchorpane.getChildren().add(instruction);
+		anchorpane.getChildren().add(recipeInfoTxt);
+		anchorpane.getChildren().add(ingredientTitle);
+		anchorpane.getChildren().add(ingredientTxt);
 		anchorpane.getChildren().add(instructionTitle);
+		anchorpane.getChildren().add(instruction);
+		
 	}
 }

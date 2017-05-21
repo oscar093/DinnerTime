@@ -7,10 +7,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewControllers.CreateRecipeController">
    <children>
-      <Pane layoutY="-1.0" prefHeight="600.0" prefWidth="900.0">
+      <Pane prefHeight="600.0" prefWidth="900.0">
          <children>
             <Button fx:id="btnSend" layoutX="302.0" layoutY="543.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="36.0" prefWidth="60.0" text="SEND!" />
             <Label layoutX="11.0" layoutY="24.0" prefHeight="17.0" prefWidth="60.0" text="Title:" />
@@ -26,8 +27,8 @@
             <Button fx:id="btnAddIngredient" layoutX="236.0" layoutY="166.0" mnemonicParsing="false" onAction="#addIngredient" text="Add ingredient" />
             <Label layoutX="15.0" layoutY="269.0" text="Added ingredients:" />
             <Label fx:id="lblConfirmation" layoutX="387.0" layoutY="553.0" text="CONFIRMATION" textFill="#0cb909" />
-            <TextArea fx:id="taInstruction" layoutX="346.0" layoutY="35.0" prefHeight="505.0" prefWidth="541.0" />
-            <Label layoutX="346.0" layoutY="16.0" text="Instructions for the recipe:" />
+            <TextArea fx:id="taInstruction" layoutX="346.0" layoutY="44.0" prefHeight="496.0" prefWidth="541.0" />
+            <Label layoutX="351.0" layoutY="6.0" text="Instructions for the recipe:" />
             <ComboBox fx:id="cbCountry" layoutX="139.0" layoutY="99.0" prefHeight="25.0" prefWidth="196.0" />
             <Button fx:id="btnPicture" layoutX="255.0" layoutY="237.0" mnemonicParsing="false" onAction="#addPicture" text="Add Picture" />
             <TextField fx:id="tfPicture" layoutX="139.0" layoutY="210.0" prefHeight="27.0" prefWidth="196.0" />
@@ -35,6 +36,11 @@
             <Button fx:id="btnClearIngredients" layoutX="15.0" layoutY="548.0" mnemonicParsing="false" onAction="#clearIngredients" text="Clear" />
             <Button fx:id="btnRemoveIngredient" layoutX="85.0" layoutY="548.0" mnemonicParsing="false" onAction="#removeLatestIngredient" text="Remove Latest" />
             <Label fx:id="lblPictureConfirmation" layoutX="18.0" layoutY="241.0" text="Picture added!" textFill="#0cb909" />
+            <Label layoutX="352.0" layoutY="26.0" text=" (Please keep text inside the text area for a better presentation)" textFill="#f50000">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

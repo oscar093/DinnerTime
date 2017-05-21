@@ -5,12 +5,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import client.Client;
 import client.Main;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import module.Login;
 
 /**
@@ -18,13 +22,13 @@ import module.Login;
  * 
  * @author David, Oscar
  */
-public class LoginViewController implements Initializable {
+public class LoginViewController implements Initializable  {
 	@FXML
 	private Main main;
 	@FXML
 	private TextField username;
 	@FXML
-	private PasswordField password;
+	private PasswordField password = new PasswordField();
 	@FXML
 	private Button login;
 	@FXML
@@ -123,4 +127,5 @@ public class LoginViewController implements Initializable {
 	public void setLoginStatus(String loginStatus) {
 		this.loginStatus = loginStatus;
 	}
+	
 }
