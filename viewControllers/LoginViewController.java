@@ -8,7 +8,6 @@ import client.Main;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -45,10 +44,27 @@ public class LoginViewController implements Initializable  {
 	
 	/**
 	 * Initializes login view.
+	 * 
+	 * @author Oscar
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loginInfo.setVisible(false);
+		password.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent arg0) {
+				if(arg0.getCode() == KeyCode.ENTER){
+					try {
+						login();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}
+			
+		});
 	}
 	
 	/**
