@@ -59,11 +59,11 @@ public class MyKitchenController implements Initializable {
 	private TextArea taRecipe;
 
 	/**
-	 * Unused method
+	 * The TextArea is only for showing recipes
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		taRecipe.setEditable(false);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class MyKitchenController implements Initializable {
 		crc.setClient(client);
 
 		Stage addRecipeStage = new Stage();
-		addRecipeStage.setTitle("My Kitchen!");
+		addRecipeStage.setTitle("Create Recipe!");
 		addRecipeStage.initModality(Modality.WINDOW_MODAL);
 		addRecipeStage.initOwner(primaryStage);
 		addRecipeStage.setResizable(false);
