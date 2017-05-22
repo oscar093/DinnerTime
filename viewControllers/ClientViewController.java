@@ -320,7 +320,7 @@ public class ClientViewController implements Initializable {
 			Image img = new Image(in);
 			ImageView recipeImage = new ImageView(img);
 			recipeImage.setY(70);
-			recipeImage.setX((anchorPaneWidth / 2) - 249.5);// 249.5 ska vara
+			recipeImage.setX(15);
 															// halva recept
 															// bilden.
 			anchorpane.getChildren().add(recipeImage);

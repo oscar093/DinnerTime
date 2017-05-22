@@ -61,9 +61,7 @@ public class LoginViewController implements Initializable  {
 						e.printStackTrace();
 					}
 				}
-				
 			}
-			
 		});
 	}
 	
@@ -127,7 +125,7 @@ public class LoginViewController implements Initializable  {
 	 * Should be success if login 'seceded', 
 	 * 'failed' if not. 
 	 * 'timeout' if there is no connection.
-	 * @return
+	 * @return loginstatus
 	 */
 	public String getLoginStatus() {
 		return loginStatus;
