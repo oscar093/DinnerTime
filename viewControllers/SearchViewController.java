@@ -95,7 +95,8 @@ public class SearchViewController implements Initializable  {
 			e.printStackTrace();
 		}
 	}
-	
+			
+			
 	/**
 	 * Gets the result of the search
 	 * the array is split up and listed in taList.
