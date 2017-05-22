@@ -72,7 +72,6 @@ public class CreateRecipeController implements Initializable {
 		Recipe recipe = new Recipe();
 
 		if (tfTitle.getText().equals("") || cbCountry.getValue() == null || taIngredients.getText().equals("")) {
-			// lblSendError.setVisible(true);
 			lblConfirmation.setText("TITLE, COUNTRY AND AT LEAST ONE INGREDIENT MUST BE GIVEN");
 			lblConfirmation.setTextFill(Color.RED);
 			lblConfirmation.setVisible(true);
@@ -167,25 +166,34 @@ public class CreateRecipeController implements Initializable {
 			lblPictureConfirmation.setText("You must choose a picture before adding!");
 			lblPictureConfirmation.setVisible(true);
 		} else {
-			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
-			ImageResizer ir = new ImageResizer();
-			boolean validPicture = ir.validPicture(tfPicture.getText(), tmpPath, 499, 312);
-			if (validPicture == true) {
-				try {
-					ir.resize(tfPicture.getText(), tmpPath, 499, 312);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				imgFileName = tmpPath;
-				tfPicture.setText("");
-				lblPictureConfirmation.setTextFill(Color.GREEN);
-				lblPictureConfirmation.setText("Picture added!");
-				lblPictureConfirmation.setVisible(true);
-				btnPicture.setDisable(true);
-			} else {
+			if (tfPicture.getText().length() < 4) {
 				lblPictureConfirmation.setTextFill(Color.RED);
 				lblPictureConfirmation.setText("Invalid picture!");
 				lblPictureConfirmation.setVisible(true);
+			} 
+			else {
+				String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
+				ImageResizer ir = new ImageResizer();
+				boolean validPicture = ir.validPicture(tfPicture.getText(), tmpPath, 499, 312);
+				if (validPicture == true) {
+					try {
+						ir.resize(tfPicture.getText(), tmpPath, 499, 312);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					imgFileName = tmpPath;
+					tfPicture.setText("");
+					lblPictureConfirmation.setTextFill(Color.GREEN);
+					lblPictureConfirmation.setText("Picture added!");
+					lblPictureConfirmation.setVisible(true);
+					btnPicture.setDisable(true);
+
+				} 
+				else {
+					lblPictureConfirmation.setTextFill(Color.RED);
+					lblPictureConfirmation.setText("Invalid picture!");
+					lblPictureConfirmation.setVisible(true);
+				}
 			}
 		}
 	}
