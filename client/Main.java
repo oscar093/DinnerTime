@@ -2,12 +2,9 @@ package client;
 
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import viewControllers.ClientViewController;
 import viewControllers.MyKitchenController;
@@ -21,11 +18,9 @@ import viewControllers.SearchViewController;
 public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
-	private static AnchorPane testLayout;
-//	private static Client client;
 
 	/** 
-	 * This methos starts the client gui.
+	 * This method starts the client gui.
 	 * 
 	 * @author David
 	 * @param args
@@ -39,13 +34,11 @@ public class Main extends Application {
 	 * 
 	 * @author David
 	 */
-	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		showLoginView();
 	}
 	
-
 	/** 
 	 * Shows the login view.
 	 * 

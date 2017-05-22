@@ -18,15 +18,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import module.Register;
 
-/** 
- * Controller class for the register view. 
+/**
+ * Controller class for the register view.
  * 
  * @author David
  */
 public class RegisterViewController implements Initializable {
-	
-	ObservableList<String> regionList = FXCollections.observableArrayList("Africa", "Asia", "Europe", "Middle East", "North America", "South America");
-	
+
+	ObservableList<String> regionList = FXCollections.observableArrayList("Africa", "Asia", "Europe", "Middle East",
+			"North America", "South America");
+
 	@FXML
 	private Main main;
 	@FXML
@@ -45,61 +46,63 @@ public class RegisterViewController implements Initializable {
 	private Button register;
 	@FXML
 	private Button back;
-	
+	@FXML
+	private Label nameError, pwError;
+
 	private Client client;
-	
+
 	private Register userRegister;
-	
+
 	private String registerStatus;
-	
+
 	@FXML
 	private Label registerInfo;
-	
-	
-	 
+
 	/**
 	 * Gives all countries to the combobox.
-	 * @param URL and ResourceBundle is not used.
+	 * 
+	 * @param URL
+	 *            and ResourceBundle is not used.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		region.setItems(regionList);
+		nameError.setVisible(false);
+		pwError.setVisible(false);
 	}
-	
+
 	/**
 	 * @author Olof
 	 *
-	 * the addCountries method adds different countries depending on the chosen region
+	 *         the addCountries method adds different countries depending on the
+	 *         chosen region
 	 */
 	@FXML
 	private void regionChoice() {
-		if(region.getValue().equals("Africa")) {
+		if (region.getValue().equals("Africa")) {
 			addCountries("Africa");
-		}
-		else if(region.getValue().equals("Asia")) {
+		} else if (region.getValue().equals("Asia")) {
 			addCountries("Asia");
-		}
-		else if(region.getValue().equals("Europe")) {
+		} else if (region.getValue().equals("Europe")) {
 			addCountries("Europe");
-		}
-		else if(region.getValue().equals("Middle East")) {
+		} else if (region.getValue().equals("Middle East")) {
 			addCountries("MiddleEast");
-		}
-		else if(region.getValue().equals("North America")) {
+		} else if (region.getValue().equals("North America")) {
 			addCountries("NorthAmerica");
-		}
-		else if(region.getValue().equals("South America")) {
+		} else if (region.getValue().equals("South America")) {
 			addCountries("SouthAmerica");
 		}
 	}
-	
+
 	/**
-	 * reads and adds the countries from the txtFile with the same name as the region
+	 * reads and adds the countries from the txtFile with the same name as the
+	 * region
 	 * 
 	 * @author Olof
-	 * @param region : the chosen region
+	 * @param region
+	 *            : the chosen region
 	 */
-	private void addCountries(String region){
+	private void addCountries(String region) {
 		country.getItems().clear();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/" + region.toLowerCase() + ".txt"));
@@ -111,12 +114,12 @@ public class RegisterViewController implements Initializable {
 		} catch (IOException e) {
 		}
 	}
-	
-	/** 
-	 * Method reads user input and tries to register person.
-	 * Username must be unique.
+
+	/**
+	 * Method reads user input and tries to register person. Username and
+	 * password must be given. Username must be unique.
 	 * 
-	 * @author David.
+	 * @author David, Olof
 	 * @throws IOException
 	 */
 	@FXML
@@ -124,58 +127,68 @@ public class RegisterViewController implements Initializable {
 		registerStatus = "timeout";
 		registerInfo.setVisible(false);
 		client = new Client("127.0.0.1", 3250, this);
-		userRegister = new Register(username.getText(), password.getText(), firstname.getText(), surname.getText(), region.getValue(), country.getValue());
-		client.setOnConnected(() -> client.sendToServer(userRegister));
-		client.start();
-		int waitForRegisterStatusCounter = 0;
-		while(registerStatus.equals("timeout")) {
-			try {
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			waitForRegisterStatusCounter++;
-			if(waitForRegisterStatusCounter >= 20) {
-				break;
-			}
-		}
-		if(registerStatus.equals("success")) {
-			main.showClientView(client);
-			client.setUsername(username.getText());
-		}
-		else if(registerStatus.equals("failed")) {
+		if (username.getText().equals("")) {
+			nameError.setVisible(true);
+			registerInfo.setText("Username required");
 			registerInfo.setVisible(true);
-			registerInfo.setText("Username already in use");
-		}
-		else {
+		} else if (password.getText().equals("")) {
+			pwError.setVisible(true);
+			registerInfo.setText("Password required");
 			registerInfo.setVisible(true);
-			registerInfo.setText("Timeout: Check connection");
-		}		
+		} else {
+			userRegister = new Register(username.getText(), password.getText(), firstname.getText(), surname.getText(),
+					region.getValue(), country.getValue());
+			client.setOnConnected(() -> client.sendToServer(userRegister));
+			client.start();
+			int waitForRegisterStatusCounter = 0;
+			while (registerStatus.equals("timeout")) {
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				waitForRegisterStatusCounter++;
+				if (waitForRegisterStatusCounter >= 20) {
+					break;
+				}
+			}
+			if (registerStatus.equals("success")) {
+				main.showClientView(client);
+				client.setUsername(username.getText());
+			} else if (registerStatus.equals("failed")) {
+				registerInfo.setVisible(true);
+				registerInfo.setText("Username already in use");
+			} else {
+				registerInfo.setVisible(true);
+				registerInfo.setText("Timeout: Check connection");
+			}
+		}
 	}
-	
+
 	/**
 	 * Returns to login view.
+	 * 
 	 * @throws IOException
 	 */
 	@FXML
 	private void back() throws IOException {
 		main.showLoginView();
 	}
-	
+
 	/**
-	 * Get register status.
-	 * Returns 'success' if successful 'failed' if not. 
+	 * Get register status. Returns 'success' if successful 'failed' if not.
 	 * 'timeout' if no connection is fount whiten reasonable time.
+	 * 
 	 * @return register status
 	 */
 	public String getRegisterStatus() {
 		return registerStatus;
 	}
-	
+
 	/**
-	 * Set register status.
-	 * 	Set 'success' if successful 'failed' if not. 
+	 * Set register status. Set 'success' if successful 'failed' if not.
 	 * 'timeout' if no connection is fount whiten reasonable time.
+	 * 
 	 * @param registerStatus
 	 */
 	public void setRegisterStatus(String registerStatus) {

@@ -1,22 +1,16 @@
 package viewControllers;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
-
 import client.Client;
 import client.ImageResizer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import module.Recipe;
 
 /**
@@ -31,19 +25,22 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
-	private Label lblConfirmation;
+	private Label lblConfirmation, lblPictureConfirmation;
 	@FXML
 	private ComboBox<String> cbCountry;
 	private Client client;
 	private String imgFileName = null;
 
 	/**
-	 * author Olof
+	 * TaIngredients is set to disabled, the only way for ingredients to be
+	 * added is through the ifIngredientInput. lblConfrimation is made
+	 * invisible. cbCountry adds every country by reading the txtFile
+	 * Countries.txt
 	 * 
-	 * TaIngredients is set to disabled, the only way for ingredients to be added is through the ifIngredientInput.
-	 * lblConfrimation is made invisible.
-	 * cbCountry adds every country by reading the txtFile Countries.txt
-	 * @param URL, ResourceBundle, is not used.
+	 * @param URL,
+	 *            ResourceBundle, is not used.
+	 * 
+	 * @author Olof
 	 */
 
 	@Override
@@ -51,11 +48,12 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setEditable(false);
 		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
-		
+		lblPictureConfirmation.setVisible(false);
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
 			String strLine = br.readLine();
-			while (strLine != null) {					
+			while (strLine != null) {
 				cbCountry.getItems().add(strLine);
 				strLine = br.readLine();
 			}
@@ -64,59 +62,61 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * If there is input in the textfields and textareas they are sent to the
+	 * Recipe class. lblConfirmation is made visible.
 	 * 
-	 * If there is input in the textfields and textareas they are sent to the Recipe class.
-	 * lblConfirmation is made visible.
+	 * @author Olof
 	 */
 	@FXML
 	private void sendRecipe() {
 		Recipe recipe = new Recipe();
 
-		if (!tfTitle.getText().isEmpty()) {
+		if (tfTitle.getText().equals("") || cbCountry.getValue() == null || taIngredients.getText().equals("")) {
+			// lblSendError.setVisible(true);
+			lblConfirmation.setText("TITLE, COUNTRY AND AT LEAST ONE INGREDIENT MUST BE GIVEN");
+			lblConfirmation.setTextFill(Color.RED);
+			lblConfirmation.setVisible(true);
+		} else {
 			recipe.setTitle(tfTitle.getText());
-		}
-		if (cbCountry.getValue() != null) {
 			recipe.setCountry(cbCountry.getValue());
-//			System.out.println(cbCountry.getValue());
-		}
-		if (!tfTime.getText().isEmpty()) {
-			try {
-				recipe.setTime(Integer.parseInt(tfTime.getText()));
-			} catch (NumberFormatException e) {
-				recipe.setTime(0);
+			if (!tfTime.getText().equals("")) {
+				try {
+					recipe.setTime(Integer.parseInt(tfTime.getText()));
+				} catch (NumberFormatException e) {
+					recipe.setTime(0);
+				}
 			}
-		}
-		if (!taIngredients.getText().isEmpty()) {
 			String[] ingredients = taIngredients.getText().split("\\n");
 			for (int i = 0; i < ingredients.length; i++) {
 				recipe.addIngredient(ingredients[i]);
 			}
+			if (!taInstruction.getText().equals("")) {
+				recipe.setInstruction(taInstruction.getText());
+			}
+			if (imgFileName != null) {
+				recipe.setImgFileName(imgFileName);
+			}
+			recipe.setAuthor(client.getUsername());
+			client.sendToServer(recipe);
+			lblConfirmation.setText("RECIPE SENT!");
+			lblConfirmation.setTextFill(Color.GREEN);
+			lblConfirmation.setVisible(true);
 		}
-		if (!taInstruction.getText().isEmpty()) {
-			recipe.setInstruction(taInstruction.getText());
-		}
-		if (imgFileName != null) {
-			recipe.setImgFileName(imgFileName);
-		}
-		recipe.setAuthor(client.getUsername());
-		client.sendToServer(recipe);
-		lblConfirmation.setVisible(true);
 	}
 
 	/**
-	 * author Olof
-	 * 
 	 * The text in tfIngredientInput is added to taIngredients.
+	 * 
+	 * @author Olof
 	 */
 	@FXML
 	private void addIngredient() {
-		if (taIngredients.getText().isEmpty()) {
-			if (tfIngredientInput != null) {
-				taIngredients.setText(tfIngredientInput.getText());
-			}
+		if (tfIngredientInput.getText().equals("")) {
+
 		} else {
-			if (tfIngredientInput != null) {
+			if (taIngredients.getText().equals("")) {
+				taIngredients.setText(tfIngredientInput.getText());
+			} else {
 				taIngredients.setText(taIngredients.getText() + "\n" + tfIngredientInput.getText());
 			}
 		}
@@ -124,10 +124,10 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
+	 * Removes the latest added ingredient by rewriting everything but the last
+	 * row in taIngredients list.
 	 * 
-	 * Removes the latest added ingredient by rewriting 
-	 * everything but the last row in taIngredients list.
+	 * @author Olof
 	 */
 	@FXML
 	private void removeLatestIngredient() {
@@ -145,44 +145,57 @@ public class CreateRecipeController implements Initializable {
 	}
 
 	/**
-	 * author Olof
-	 * 
 	 * Clears taIngredients.
+	 * 
+	 * @author Olof
 	 */
 	@FXML
 	private void clearIngredients() {
 		taIngredients.setText("");
 	}
 
-	/** 
-	 * author Olof
-	 * 
-	 * Resizes the chosen picture and saves the path.
+	/**
+	 * Resizes the chosen picture and saves the path. Gives error message if
+	 * picture is invalid.
 	 * 
 	 * @author Oscar, Olof
 	 */
 	@FXML
 	private void addPicture() {
-		if (tfPicture != null) {
+		if (tfPicture.getText().equals("")) {
+			lblPictureConfirmation.setTextFill(Color.RED);
+			lblPictureConfirmation.setText("You must choose a picture before adding!");
+			lblPictureConfirmation.setVisible(true);
+		} else {
 			String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
 			ImageResizer ir = new ImageResizer();
-			try {
-
-				ir.resize(tfPicture.getText(), tmpPath, 499, 312);
-			} catch (IOException e) {
-
-				e.printStackTrace();
+			boolean validPicture = ir.validPicture(tfPicture.getText(), tmpPath, 499, 312);
+			if (validPicture == true) {
+				try {
+					ir.resize(tfPicture.getText(), tmpPath, 499, 312);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				imgFileName = tmpPath;
+				tfPicture.setText("");
+				lblPictureConfirmation.setTextFill(Color.GREEN);
+				lblPictureConfirmation.setText("Picture added!");
+				lblPictureConfirmation.setVisible(true);
+				btnPicture.setDisable(true);
+			} else {
+				lblPictureConfirmation.setTextFill(Color.RED);
+				lblPictureConfirmation.setText("Invalid picture!");
+				lblPictureConfirmation.setVisible(true);
 			}
-			imgFileName = tmpPath;
-			tfPicture.setText("");
 		}
 	}
 
 	/**
-	 * author Olof
 	 * 
-	 * Set-method for the client.
-	 * the client is needed so that the author of the recipe can be saved.
+	 * Set-method for the client. the client is needed so that the author of the
+	 * recipe can be saved.
+	 * 
+	 * @author Olof
 	 */
 	public void setClient(Client client) {
 		this.client = client;

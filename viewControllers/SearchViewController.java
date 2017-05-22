@@ -9,20 +9,17 @@ import client.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
-import javafx.stage.Stage;
 
-/** 
+/**
  * Controller class for the search view.
+ * 
  * @author Olof
  */
 
-public class SearchViewController implements Initializable  {
-	private static Stage primaryStage;
+public class SearchViewController implements Initializable {
 	@FXML
 	private RadioButton rbTitle, rbCountry, rbAuthor;
 	@FXML
@@ -34,106 +31,117 @@ public class SearchViewController implements Initializable  {
 	@FXML
 	private Main main;
 	private Client client;
-	
+
 	/**
 	 * Adds all found recipes to this textarea.
+	 * 
 	 * @author Olof
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		taList.setEditable(false);	//textarean ska vara read-only
+		taList.setEditable(false); // textarean ska vara read-only
 	}
-	
+
 	/**
-	 * Different Strings are sent to the client/server depending on what
-	 * the user has chosen to search for.
+	 * Different Strings are sent to the client/server depending on what the
+	 * user has chosen to search for.
+	 * 
 	 * @author Olof
 	 */
 	@FXML
-	private void search(){
-		if(rbTitle.isSelected()){
-			client.sendToServer("titleSearch_" + tfSearch.getText());
+	private void search() {
+		if (rbTitle.isSelected() || rbCountry.isSelected() || rbAuthor.isSelected()) {
+			if (!tfSearch.getText().equals("")) {
+				if (rbTitle.isSelected()) {
+					client.sendToServer("titleSearch_" + tfSearch.getText());
+				}
+				if (rbCountry.isSelected()) {
+					client.sendToServer("countrySearch_" + tfSearch.getText().toLowerCase());
+				}
+				if (rbAuthor.isSelected()) {
+					client.sendToServer("authorSearch_" + tfSearch.getText());
+				}
+			} 
+			else {
+				tfSearch.setText("Please specify what you are searching for!");
+			}
 		}
-		if(rbCountry.isSelected()){
-			client.sendToServer("countrySearch_" + tfSearch.getText().toLowerCase());
+		else{
+			tfSearch.setText("Use the buttons to choose what you want to search for!");
 		}
-		if(rbAuthor.isSelected()){
-			client.sendToServer("authorSearch_" + tfSearch.getText());
-		}	
 	}
-	
+
 	/**
 	 * Only one radioButton can be chosen at a time.
+	 * 
 	 * @author Olof
 	 */
 	@FXML
-	private void setSelect(){
-		if(rbTitle.isSelected()){
+	private void setSelect() {
+		if (rbTitle.isSelected()) {
 			rbCountry.setSelected(false);
 			rbAuthor.setSelected(false);
 		}
-		if(rbCountry.isSelected()){
+		if (rbCountry.isSelected()) {
 			rbTitle.setSelected(false);
 			rbAuthor.setSelected(false);
 		}
-		if(rbAuthor.isSelected()){
+		if (rbAuthor.isSelected()) {
 			rbCountry.setSelected(false);
 			rbTitle.setSelected(false);
 		}
 	}
-	
+
 	/**
 	 * The user is taken to the ClientView if the button "back" is pressed.
+	 * 
 	 * @author Olof
 	 */
-	
+
 	@FXML
-	private void back(){
+	private void back() {
 		try {
 			main.showClientView(client);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-			
-			
+
 	/**
-	 * Gets the result of the search
-	 * the array is split up and listed in taList.
+	 * Gets the result of the search the array is split up and listed in taList.
 	 * 
-	 * @param response : the result of the search
+	 * @param response
+	 *            : the result of the search
 	 * @author Olof
 	 */
 	@FXML
-	public void showResponse(String[] response){
+	public void showResponse(String[] response) {
 		String list = "";
-		for(int j = 0; j < response.length - 1; j++){
+		for (int j = 0; j < response.length - 1; j++) {
 			String[] split = response[j].split("_");
 			list += split[0].toUpperCase() + ":\n";
-			for(int i = 1; i < split.length; i++){
-				list += split[i]+ "\n";
+			for (int i = 1; i < split.length; i++) {
+				list += split[i] + "\n";
 			}
 		}
-		if(rbTitle.isSelected() && list.equals("")){
+		if (rbTitle.isSelected() && list.equals("")) {
 			taList.setText("No recipes with that title has been made!");
-		}
-		else if(rbCountry.isSelected() && list.equals("")){
+		} else if (rbCountry.isSelected() && list.equals("")) {
 			taList.setText("No recipes from this country has been made!");
-		}
-		else if(rbAuthor.isSelected() && list.equals("")){
+		} else if (rbAuthor.isSelected() && list.equals("")) {
 			taList.setText("No user with this username has made any recipes!");
-		}
-		else{
+		} else {
 			taList.setText(list);
 		}
 	}
 
 	/**
 	 * Set which client to use.
+	 * 
 	 * @param client
 	 * @author Olof
 	 */
-	public void setClient(Client client){
+	public void setClient(Client client) {
 		this.client = client;
 		client.setSearchViewController(this);
 	}

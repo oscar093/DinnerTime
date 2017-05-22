@@ -37,7 +37,6 @@ China
 Colombia
 Comoros
 Congo
-Congo {Democratic Rep}
 Costa Rica
 Croatia
 Cuba
@@ -77,7 +76,7 @@ India
 Indonesia
 Iran
 Iraq
-Ireland {Republic}
+Ireland
 Israel
 Italy
 Ivory Coast
@@ -119,7 +118,7 @@ Mongolia
 Montenegro
 Morocco
 Mozambique
-Myanmar, {Burma}
+Myanmar
 Namibia
 Nauru
 Nepal
