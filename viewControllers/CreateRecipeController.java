@@ -25,7 +25,7 @@ public class CreateRecipeController implements Initializable {
 	@FXML
 	private TextArea taIngredients, taInstruction;
 	@FXML
-	private Label lblConfirmation, lblPictureConfirmation;
+	private Label lblConfirmation, lblPictureConfirmation, lblTitleError;
 	@FXML
 	private ComboBox<String> cbCountry;
 	private Client client;
@@ -49,6 +49,7 @@ public class CreateRecipeController implements Initializable {
 		taIngredients.setScrollLeft(0);
 		lblConfirmation.setVisible(false);
 		lblPictureConfirmation.setVisible(false);
+		lblTitleError.setVisible(false);
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/txtFiles/Countries.txt"));
@@ -76,30 +77,35 @@ public class CreateRecipeController implements Initializable {
 			lblConfirmation.setTextFill(Color.RED);
 			lblConfirmation.setVisible(true);
 		} else {
-			recipe.setTitle(tfTitle.getText());
-			recipe.setCountry(cbCountry.getValue());
-			if (!tfTime.getText().equals("")) {
-				try {
-					recipe.setTime(Integer.parseInt(tfTime.getText()));
-				} catch (NumberFormatException e) {
-					recipe.setTime(0);
+			if (tfTitle.getText().length() < 25) {
+				lblTitleError.setVisible(false);
+				recipe.setTitle(tfTitle.getText());
+				recipe.setCountry(cbCountry.getValue());
+				if (!tfTime.getText().equals("")) {
+					try {
+						recipe.setTime(Integer.parseInt(tfTime.getText()));
+					} catch (NumberFormatException e) {
+						recipe.setTime(0);
+					}
 				}
+				String[] ingredients = taIngredients.getText().split("\\n");
+				for (int i = 0; i < ingredients.length; i++) {
+					recipe.addIngredient(ingredients[i]);
+				}
+				if (!taInstruction.getText().equals("")) {
+					recipe.setInstruction(taInstruction.getText());
+				}
+				if (imgFileName != null) {
+					recipe.setImgFileName(imgFileName);
+				}
+				recipe.setAuthor(client.getUsername());
+				client.sendToServer(recipe);
+				lblConfirmation.setText("RECIPE SENT!");
+				lblConfirmation.setTextFill(Color.GREEN);
+				lblConfirmation.setVisible(true);
+			} else {
+				lblTitleError.setVisible(true);
 			}
-			String[] ingredients = taIngredients.getText().split("\\n");
-			for (int i = 0; i < ingredients.length; i++) {
-				recipe.addIngredient(ingredients[i]);
-			}
-			if (!taInstruction.getText().equals("")) {
-				recipe.setInstruction(taInstruction.getText());
-			}
-			if (imgFileName != null) {
-				recipe.setImgFileName(imgFileName);
-			}
-			recipe.setAuthor(client.getUsername());
-			client.sendToServer(recipe);
-			lblConfirmation.setText("RECIPE SENT!");
-			lblConfirmation.setTextFill(Color.GREEN);
-			lblConfirmation.setVisible(true);
 		}
 	}
 
@@ -170,8 +176,7 @@ public class CreateRecipeController implements Initializable {
 				lblPictureConfirmation.setTextFill(Color.RED);
 				lblPictureConfirmation.setText("Invalid picture!");
 				lblPictureConfirmation.setVisible(true);
-			} 
-			else {
+			} else {
 				String tmpPath = "./tmp." + tfPicture.getText().substring(tfPicture.getText().length() - 4);
 				ImageResizer ir = new ImageResizer();
 				boolean validPicture = ir.validPicture(tfPicture.getText(), tmpPath, 499, 312);
@@ -188,8 +193,7 @@ public class CreateRecipeController implements Initializable {
 					lblPictureConfirmation.setVisible(true);
 					btnPicture.setDisable(true);
 
-				} 
-				else {
+				} else {
 					lblPictureConfirmation.setTextFill(Color.RED);
 					lblPictureConfirmation.setText("Invalid picture!");
 					lblPictureConfirmation.setVisible(true);
