@@ -23,6 +23,8 @@ import java.util.Calendar;
 public class DatabaseController {
 
 	private Connection c = null;
+	
+	
 
 	/**
 	 * Contructor for databasecontroller. Gets driver for Postgres and connects
@@ -35,9 +37,7 @@ public class DatabaseController {
 			Class.forName("org.postgresql.Driver");
 
 			// Om man kör servern remote.
-			// c =
-			// DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime",
-			// "postgres", "P@ssw0rd");
+			// c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dinnertime","postgres", "P@ssw0rd");
 
 			// Om man kör servern lokalt.
 			c = DriverManager.getConnection("jdbc:postgresql://146.148.4.203:5432/dinnertime", "postgres", "P@ssw0rd");
@@ -213,44 +213,32 @@ public class DatabaseController {
 	 */
 	public void newRecipe(Recipe recipe) {
 		try {
+			int ingredientID = getNewIngredientID();
+			int recipeID = getNewRecipeID();
 			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-			Statement idStmt = c.createStatement();
-
-			ResultSet rs = idStmt.executeQuery(
-					"SELECT (SELECT COUNT(*) FROM recipe) AS recipeCount,(SELECT COUNT(*) FROM ingredient) AS ingredientCount;");
-			// rs.next();
-			int recipeId = 0;
-			int ingredientId = 0;
-			while (rs.next()) {
-				recipeId = rs.getInt("recipeCount");
-				ingredientId = rs.getInt("ingredientCount");
-				recipeId++;
-				ingredientId++;
-			}
-			rs.close();
-
+			
 			String sql = "INSERT INTO recipe (recipeid,title,author,time,upload,country,instruction) " + "VALUES ('"
-					+ recipeId + "','" + recipe.getTitle() + "','" + recipe.getAuthor() + "','" + recipe.getTime()
+					+ recipeID + "','" + recipe.getTitle() + "','" + recipe.getAuthor() + "','" + recipe.getTime()
 					+ "','" + timeStamp + "','" + recipe.getCountry().toLowerCase() + "','" + recipe.getInstruction()
 					+ "');";
 
-			String[] ingredientArray = recipe.getIngredients();
-
+			String[] ingredientArray = recipe.getIngredients();			
 			/**
 			 * goes through every ingredient and stores them in another table
 			 * every ingredient gets its own ID
 			 */
 			for (int i = 0; i < ingredientArray.length; i++) {
-				sql += "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientId + "," + recipeId
+				
+				sql += "\nINSERT INTO ingredient(ingredientid,recipeid,name) VALUES (" + ingredientID + "," + recipeID
 						+ ",'" + ingredientArray[i] + "');";
-				ingredientId++;
+				ingredientID++;
 			}
 
 			String recipeImg = recipe.getImgFileName();
 			if (recipeImg != null) {
-				addImage(recipeId, recipeImg);
+				addImage(recipeID, recipeImg);
 			}
 
 			stmt.executeUpdate(sql);
@@ -259,6 +247,60 @@ public class DatabaseController {
 			c.close();
 		} catch (SQLException e) {
 		}
+	}
+	
+	/**
+	 * Gives a unique id for a recipe.
+	 * @author Oscar
+	 * @return unique recipe id
+	 */
+	public int getNewRecipeID() {
+		int recipeID = -1;
+		ResultSet rs;
+		try {
+			Statement idStmt = c.createStatement();
+
+			rs = idStmt.executeQuery("SELECT recipeid from recipe;");
+			int tmpRecipeID = -1;
+			while (rs.next()) {
+				
+				tmpRecipeID = rs.getInt("recipeid");
+				if(tmpRecipeID > recipeID){
+					recipeID = tmpRecipeID;
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return recipeID + 1;
+	}
+	
+	/**
+	 * Gives a unique id for a ingredient.
+	 * @author Oscar
+	 * @return unique ingredient id
+	 */
+	public int getNewIngredientID() {
+		int ingredientID = -1;
+		ResultSet rs;
+		try {
+			Statement idStmt = c.createStatement();
+
+			rs = idStmt.executeQuery("SELECT ingredientid from ingredient;");
+			int tmpIngredientID = -1;
+			while (rs.next()) {
+				
+				tmpIngredientID = rs.getInt("ingredientid");
+				if(tmpIngredientID > ingredientID){
+					ingredientID = tmpIngredientID;
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ingredientID + 1;
 	}
 
 	/**
@@ -609,5 +651,11 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	public static void main(String[] args){
+		DatabaseController db = new DatabaseController();
+		System.out.println("Ingredient: " + db.getNewIngredientID());
+		System.out.println("Recipeid: " + db.getNewRecipeID());
 	}
 }
